@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@color/theme_color">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.19"
+        android:layout_marginTop="5dp"
+		android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <TextView
+            android:id="@+id/msgCon"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="TextView"
+            android:textColor="@color/list_text_normal"
+            android:textSize="@dimen/normal_label"
+            android:autoLink="web"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/msgT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.05"
+        android:background="@drawable/btn_bg"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" >
+
+        <TextView
+            android:id="@+id/msgTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="TextView" 
+            android:textColor="@color/msg_text"
+            android:textSize="@dimen/mark_text_size"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/llSpace"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/msgT"
+        android:background="@color/activity_bg"
+        android:orientation="horizontal">
+        
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">流量猫</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="img">img</string>
+
+    <!-- menu -->
+    <string-array name="menus">
+        <item>首页</item>
+        <item>账户设置</item>
+        <item>今日预告</item>
+        <item>师徒联盟</item>
+        <item>更多设置</item>
+        <item>签到中心</item>
+        <item>送流量</item>
+    </string-array>
+    
+    <integer-array name="menu_imgs">
+        <item>@drawable/menu_home</item>
+        <item>@drawable/menu_user</item>
+        <item>@drawable/menu_pre</item>
+        <item>@drawable/menu_master</item>
+        <item>@drawable/menu_more</item>
+        <item>@drawable/menu_mark</item>
+        <item>@drawable/contact</item>
+    </integer-array>
+    
+    <string-array name="more_setting">
+        <item >意见反馈</item>
+        <item >清理缓存</item>
+        <item >关于我们</item>
+        <item >当前版本</item>
+    </string-array>
+
+    <string name="menu_flow">剩余流量</string>
+    <!-- menu end -->
+    <string name="mark_des">连续签到每日可增加0.1M</string>
+    
+    <string name="hint_username2">用户名/手机号</string>
+    <string name="hint_pwd2">密码</string>
+    <string name="hint_code">请输入验证码</string>
+    <string name="hint_pwd">请输入密码(6－12位)</string>
+    <string name="title_reg">用户注册</string>
+    <string name="hint_old_pwd">请输入旧密码</string>
+    <string name="hint_new_pwd">请输入新密码</string>
+    <string name="hint_new_pwd_re">请再次输入新密码</string>
+</resources>

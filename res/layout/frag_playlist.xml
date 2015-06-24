@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+
+    <WebView 
+        android:id="@+id/wvPage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"></WebView>
+    <RelativeLayout
+        android:id="@+id/rlBottom" 
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"   
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"    
+        android:visibility="gone" 
+        >
+    <Button
+        android:id="@+id/btnGet"
+        android:layout_width="match_parent"
+        android:gravity="center" 
+        android:layout_toLeftOf="@+id/btnClose"
+        android:paddingRight="0dp"
+        android:layout_marginRight="0dp"
+        android:background="#0096FF"
+        android:textSize="@dimen/button_text_size"
+        android:layout_height="@dimen/button_height"      
+        android:textColor="@color/white"
+        android:text="免费领10M流量"></Button>
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="60dp"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="0dp"
+        android:layout_marginLeft="0dp"
+        android:background="#0096FF"
+        android:text="X"
+        android:paddingRight="15dp"
+        android:textSize="@dimen/button_text_size"
+        android:layout_height="@dimen/button_height"
+        android:textColor="@color/white"
+        android:textStyle="bold"></Button>
+	</RelativeLayout>
+	
+    <RelativeLayout 
+        android:id="@+id/rlWaiting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+    <ProgressBar 
+        android:id="@+id/pgbarLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"></ProgressBar>
+    </RelativeLayout>
+    
+</RelativeLayout>

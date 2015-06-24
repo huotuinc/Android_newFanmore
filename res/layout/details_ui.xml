@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@color/activity_bg">
+    <RelativeLayout
+        android:id="@+id/title_login"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/main_title_height"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/title" />
+    </RelativeLayout>
+
+    <cy.com.morefan.view.KJListView
+        android:id="@+id/detailList"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title_login"
+        android:dividerHeight="@dimen/listview_item_margin"
+       	android:divider="@color/activity_bg">
+
+    </cy.com.morefan.view.KJListView>
+
+</RelativeLayout>

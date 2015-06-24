@@ -1,0 +1,119 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_color"
+    tools:context=".AllScoreActivity" >
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/img"
+        android:layout_width="@dimen/firstPage_logo_width"
+        android:layout_height="@dimen/firstPage_logo_height"
+        android:layout_margin="10dp">
+    </com.android.volley.toolbox.NetworkImageView>
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/img"
+        android:layout_toLeftOf="@+id/imgStatus"
+        android:layout_toRightOf="@+id/img"
+        android:maxLines="2"
+        android:text="标题"
+        android:textColor="@color/black"
+        android:textSize="@dimen/task_list_title_textsize"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/txtDes"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtName"
+        android:layout_below="@+id/txtName"
+        android:layout_marginRight="10dp"
+        android:singleLine="true"
+        android:text="简介"
+        android:textSize="@dimen/task_list_con_textsize"
+        android:textColor="@color/list_text_normal"/>
+    
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtName"
+        android:layout_below="@+id/txtDes"
+        android:text="11" 
+        android:textSize="@dimen/task_list_con_textsize"
+        android:textStyle="normal"
+        android:textColor="@color/list_date_normal"/>
+
+    <TextView
+        android:id="@+id/txtCountL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txtName"
+        android:text="已有"
+        android:textSize="@dimen/canyu_label"
+        android:layout_alignBottom="@id/img"
+        android:textStyle="normal" 
+        android:textColor="@color/black"/>
+    <TextView
+        android:id="@+id/txtCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/txtCountL"
+        android:text="300"
+        android:textSize="@dimen/canyu_label"
+        android:layout_alignBottom="@id/img"
+        android:textStyle="normal" 
+        android:textColor="@color/people_color"/>
+    <TextView
+        android:id="@+id/txtCountR"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/txtCount"
+        android:text="人领取"
+        android:textSize="@dimen/canyu_label"
+        android:layout_alignBottom="@id/img"
+        android:textStyle="normal" 
+        android:textColor="@color/black"/>
+
+    <RelativeLayout 
+        android:id="@+id/fp_flowL"
+        android:layout_width="@dimen/first_page_task_width"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        >
+        <TextView
+        android:id="@+id/fp_flow"
+        android:layout_width="@dimen/first_page_task_width"
+        android:layout_height="@dimen/first_page_task_height"
+        android:gravity="center"
+        android:background="@drawable/frist_page_flow"
+        android:textColor="@color/frist_page_flow_color"
+        android:textSize="@dimen/first_page_task_text_size"
+        android:text="TextView" />
+        <TextView
+        android:id="@+id/txtFlow"
+        android:layout_below="@+id/fp_flow"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="免费领取"
+        android:textSize="@dimen/getflow_label"
+        android:textColor="@color/black"
+        android:textStyle="normal" />
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/imgStatus"
+        android:layout_width="@dimen/tasklist_width"
+        android:layout_height="@dimen/tasklist_height"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/unit_status_get" />
+
+</RelativeLayout>

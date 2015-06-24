@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg"
+    android:paddingTop="50dp"
+    tools:context=".AllScoreActivity" >
+
+    <cy.com.morefan.view.KJListView
+        android:id="@+id/announceListView"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:dividerHeight="@dimen/listview_item_margin"
+       	android:divider="@color/activity_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </cy.com.morefan.view.KJListView>
+    
+    <TextView
+        android:id="@+id/listNotice"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/notice_dialog_height"
+        android:layout_alignTop="@+id/announceListView"
+        android:background="@color/notice_bg"
+        android:gravity="center"
+        android:textSize="@dimen/notice_text_size"
+        android:textColor="@color/theme_color"
+        android:text="TextView"
+        android:visibility="gone"/>
+
+</RelativeLayout>

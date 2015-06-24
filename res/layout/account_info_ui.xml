@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@color/activity_bg">
+    
+	<RelativeLayout
+        android:id="@+id/title_login"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/main_title_height"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/title" />
+    </RelativeLayout>
+    
+	<RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_login" >
+        
+        <cy.com.morefan.view.BounceScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- 头像 -->
+
+            <LinearLayout
+                android:id="@+id/layImg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="onClick"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/ui_margin_hor"
+                android:paddingRight="@dimen/ui_margin_hor"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/theme_color">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="头像"
+                    android:textSize="@dimen/normal_label"
+                    android:textColor="@color/black" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/img"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/ic_login_username" >
+                    </com.android.volley.toolbox.NetworkImageView>
+
+                    <ImageView
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/menu_user_logo_bg" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/info_arrow_width"
+                    android:layout_height="@dimen/info_arrow_height"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/info_arrow" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_gray_shape" />
+            <!-- 头像end -->
+
+
+            <!-- 姓名 -->
+
+            <LinearLayout
+                android:id="@+id/layName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="onClick"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/ui_margin_hor"
+                android:paddingRight="@dimen/ui_margin_hor"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/theme_color">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="姓名"
+                    android:textSize="@dimen/normal_label"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:maxLength="20"
+                    android:text="未知"
+                    android:textColor="@color/gray_my"
+                    android:textSize="@dimen/normal_label" />
+
+                <ImageView
+                    android:layout_width="@dimen/info_arrow_width"
+                    android:layout_height="@dimen/info_arrow_height"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/info_arrow" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_gray_shape" />
+            <!-- 姓名end -->
+
+
+            <!-- 性别 -->
+
+            <LinearLayout
+                android:id="@+id/laySex"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="onClick"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/ui_margin_hor"
+                android:paddingRight="@dimen/ui_margin_hor"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/theme_color">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="性别"
+                    android:textSize="@dimen/normal_label"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtSex"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="未知"
+                    android:textColor="@color/gray_my"
+                    android:textSize="@dimen/normal_label" 
+                     />
+
+                <ImageView
+                    android:layout_width="@dimen/info_arrow_width"
+                    android:layout_height="@dimen/info_arrow_height"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/info_arrow" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_gray_shape" />
+            <!-- 性别end -->
+
+
+            <!-- 生日 -->
+
+            <LinearLayout
+                android:id="@+id/layAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="onClick"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/ui_margin_hor"
+                android:paddingRight="@dimen/ui_margin_hor"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/theme_color">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="生日"
+                    android:textSize="@dimen/normal_label"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtAge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="未知"
+                    android:textColor="@color/gray_my"
+                    android:textSize="@dimen/normal_label" />
+
+                <ImageView
+                    android:layout_width="@dimen/info_arrow_width"
+                    android:layout_height="@dimen/info_arrow_height"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/info_arrow" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_gray_shape" />
+            <!-- 生日end -->
+
+			<!-- 职业 -->
+			<ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/ui_margin_ver"
+                android:background="@drawable/line_gray_shape" />
+
+            <LinearLayout
+                android:id="@+id/layJob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="onClick"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/ui_margin_hor"
+                android:paddingRight="@dimen/ui_margin_hor"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/theme_color">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="职业"
+                    android:textSize="@dimen/normal_label"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtJob"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="未知"
+                    android:textColor="@color/gray_my"
+                    android:textSize="@dimen/normal_label" />
+
+                <ImageView
+                    android:layout_width="@dimen/info_arrow_width"
+                    android:layout_height="@dimen/info_arrow_height"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/info_arrow" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_gray_shape" />
+            <!-- 职业end -->
+
+
+            <!-- 收入 -->
+
+            <LinearLayout
+                android:id="@+id/layIncome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="onClick"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/ui_margin_hor"
+                android:paddingRight="@dimen/ui_margin_hor"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/theme_color">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收入"
+                    android:textSize="@dimen/normal_label"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtIncome"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="未知"
+                    android:textColor="@color/gray_my"
+                    android:textSize="@dimen/normal_label" />
+
+                <ImageView
+                    android:layout_width="@dimen/info_arrow_width"
+                    android:layout_height="@dimen/info_arrow_height"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/info_arrow" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_gray_shape" />
+            <!-- 收入end -->
+
+
+            <!-- 爱好 -->
+
+            <LinearLayout
+                android:id="@+id/layFav"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:onClick="onClick"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/ui_margin_hor"
+                android:paddingRight="@dimen/ui_margin_hor"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/theme_color">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="爱好"
+                    android:textSize="@dimen/normal_label"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtFav"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="未知"
+                    android:textColor="@color/gray_my"
+                    android:textSize="@dimen/normal_label" />
+
+                <ImageView
+                    android:layout_width="@dimen/info_arrow_width"
+                    android:layout_height="@dimen/info_arrow_height"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/info_arrow" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_gray_shape" />
+            <!-- 爱好end -->
+
+
+            <!-- 所在区域 -->
+			<ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="@dimen/ui_margin_ver"
+                android:background="@drawable/line_gray_shape" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/ui_margin_hor"
+                android:paddingRight="@dimen/ui_margin_hor"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/theme_color">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="所在区域"
+                    android:textSize="@dimen/normal_label"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtArea"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="未知"
+                    android:textColor="@color/gray_my"
+                    android:textSize="@dimen/normal_label" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/arrows_right"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_gray_shape" />
+            <!-- 所在区域end -->
+
+
+            <!-- 注册时间 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/ui_margin_hor"
+                android:paddingRight="@dimen/ui_margin_hor"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:background="@color/theme_color">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="注册时间"
+                    android:textSize="@dimen/normal_label"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtTime"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="未知"
+                    android:textColor="@color/gray_my"
+                    android:textSize="@dimen/normal_label" />
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/arrows_right"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@drawable/line_gray_shape" />
+            <!-- 注册时间end -->
+        </LinearLayout>
+    </cy.com.morefan.view.BounceScrollView>
+    </RelativeLayout>
+</RelativeLayout>
