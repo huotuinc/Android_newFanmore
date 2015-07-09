@@ -1,0 +1,127 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_color"
+    android:paddingTop="50dp"
+    tools:context=".AllScoreActivity" >
+
+    <ImageView
+        android:id="@+id/masterLogo"
+        android:layout_width="255dp"
+        android:layout_height="134dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/master_logo" />
+
+    <Button
+        android:id="@+id/shareCode"
+        android:layout_width="fill_parent"
+        android:layout_alignLeft="@+id/masterLogo"
+        android:layout_alignRight="@+id/masterLogo"
+        android:layout_below="@+id/masterLogo"
+        android:layout_marginTop="10dp"
+        android:text="Button" 
+        android:background="@drawable/btn_red_sel"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/button_text_size"
+        android:layout_height="@dimen/button_height" />
+
+    <TextView
+        android:id="@+id/ruleText"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/shareCode"
+        android:layout_alignRight="@+id/shareCode"
+        android:layout_below="@+id/shareCode"
+        android:layout_marginTop="15dp"
+        android:maxLines="3"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="@dimen/canyu_label" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/master_info_height"
+        android:layout_below="@+id/ruleText"
+        android:layout_marginTop="@dimen/master_rule_height"
+        android:background="@color/master_layout_bg">
+
+        <TextView
+            android:id="@+id/discipleTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/yestodayTotal"
+            android:layout_centerHorizontal="true"
+            android:text="100M" 
+            android:gravity="center"
+        	android:textColor="@color/master_txet"
+        	android:textSize="@dimen/menu_text_size"/>
+
+        <TextView
+            android:id="@+id/discipleListC"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/discipleTotal"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/master_info_top_width"
+            android:text="60人" 
+            android:gravity="center"
+        	android:textColor="@color/master_txet"
+        	android:textSize="@dimen/menu_text_size"/>
+
+        <TextView
+            android:id="@+id/discipleTotalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/yestodayLabel"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="徒弟总贡献"
+            android:gravity="center"
+        	android:textColor="@color/master_txet"
+        	android:textSize="@dimen/menu_text_size" />
+
+        <TextView
+            android:id="@+id/discipleListLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/discipleTotalLabel"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/master_info_bottom_width"
+            android:text="我的徒弟" 
+            android:gravity="center"
+            android:textColor="@color/master_txet"
+            android:textSize="@dimen/menu_text_size"/>
+
+        <TextView
+            android:id="@+id/yestodayLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="@dimen/master_info_bottom_width"
+            android:gravity="center"
+            android:text="昨日总贡献"
+            android:textColor="@color/master_txet"
+            android:textSize="@dimen/menu_text_size" />
+
+        <TextView
+            android:id="@+id/yestodayTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="@dimen/master_info_top_width"
+            android:gravity="center"
+            android:text="50M"
+            android:textColor="@color/master_txet"
+            android:textSize="@dimen/menu_text_size" />
+
+    </RelativeLayout>
+    
+</RelativeLayout>

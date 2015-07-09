@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlAnsweroutList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp" 
+    android:background="@drawable/wailian">
+    
+    <RelativeLayout 
+        android:id="@+id/rlMask"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">        
+    </RelativeLayout>
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/imgPic"
+        android:layout_width="300dp"
+        android:layout_height="140dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        android:background="@color/mark_blue"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/txtNo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgPic"
+        android:text="(1/6)问题标题问题标题问题标题标题问题标题问题标题问题标题问题标题问题标题问题标题问题标题问题标题问题标题问题标题问题标题" />
+
+    <RelativeLayout
+        android:id="@+id/rlQuestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtNo"
+        android:descendantFocusability="afterDescendants"        
+         android:layout_marginTop="4dp" >
+
+        <FrameLayout
+            android:id="@+id/llA"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/answer_item_height"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/a"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="44dp" />
+
+            <ImageView
+                android:id="@+id/gifPicA"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp" >
+            </ImageView>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/llB"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/answer_item_height"
+            android:layout_below="@id/llA"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnB"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/b"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="44dp" />
+
+            <ImageView
+                android:id="@+id/gifPicB"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp" >
+            </ImageView>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/llC"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/answer_item_height"
+            android:layout_below="@id/llB"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnC"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/c"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="44dp" />
+
+            <ImageView
+                android:id="@+id/gifPicC"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp" >
+            </ImageView>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/llD"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/answer_item_height"
+            android:layout_below="@id/llC"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/d"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="44dp" />
+
+            <ImageView
+                android:id="@+id/gifPicD"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginBottom="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginTop="1dp" >
+            </ImageView>
+        </FrameLayout>
+    </RelativeLayout>
+
+    <!--  
+    <Button
+        android:id="@+id/btnFindAnswer"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/rlQuestion"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_red_sel"
+        android:text="去找答案"
+        android:textColor="@color/white"
+        android:textSize="15sp" >
+    </Button>
+    -->
+    
+    <RelativeLayout 
+        android:id="@+id/rlWaiting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"></RelativeLayout>
+
+</RelativeLayout>

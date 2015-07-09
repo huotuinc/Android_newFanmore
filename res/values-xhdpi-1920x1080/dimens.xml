@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- main_menu -->
+    <!-- 主menu上面用户信息的高度 -->
+    <dimen name="main_menu_top_height">150dp</dimen>
+    <!-- 主menu用户logo的宽度-->
+    <dimen name="main_menu_top_logo_width">80dp</dimen>
+    <!-- 主menu用户logo的高度-->
+    <dimen name="main_menu_top_logo_height">80dp</dimen>
+    <dimen name="main_menu_top_logo_left_margin">30dp</dimen>
+    <dimen name="main_menu_top_logo_right_margin">10dp</dimen>
+    <dimen name="main_menu_top_logo_top_margin">30dp</dimen>
+    <!-- 列表的外边距 -->
+    <dimen name="menu_list_margin">5dp</dimen>
+    <dimen name="menu_list_top_margin">20dp</dimen>
+    <dimen name="menu_list_left_margin">25dp</dimen>
+    <!-- 除头像外的TOP内容 -->
+    <dimen name="main_menu_top_info_bottom_margin">10dp</dimen>
+    <dimen name="main_menu_top_info_left_margin">0dp</dimen>
+    <!-- 箭头右边距 -->
+    <dimen name="main_menu_top_arrow_right_margin">20dp</dimen>
+    <!-- 名称上边距 -->
+    <dimen name="main_menu_top_name_top_margin">30dp</dimen>
+    <!-- 菜单箭头大小 -->
+    <dimen name="arrow_width">20dp</dimen>
+    <dimen name="arrow_height">20dp</dimen>
+    <!-- 信息箭头大小 -->
+    <dimen name="info_arrow_width">10dp</dimen>
+    <dimen name="info_arrow_height">10dp</dimen>
+    
+    <!-- main主界面 -->
+    <!-- 主界面title高度/功能界面标题高度/界面上边距 -->
+    
+    <!-- 标题字体 -->
+    <dimen name="task_list_title_textsize">16sp</dimen>
+    
+    <dimen name="main_title_height">50dp</dimen>
+    <!-- 主title右边功能键布局 -->
+    <dimen name="main_title_right_fun_width">100dp</dimen>
+    <!-- title字体大小 -->
+    <dimen name="main_title_text_size">18sp</dimen>
+    <!-- title切换条字体大小 -->
+    <dimen name="main_title_change_text_size">14sp</dimen>
+    <!-- 首页列表头像大小 -->
+    <dimen name="firstPage_logo_width">80dp</dimen>
+    <dimen name="firstPage_logo_height">80dp</dimen>
+    
+    <!-- 任务列表状态图标的大小 -->
+    <dimen name="tasklist_width">80dp</dimen>
+    <dimen name="tasklist_height">75dp</dimen>
+    
+    <!-- 修改密码手机号显示条高度-->
+    <dimen name="modify_psw_phone_label_height">40dp</dimen>
+    
+    <!-- 登录界面 -->
+    <!-- 文本logo显示宽度 -->
+    <dimen name="login_text_logo_width">28dp</dimen>
+    <dimen name="login_text_logo_height">35dp</dimen>
+    
+    <!-- 字体设置 -->
+    <!-- 一般提示性字体 -->
+     <!-- 首页领取流量字体大小 -->
+    <dimen name="getflow_label">14sp</dimen>
+    <!-- 首页参与字体大小 -->
+    <dimen name="canyu_label">14sp</dimen>
+    <dimen name="normal_label">17sp</dimen>
+    
+    <!-- 流量环字体 -->
+    <integer name="sub_size">50</integer>
+    <integer name="title_size">80</integer>
+    
+    <!-- 按钮字体 -->
+    <dimen name="button_text_size">20sp</dimen>
+    <!-- 按钮高度 -->
+    <dimen name="button_height">40dp</dimen>
+    <!-- 备注字体大小 -->
+    <dimen name="mark_text_size">14sp</dimen>
+    <!-- 菜单字体 -->
+    <dimen name="menu_text_size">18sp</dimen>
+    <!-- 用户剩余流量字体 -->
+    <dimen name="user_flow_textsize">22sp</dimen>
+    
+    <!-- 首页列表 -->
+    
+    <!-- 设置闹钟按钮 -->
+    <!-- 高度 -->
+    <dimen name="pre_button_alarm_height">30dp</dimen>
+    <!-- 文字大小 -->
+    <dimen name="pre_button_text_size">14sp</dimen>
+    <!-- padding -->
+    <dimen name="pre_button_padding">5dp</dimen>
+    <!-- 流量信息字体大小 -->
+    <dimen name="flow_detail_text_size">30sp</dimen>
+    
+    <!-- 朋友列表 -->
+    <!-- 切换板高度 -->
+    <dimen name="friends_width">150dp</dimen>
+    <!-- 切块高度 -->
+    <dimen name="panel_height">30dp</dimen>
+    <!-- 师徒联盟 -->
+    <dimen name="master_info_height">100dp</dimen>
+    <!-- 宽度1 -->
+    <dimen name="master_info_top_width">40dp</dimen>
+    <!-- 宽度2 -->
+    <dimen name="master_info_bottom_width">20dp</dimen>
+    <!-- 送流量 -->
+    <!-- 查询条高度 -->
+    <dimen name="send_flow_searchbar_height">60dp</dimen>
+    <!-- 查询输入框高度 -->
+    <dimen name="send_flow_searchtext_height">40dp</dimen>
+    <!-- 联系人头像 -->
+    <dimen name="contact_logo_width">80dp</dimen>
+    <dimen name="contact_logo_height">80dp</dimen>
+    <dimen name="send_flow_logo_height">100dp</dimen>
+    <dimen name="send_flow_text_height">60dp</dimen>
+    <!-- 求流量logo边距 -->
+    <dimen name="send_flow_logo_margin">30dp</dimen>
+    <!-- 流量文本边距 -->
+    <dimen name="send_flow_text_margin">5dp</dimen>
+    <!-- 送流量界面按钮 -->
+    <dimen name="flow_width_half">150dp</dimen>
+    <!-- 好友求流量界面流量字体 -->
+    <dimen name="friends_accpet_text">18sp</dimen>
+    <dimen name="radius">3dp</dimen>
+    <!-- 首页任务列表项目间距 -->
+    <dimen name="tasklist_space">10dp</dimen>
+    <!-- 今日预告列表标题字体大小 -->
+    <dimen name="pre_task_list_title_textsize">18sp</dimen>
+    
+    <dimen name="mark_bg_size">90dp</dimen>
+    <dimen name="mark_margin_size">10dp</dimen>
+    <dimen name="checkin_text_size">18sp</dimen>
+    <!-- 下拉列表设置 -->
+    <!-- 间距 -->
+    <dimen name="listview_item_margin">10dp</dimen>
+    <!-- 分享界面高度 -->
+    <dimen name="share_ui_height">300dp</dimen>
+    <!-- 分享界面下边距 -->
+    <dimen name="share_ui_top_margin">50dp</dimen>
+    <!-- 分享界面下边距 -->
+    <dimen name="share_ui_bottom_margin">50dp</dimen>
+    <!-- 送流量箭头 -->
+    <dimen name="send_flow_width">61dp</dimen>
+    <dimen name="send_flow_height">31dp</dimen>
+    <!-- 首页title菜单宽 -->
+    <dimen name="first_page_title_menu_width">30dp</dimen>
+    <!-- 首页title菜单高 -->
+    <dimen name="first_page_title_menu_height">30dp</dimen>
+    <!-- 首页任务流量宽 -->
+    <dimen name="first_page_task_width">60dp</dimen>
+    <!-- 首页任务流量高 -->
+    <dimen name="first_page_task_height">30dp</dimen>
+    <!-- 首页任务流量字体大小 -->
+    <dimen name="first_page_task_text_size">20sp</dimen>
+    <dimen name="notice_dialog_height">30dp</dimen>
+    <!-- 更多设置item高度 -->
+    <dimen name="setting_more_item_height">50dp</dimen>
+    <!-- 问题答案的项高度 -->
+    <dimen name="answer_item_height">50dp</dimen>
+    <!-- 师徒联盟规则靠底部高度 -->
+    <dimen name="master_rule_height">30dp</dimen>
+    <!-- 高 -->
+    <dimen name="toast_height">80dp</dimen>
+    <!-- 宽 -->
+    <dimen name="toast_width">200dp</dimen>
+    <!-- 首页任务时间空间高度 -->
+    <dimen name="first_item_timel">25dp</dimen>
+    <!-- 预告列表头像大小 -->
+    <dimen name="pre_logo_width">100dp</dimen>
+    <dimen name="pre_logo_height">100dp</dimen>
+    <!-- 登出提示 -->
+    <dimen name="logout_textsize">30sp</dimen>
+</resources>

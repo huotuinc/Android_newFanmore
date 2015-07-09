@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_color"
+    tools:context=".AllScoreActivity" >
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/disciplesLogo"
+        android:layout_width="@dimen/tasklist_width"
+        android:layout_height="@dimen/tasklist_height"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_launcher" 
+        android:layout_marginBottom="10dp">
+        </com.android.volley.toolbox.NetworkImageView>
+        <ImageView
+        android:layout_width="@dimen/tasklist_width"
+        android:layout_height="@dimen/tasklist_height"
+        android:background="@drawable/menu_user_logo_bg" 
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+		<RelativeLayout 
+        android:id="@+id/ML"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/tasklist_height"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:layout_toRightOf="@+id/disciplesLogo"
+        android:layout_alignBottom="@+id/disciplesLogo">
+        <TextView
+        android:id="@+id/showName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="13588741728" 
+        android:textSize="@dimen/pre_button_text_size" 
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/showName"
+        android:layout_below="@+id/showName"
+        android:text="2015-02-01" 
+        android:textSize="@dimen/pre_button_text_size" 
+        android:textColor="@color/black"/>
+        </RelativeLayout>
+    <RelativeLayout 
+        android:id="@+id/MR"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/tasklist_height"
+        android:layout_centerVertical="true"
+        android:layout_alignBottom="@+id/disciplesLogo"
+        android:gravity="center"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp">
+    <TextView
+        android:id="@+id/m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100M" 
+        android:textSize="@dimen/user_flow_textsize" 
+        android:textColor="@color/people_color"/>
+    
+    <TextView
+        android:id="@+id/countOfApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/m"
+        android:text="为您贡献了" 
+        android:textSize="@dimen/pre_button_text_size" 
+        android:textColor="@color/black"/>
+    </RelativeLayout>
+    
+</RelativeLayout>
