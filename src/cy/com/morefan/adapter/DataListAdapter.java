@@ -72,7 +72,7 @@ public class DataListAdapter extends BaseAdapter
     {
         if (item instanceof UnitData)
         {
-            UnitData data = (UnitData) item;
+            //UnitData data = (UnitData) item;
             if (null == convertView)
                 convertView = LayoutInflater.from(mContext).inflate(
                         R.layout.item_unit, null);
