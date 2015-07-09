@@ -1,0 +1,82 @@
+<resources>
+
+    <color name="theme_color">#ffffffff</color>
+    <color name="white">@android:color/white</color>
+    <color name="title_bg">#F8F8F8</color>
+    <color name="theme_color_title">#ffF72934</color>
+    <color name="theme_color_title_transport">#F8F8F8</color>
+    <color name="txt_menu_item">#127FFC</color>
+     <color name="txt_menu_des">#494949</color>
+    <color name="txt_title">#000000</color>
+    <color name="click_txt_title">#338CFA</color>
+    <color name="title_bottom_color">#666666</color>
+    <color name="gray4">#ff758086</color>
+    <color name="gray_9d">#ff9D9D9D</color>
+    <color name="gray_94">#ff949494</color>
+    <color name="mark_blue">#ff127FFE</color>
+    <color name="mark_blue_press">#ff2d5dcd</color>
+    <color name="mark_gray">#ffDCDCDC</color>
+    
+    <color name="black">#FF000000</color>
+    <color name="gray">#ff808080</color>
+    <color name="theme_blue">#ff15c2d2</color>
+    <color name="red">#FFFE0103</color>
+    
+    <color name="invite_code_label">#E14343</color>
+    <color name="invite_code">#6AA0D4</color>
+    <color name="gray_my">#ff616467</color>
+    <color name="gray_pop">#ffdedede</color>
+    <!-- 好友求流量界面字体颜色 -->
+    <color name="accpet_flow_color">#E12D2D</color>
+    
+    <!-- 环形 -->
+    <color name="pie_progress_bank">#fd8f8b</color>
+    <color name="pie_progress_fund">#2999f9</color>
+    <color name="text_tag_bg">#aaaaaa</color>
+    <color name="text_progress_bg">#fb4b45</color>
+    <color name="text_term_bg">#aaaaaa</color>
+    <color name="ring_color">#0192AB</color>
+    
+    <!-- 流量块背景 -->
+    <color name="flow_bg">#0066FF</color>
+    <color name="buy_title_bg">#D7D7D7</color>    
+    <color name="dialog_press_bg">#ffd2d2d2</color>
+    
+    <!-- 切换面板 -->
+    <color name="tabs_blue">#0066FF</color>
+    
+    <!-- dialog  -->
+    <color name="dialog_title">#E1DCE5</color>
+    <color name="dialog_bg">#E1DCE5</color>
+    
+    <!-- 试图联盟 -->
+    <color name="master_layout_bg">#F0EFF4</color>
+    <color name="master_txet">#2E1602</color>
+    
+    <!-- 消息中心 -->
+    <color name="msg_text">#000000</color>
+    
+    <!-- 首页列表 -->
+    <color name="list_text_normal">#555555</color>
+    <!-- 首页时间字体颜色 -->
+    <color name="list_date_normal">#555555</color>
+    <!-- 流量明细颜色绿色 -->
+    <color name="flow_detail_color">#54C901</color>
+    <!-- 流量明细颜色红色 -->
+    <color name="flow_detail_color_red">#E33331</color>
+    <!-- 搜索条背景 -->
+    <color name="searchBar">#1676B6</color>
+    <!-- 界面背景 -->
+    <color name="activity_bg">#F0EFF4</color>
+    <!-- 预告背景 -->
+    <color name="notice_bg">#0096FF</color>
+    <!-- 首页流量字体和边框 -->
+    <color name="frist_page_flow_color">#FF0000</color>
+    <color name="pre_btn_text_color">#0096FF</color>
+    <color name="notice_text_color">#ECBD15</color>
+    <color name="mark_yellow">#FFC000</color>
+    <!-- 首页人数颜色 -->
+    <color name="people_color">#FF6001</color>
+    <!-- 白色 -->
+    <color name="white_bg">#ffffff</color>
+</resources>

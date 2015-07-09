@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dcdcdc"
+    android:id="@+id/rlPay" >
+    <RelativeLayout 
+        android:id="@+id/playConL"
+        android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@drawable/play_sel"
+    	android:layout_margin="10dp">
+        <TextView 
+        android:id="@+id/tvtitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="选择支付方式"
+        android:paddingTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/normal_label"
+        android:background="@color/white"
+        android:gravity="center"
+        />
+        <ImageView
+            	android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/tvtitle"
+                android:background="@drawable/line_gray_shape" />
+    
+    <Button 
+        android:id="@+id/btnAliPay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center"
+        android:textSize="@dimen/button_text_size"
+        android:background="@color/white"
+        android:layout_marginTop="5dp"
+        android:textColor="#0096FF"
+        android:layout_below="@id/tvtitle"
+        android:text="支付宝"/>
+    
+    <ImageView
+            	android:id="@+id/line2"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/btnAliPay"
+                android:background="@drawable/line_gray_shape" />
+    <Button
+        android:id="@+id/btnWXPay"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="@dimen/button_height"
+        android:textSize="@dimen/button_text_size"
+        android:layout_gravity="center"
+        android:background="@color/white" 
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"      
+        android:layout_marginTop="1dp"
+        android:textColor="#0096FF"
+        android:text="微信"
+        android:layout_below="@id/btnAliPay">
+        
+    </Button>
+    
+    </RelativeLayout>
+      
+    
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/button_height"
+        android:textSize="@dimen/button_text_size"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/play_sel"
+        android:textColor="#0096FF"
+        android:gravity="center"
+        android:layout_below="@id/playConL"
+        android:text="取消">
+    </Button>
+
+</RelativeLayout>
