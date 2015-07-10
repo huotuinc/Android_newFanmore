@@ -166,7 +166,9 @@ public class FragHome extends BaseFragment implements DataListener, Callback,
     @Override
     public void onReshow()
     {
-
+        if( adapter!=null){
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -205,13 +207,12 @@ public class FragHome extends BaseFragment implements DataListener, Callback,
         int idx = position - 1;
         if (idx < 0 || idx >= datas.size())
             return;
-
-        TaskData item = (TaskData) datas.get(idx);
-        item.setLuckies( item.getLuckies()+1 );
-        adapter.notifyDataSetChanged();
         
+        final TaskData item = (TaskData) datas.get(idx);
+        item.setLuckies( item.getLuckies()+1 );
+
         ActivityUtils.getInstance().showActivity(getActivity(),
-                AnswerActivity.class, "task", (Serializable) item);
+                AnswerActivity.class, "task", (Serializable) item);       
     }
 
     class GetTaskListAsyncTask extends AsyncTask<String, Void, FMTaskData>

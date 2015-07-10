@@ -123,6 +123,14 @@
         android:numColumns="3" >
     </GridView>
     
+    <RelativeLayout 
+        android:id="@+id/rlWaiting"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusable="false"        
+        android:focusableInTouchMode="false"
+        android:visibility="gone">
      <ProgressBar 
         android:id="@+id/pgbarWaiting"
         android:layout_width="wrap_content"
@@ -130,5 +138,6 @@
         android:layout_centerInParent="true"
         android:visibility="gone"
         android:alpha="0.7"/>
+     </RelativeLayout>
     
 </RelativeLayout>

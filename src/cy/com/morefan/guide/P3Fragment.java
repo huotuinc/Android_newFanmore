@@ -39,7 +39,7 @@ public class P3Fragment extends Fragment
                     public void onClick(View v) {
                         // TODO Auto-generated method stub
                         // TODO Auto-generated method stub
-                        application.writeString(getActivity(), Constant.GUIDE_INFO, Constant.GUIDE_INFO_TAG, "NOGUIDE");
+                        MyApplication.writeString(getActivity(), Constant.GUIDE_INFO, Constant.GUIDE_INFO_TAG, "NOGUIDE");
                         ActivityUtils.getInstance().skipActivity(getActivity(), MainActivity.class);
                         Util.finishActivityAnimation(getActivity());
                     }

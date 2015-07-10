@@ -787,6 +787,7 @@ public class MyApplication extends Application
     public static void finshApp()
     {
         ArrayList<Activity> activities = getActivityManager().getAll();
+        if( activities==null )return;
         List<Activity> popList = new ArrayList<Activity>();
         for (Activity item : activities)
         {

@@ -38,6 +38,7 @@ import cy.com.morefan.util.KJLoger;
 import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.SoundUtil;
 import cy.com.morefan.util.ToastUtils;
+import cy.com.morefan.view.PopExpUp;
 
 public class FragAnswerPass extends BaseFragment
 {
@@ -61,7 +62,23 @@ public class FragAnswerPass extends BaseFragment
 
     float reword;
     
-    SoundUtil soundUtil=null;
+    //SoundUtil soundUtil=null;
+    
+    PopExpUp popExpUp;
+    
+    public void expUp(String exp , int soundId){
+      if(null == popExpUp)
+          popExpUp = new PopExpUp(getActivity());
+      popExpUp.show(exp, soundId );
+  }
+    
+    
+    public void sound( int soundId){
+      if(null == popExpUp)
+          popExpUp = new PopExpUp(getActivity());
+      popExpUp.sound(soundId );
+  }
+    
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,7 +92,7 @@ public class FragAnswerPass extends BaseFragment
 
     private void initViews(View rootView)
     {
-        soundUtil = new SoundUtil(getActivity());
+        //soundUtil = new SoundUtil(getActivity());
         //soundUtil.shakeSound(R.raw.success);
         
         wvPage = (WebView) rootView.findViewById(R.id.wvPage);
@@ -137,7 +154,9 @@ public class FragAnswerPass extends BaseFragment
                     DecimalFormat format = new DecimalFormat("0.##");
                     String flowString = format.format(flow);
 
-                    ToastUtils.showLongToast(getActivity(), "+" + flowString + "M流量");
+                    //ToastUtils.showLongToast(getActivity(), "+" + flowString + "M流量");
+                    
+                    expUp( "+"+ flowString+"M流量" , 0 );
                     
 //                    Bundle bd = new Bundle();
 //                    bd.putInt("taskid", taskId );           
@@ -146,7 +165,20 @@ public class FragAnswerPass extends BaseFragment
                     
                     MyBroadcastReceiver.sendBroadcast(getActivity(),
                             MyBroadcastReceiver.ACTION_FLOW_ADD);
-                    getActivity().finish();
+                    
+                    Handler handler=new Handler();
+                    handler.postDelayed(new Runnable()
+                    {
+                        
+                        @Override
+                        public void run()
+                        {
+                            getActivity().finish();
+                            
+                        }
+                    }, 1500);
+                    
+                    //getActivity().finish();
                     return true;
                 } else if (answerState.toLowerCase(Locale.getDefault()).equals(
                         "failed"))
@@ -208,9 +240,12 @@ public class FragAnswerPass extends BaseFragment
         // TODO Auto-generated method stub
         super.onDestroy();
         
-        if( soundUtil !=null){
-            soundUtil.Release();
-        }
+//        if( soundUtil !=null){
+//            soundUtil.Release();
+//        }
+        if( popExpUp!=null){
+            popExpUp.close();
+        }        
     }
 
     class AnswerParameter
@@ -364,15 +399,18 @@ public class FragAnswerPass extends BaseFragment
             if (result.getResultData().getIllgel() > 0)
             {
                 answerState = "rejected";
-                soundUtil.shakeSound(R.raw.failed);            
+                //soundUtil.shakeSound(R.raw.failed);       
+                sound(R.raw.failed);
             } else if (result.getResultData().getReward() > 0)
             {
                 answerState = "success";
-                soundUtil.shakeSound(R.raw.success);
+                //soundUtil.shakeSound(R.raw.success);
+                sound(R.raw.success);
             } else
             {
                 answerState = "failed";
-                soundUtil.shakeSound(R.raw.failed);
+                //soundUtil.shakeSound(R.raw.failed);
+                sound(R.raw.failed);
             }
 
             chance = result.getResultData().getChance();

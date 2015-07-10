@@ -33,6 +33,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ import cy.com.morefan.R;
 import cy.com.morefan.bean.AliPayResult;
 import cy.com.morefan.bean.FMPrepareBuy;
 import cy.com.morefan.bean.Purchase;
+import cy.com.morefan.bean.WXPayResult;
 import cy.com.morefan.constant.Constant;
 import cy.com.morefan.ui.account.MsgCenterActivity;
 import cy.com.morefan.util.ActivityUtils;
@@ -55,7 +57,9 @@ import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.SystemTools;
 import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.util.WXPayUtil;
+import cy.com.morefan.util.WXPayUtilEx;
 import cy.com.morefan.view.CyButton;
+import cy.com.morefan.wxapi.WXPayEntryActivity;
 
 /**
  * 
@@ -85,17 +89,19 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
 
     private Button rechargeBtn;
 
-    // private String selectedFlow="";
     private Purchase selectedPurchase = null;// 选中的流量
 
     private FlowCAdapter caAdapter = null;
 
+    private RelativeLayout rlWaiting=null;
+    
     private ProgressBar pgbarWaiting;
 
     private TextView phone;
 
     // 返回文字事件
     private TextView backText;
+
     private Resources res;
 
     // 模拟数据
@@ -108,6 +114,8 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
     private PopupWindow payPopupWindow = null;
 
     private Handler handler = new Handler(this);
+
+    private FMPrepareBuy result;
 
     @Override
     public void onClick(View v)
@@ -158,9 +166,28 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
 
     private void wxPay()
     {
-        WXPayUtil wxPay = new WXPayUtil(this, handler);
-        String body = "测试充值30M流量。";
-        wxPay.pay(body, "0.01");
+        if (result == null)
+        {
+            ToastUtils.showLongToast(BuyFlowActivity.this, "支付信息空");
+            return;
+        }
+        if( null == result.getResultData().getWxpayAppId()  || result.getResultData().getWxpayAppId().length()<1 ){
+            ToastUtils.showLongToast(BuyFlowActivity.this, "支付APPID空");
+            return;
+        }
+        if( null == result.getResultData().getWxpayMerchantId()  || result.getResultData().getWxpayMerchantId().length()<1 ){
+            ToastUtils.showLongToast(BuyFlowActivity.this, "商户ID空");
+            return;
+        }
+        if( null == result.getResultData().getWxpayNotifyUri()  || result.getResultData().getWxpayNotifyUri().length()<1 ){
+            ToastUtils.showLongToast(BuyFlowActivity.this, "支付通知地址空");
+            return;
+        }
+        
+        //
+        WXPayEntryActivity.WXPAYAPPID = result.getResultData().getWxpayAppId();
+
+        new WXPayAsyncTask(handler,"测试充值30M流量。","0.01").execute();
     }
 
     /**
@@ -177,15 +204,17 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
      */
     private void aliPay()
     {
-        if( null == selectedPurchase){
+        if (null == selectedPurchase)
+        {
             ToastUtils.showLongToast(BuyFlowActivity.this, "请选择需要购买的流量");
             return;
         }
-        
+
         AliPayUtil aliPay = new AliPayUtil(this, handler);
-        String body = selectedPurchase.getM()+"M，售价:￥"+ selectedPurchase.getPrice().toString();  // "测试充值30M流量。";
+        String body = selectedPurchase.getM() + "M，售价:￥"
+                + selectedPurchase.getPrice().toString(); // "测试充值30M流量。";
         String subject = "粉猫APP购买流量";
-        String price = selectedPurchase.getPrice().toString(); //"0.01";
+        String price = selectedPurchase.getPrice().toString(); // "0.01";
 
         aliPay.pay(subject, body, price);
     }
@@ -238,6 +267,11 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
         {
             String info = msg.obj.toString();
             ToastUtils.showLongToast(BuyFlowActivity.this, info);
+        }
+            break;
+        case WXPayUtilEx.SDK_WXPAY_PAY:
+        {
+
         }
             break;
         default:
@@ -308,6 +342,7 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
         pgbarWaiting = (ProgressBar) this.findViewById(R.id.pgbarWaiting);
         backText = (TextView) this.findViewById(R.id.backtext);
         backText.setOnClickListener(this);
+        rlWaiting =(RelativeLayout)this.findViewById(R.id.rlWaiting);
     }
 
     private void initGridView()
@@ -436,7 +471,7 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
         caAdapter.notifyDataSetChanged();
 
         oldPrice.setText(selectedPurchase.getMsg());
-        //oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        // oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         oldPrice.setVisibility(View.VISIBLE);
 
         newPrice.setText("售价：￥" + selectedPurchase.getPrice());
@@ -474,119 +509,20 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
 
                 Log.i("buyflow", url);
 
-                if (Constant.IS_PRODUCTION_ENVIRONMENT)
+                String responseStr = HttpUtil.getInstance().doGet(url);
+                // FMPrepareBuy result = new FMPrepareBuy();
+                result = new FMPrepareBuy();
+                JSONUtil<FMPrepareBuy> jsonUtil = new JSONUtil<>();
+                try
                 {
-
-                    String responseStr = HttpUtil.getInstance().doGet(url);
-                    FMPrepareBuy result = new FMPrepareBuy();
-                    JSONUtil<FMPrepareBuy> jsonUtil = new JSONUtil<>();
-                    try
-                    {
-                        result = jsonUtil.toBean(responseStr, result);
-                    }
-                    catch(JsonSyntaxException e)
-                    {
-                       LogUtil.e("JSON_ERROR", e.getMessage());
-                       result.setResultCode(0);
-                       result.setResultDescription("解析json出错");
-                    }
-                    return result;
-                } else
+                    result = jsonUtil.toBean(responseStr, result);
+                } catch (JsonSyntaxException e)
                 {
-                    FMPrepareBuy result = new FMPrepareBuy();
-                    //result.setResultData(new InnerData());
-                    result.setSystemResultCode(1);
-                    result.setResultCode(1);
-                    result.getResultData().setMobileMsg("浙江移动");
-                    List<Purchase> targets = new ArrayList<Purchase>();
-                    Purchase c = new Purchase();
-                    c.setM(30);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(3.00));
-                    c.setPurchaseid(1);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(50);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(5.00));
-                    c.setPurchaseid(2);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(80);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(8.00));
-                    c.setPurchaseid(3);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(100);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(10.00));
-                    c.setPurchaseid(4);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(120);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(11.00));
-                    c.setPurchaseid(5);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(150);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(12.00));
-                    c.setPurchaseid(6);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(300);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(15.00));
-                    c.setPurchaseid(7);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(1000);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(20.00));
-                    c.setPurchaseid(8);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(1100);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(25.00));
-                    c.setPurchaseid(9);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(1300);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(30.00));
-                    c.setPurchaseid(10);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(1500);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(40.00));
-                    c.setPurchaseid(11);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(1600);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(50.00));
-                    c.setPurchaseid(12);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(1800);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(60.00));
-                    c.setPurchaseid(13);
-                    targets.add(c);
-                    c = new Purchase();
-                    c.setM(2000);
-                    c.setMsg("折扣信息");
-                    c.setPrice(new BigDecimal(70.00));
-                    c.setPurchaseid(14);
-                    targets.add(c);
-
-                    result.getResultData().setPurchases(targets);
-                    return result;
+                    LogUtil.e("JSON_ERROR", e.getMessage());
+                    result.setResultCode(0);
+                    result.setResultDescription("解析json出错");
                 }
+                return result;
 
             } catch (UnsupportedEncodingException e)
             {
@@ -603,6 +539,7 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
             // TODO Auto-generated method stub
             super.onPreExecute();
 
+            rlWaiting.setVisibility(View.VISIBLE);
             pgbarWaiting.setVisibility(View.VISIBLE);
         }
 
@@ -612,38 +549,37 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
             // TODO Auto-generated method stub
             super.onPostExecute(result);
 
+            rlWaiting.setVisibility(View.GONE);
             pgbarWaiting.setVisibility(View.GONE);
 
             if (result == null)
             {
                 ToastUtils.showLongToast(BuyFlowActivity.this, "请求失败。");
                 return;
-            }
-            else if (1 == result.getResultCode())
+            } else if (1 == result.getResultCode())
             {
                 String mobileMsg = result.getResultData().getMobileMsg();
                 operator.setText(mobileMsg);
-                String phoneString = MyApplication.readString(BuyFlowActivity.this,
-                        "login_user_info", "user_mobile");
-                
+                String phoneString = MyApplication.readString(
+                        BuyFlowActivity.this, "login_user_info", "user_mobile");
+
                 phone.setText(phoneString);
                 datas = result.getResultData().getPurchases();
-                //并切换按钮样式
-               SystemTools.loadBackground(rechargeBtn, res.getDrawable(R.drawable.btn_red_sel));
-               rechargeBtn.setEnabled(true);
+                // 并切换按钮样式
+                SystemTools.loadBackground(rechargeBtn,
+                        res.getDrawable(R.drawable.btn_red_sel));
+                rechargeBtn.setEnabled(true);
                 if (datas != null && datas.size() > 0)
                 {
                     selectedPurchase = datas.get(0);
                 }
                 setFlowInfo();
                 // caAdapter.notifyDataSetChanged();
-            }
-            else if( null == result.getResultData() )
+            } else if (null == result.getResultData())
             {
                 ToastUtils.showLongToast(BuyFlowActivity.this, "返回的数据不正确。");
                 return;
-            }
-            else if (Constant.TOKEN_OVERDUE == result.getResultCode())
+            } else if (Constant.TOKEN_OVERDUE == result.getResultCode())
             {
                 // 提示账号异地登陆，强制用户退出
                 // 并跳转到登录界面
@@ -661,7 +597,63 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
                     }
                 }, 2000);
             }
+
+        }
+    }
+
+   
+    class WXPayAsyncTask extends AsyncTask<Void, Void, WXPayResult>
+    {
+        private Handler handler;
+        private String body;
+        private String price;
+
+        public WXPayAsyncTask(Handler handler , String body , String price)
+        {
+            this.handler = handler;
+            this.body=body;
+            this.price=price;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            rlWaiting.setVisibility(View.VISIBLE);
+            pgbarWaiting.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(WXPayResult result)
+        {
+            rlWaiting.setVisibility(View.GONE);
+            pgbarWaiting.setVisibility(View.GONE);
             
+            ToastUtils.showLongToast(BuyFlowActivity.this, result.getMessage());
+
+        }
+
+        @Override
+        protected WXPayResult doInBackground(Void... params)
+        {
+            WXPayResult payResult = new cy.com.morefan.bean.WXPayResult();
+            try
+            {
+                WXPayUtilEx wxPay = new WXPayUtilEx(BuyFlowActivity.this,
+                        handler, result.getResultData().getWxpayAppId(), result
+                                .getResultData().getWxpayMerchantId(), result
+                                .getResultData().getWxpayNotifyUri()  );
+
+               payResult =  wxPay.pay( this.body , this.price );
+                                
+                //payResult.setCode(1);
+                //payResult.setMessage("ok");
+                
+            } catch (Exception ex)
+            {
+                payResult.setCode(0);
+                payResult.setMessage(ex.getMessage());
+            }
+            return payResult;
         }
     }
 }

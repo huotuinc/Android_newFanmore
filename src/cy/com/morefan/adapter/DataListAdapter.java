@@ -78,7 +78,7 @@ public class DataListAdapter extends BaseAdapter
                         R.layout.item_unit, null);
         } else if (item instanceof TaskData)
         {
-            TaskData data = (TaskData) item;
+            //TaskData data = (TaskData) item;
             if (null == convertView)
                 convertView = LayoutInflater.from(mContext).inflate(
                         R.layout.item_unit, null);

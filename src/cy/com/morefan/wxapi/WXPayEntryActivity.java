@@ -19,6 +19,7 @@ import cy.com.morefan.constant.Constant;
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 	
 	private static final String TAG = "WXPayEntryActivity";
+	public static String WXPAYAPPID="";
 	
     private IWXAPI api;
 	
@@ -27,7 +28,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pay_result);
         
-    	api = WXAPIFactory.createWXAPI(this, Constant.WX_APPID);
+    	api = WXAPIFactory.createWXAPI(this,  WXPAYAPPID);
         api.handleIntent(getIntent(), this);
     }
 

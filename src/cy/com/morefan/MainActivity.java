@@ -5,10 +5,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
@@ -74,6 +72,7 @@ import cy.com.morefan.util.ShareUtil;
 import cy.com.morefan.util.SoundUtil;
 import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.util.Util;
+import cy.com.morefan.view.PopExpUp;
 
 @SuppressLint("NewApi")
 public class MainActivity extends BaseActivity implements OnClickListener,
@@ -548,7 +547,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
                 ActivityUtils.getInstance().showActivity(MainActivity.this,
                         DisciplesActivity.class);
             } else if ("mark".equals(tag))
-            {
+            {                
                 if (isLogin())
                 {
                     // 先判断今天是否签到
@@ -684,6 +683,8 @@ public class MainActivity extends BaseActivity implements OnClickListener,
                                                 soundUtil
                                                         .shakeSound(R.raw.checkin);
                                             }
+                                            
+                                            
                                             if (7 == week)
                                             {
                                                 // 弹出签到已经领取流量信息
@@ -1178,4 +1179,15 @@ public class MainActivity extends BaseActivity implements OnClickListener,
 
         }.execute();
     }
+
+//    private PopExpUp popExpUp;
+//	public void expUp(int exp){
+//		if(exp < 1)
+//			return;
+//		if(null == popExpUp)
+//			popExpUp = new PopExpUp(this);
+//		popExpUp.show(exp);
+//	}
+
+
 }

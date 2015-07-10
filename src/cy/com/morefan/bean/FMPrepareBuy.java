@@ -36,6 +36,19 @@ public class FMPrepareBuy extends BaseBaseBean
          * 可供选择的流量包
          */
         private List<Purchase> purchases;
+        
+        /**
+         * 
+         */
+        private String alipayPartner;
+        
+        private String alipayNotifyUri;
+        
+        private String wxpayAppId;
+        
+        private String wxpayMerchantId;
+        
+        private String wxpayNotifyUri;
 
         public String getMobileMsg()
         {
@@ -55,6 +68,56 @@ public class FMPrepareBuy extends BaseBaseBean
         public void setPurchases(List<Purchase> purchases)
         {
             this.purchases = purchases;
+        }
+
+        public String getAlipayPartner()
+        {
+            return alipayPartner;
+        }
+
+        public void setAlipayPartner(String alipayPartner)
+        {
+            this.alipayPartner = alipayPartner;
+        }
+
+        public String getAlipayNotifyUri()
+        {
+            return alipayNotifyUri;
+        }
+
+        public void setAlipayNotifyUri(String alipayNotifyUri)
+        {
+            this.alipayNotifyUri = alipayNotifyUri;
+        }
+
+        public String getWxpayAppId()
+        {
+            return wxpayAppId;
+        }
+
+        public void setWxpayAppId(String wxpayAppId)
+        {
+            this.wxpayAppId = wxpayAppId;
+        }
+
+        public String getWxpayMerchantId()
+        {
+            return wxpayMerchantId;
+        }
+
+        public void setWxpayMerchantId(String wxpayMerchantId)
+        {
+            this.wxpayMerchantId = wxpayMerchantId;
+        }
+
+        public String getWxpayNotifyUri()
+        {
+            return wxpayNotifyUri;
+        }
+
+        public void setWxpayNotifyUri(String wxpayNotifyUri)
+        {
+            this.wxpayNotifyUri = wxpayNotifyUri;
         }
     }
 
