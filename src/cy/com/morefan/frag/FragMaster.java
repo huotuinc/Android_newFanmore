@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-
-import android.R.string;
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -117,7 +114,7 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
     {
         shareCode = (Button) rootView.findViewById(R.id.shareCode);
         shareCode.setText("分享邀请码"
-                + application.readString(getActivity(),
+                + MyApplication.readString(getActivity(),
                         Constant.LOGIN_USER_INFO, Constant.LOGIN_USER_INVCODE));
         discipleTotal = (TextView) rootView.findViewById(R.id.discipleTotal);
         yestodayTotal = (TextView) rootView.findViewById(R.id.yestodayTotal);
