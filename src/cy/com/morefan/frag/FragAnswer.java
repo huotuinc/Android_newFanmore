@@ -1,31 +1,11 @@
 package cy.com.morefan.frag;
 
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-
-import com.google.gson.JsonSyntaxException;
-import com.sina.weibo.sdk.utils.LogUtil;
-
-import cy.com.morefan.bean.FMTaskDetail;
-import cy.com.morefan.constant.Constant;
 import cy.com.morefan.ui.answer.AnswerActivity;
 import cy.com.morefan.ui.user.LoginActivity;
-import cy.com.morefan.util.HttpUtil;
-import cy.com.morefan.util.JSONUtil;
-import cy.com.morefan.util.ObtainParamsMap;
-import cy.com.morefan.util.ToastUtils;
-
 /*
  * 答题类/问卷类
  * @类名称：FragAnswer
