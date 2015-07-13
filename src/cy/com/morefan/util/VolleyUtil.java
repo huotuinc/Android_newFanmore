@@ -68,6 +68,9 @@ public class VolleyUtil
                 //imageView.setImageResource(R.drawable.default_image);  
                 //String key ="#W0#H0"+url;
                 //LruImageCache.instance().putBitmap(key, BitmapFactory.decodeResource(get , id) R.drawable.ic_launcher);
+                String msg = error.getMessage();
+                //ToastUtils.showLongToast();
+                msg+="ss";
             }  
         });          
         

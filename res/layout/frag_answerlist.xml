@@ -44,7 +44,7 @@
         android:paddingLeft="40dp"
         android:gravity="center_horizontal|center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/a"  
         /> 
       <ImageView
@@ -69,7 +69,7 @@
         android:paddingLeft="40dp"
         android:gravity="center_horizontal|center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/b" />
     <ImageView
         android:id="@+id/gifPicB"
@@ -92,7 +92,7 @@
         android:paddingLeft="40dp"
         android:gravity="center_horizontal|center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/c"  />
     <ImageView
         android:id="@+id/gifPicC"
@@ -117,7 +117,7 @@
         android:background="@drawable/d" 
         android:gravity="center_horizontal|center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
     <ImageView
         android:id="@+id/gifPicD"
         android:layout_gravity="right"

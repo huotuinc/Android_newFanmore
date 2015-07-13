@@ -1,11 +1,13 @@
 package cy.com.morefan.frag;
 
 import java.io.Serializable;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import cy.com.morefan.ui.answer.AnswerActivity;
 import cy.com.morefan.ui.user.LoginActivity;
+import cy.com.morefan.util.VolleyUtil;
 /*
  * 答题类/问卷类
  * @类名称：FragAnswer
@@ -61,7 +63,7 @@ public class FragAnswer extends FragAnswerBase
         
     @Override
     public void onClick(View view)
-    {          
+    {                  
         saveReadTask( taskData.getTaskId() );
         
         if (view == btnAnswer)

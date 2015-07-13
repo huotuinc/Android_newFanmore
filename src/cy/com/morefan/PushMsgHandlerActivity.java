@@ -7,7 +7,6 @@ import cy.com.morefan.ui.answer.AnswerActivity;
 import cy.com.morefan.util.Util;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 public class PushMsgHandlerActivity extends BaseActivity
 {

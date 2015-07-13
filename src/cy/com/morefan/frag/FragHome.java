@@ -583,7 +583,8 @@ public class FragHome extends BaseFragment implements DataListener, Callback,
             if (datas.size() > 0)
             {
                 BitmapLoader.create().displayUrl(getActivity(), holder.img,
-                        datas.get(position).getPictureURL());
+                        datas.get(position).getPictureURL());              
+                
 
                 holder.txtName.setText(datas.get(position).getTitle());
                 // holder.txtDate.setText(DateUtils.formatDate(datas.get(position)
