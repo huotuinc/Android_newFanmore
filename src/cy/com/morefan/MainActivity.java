@@ -5,19 +5,15 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -59,9 +55,7 @@ import cy.com.morefan.ui.account.MsgCenterActivity;
 import cy.com.morefan.ui.ambitus.BuyFlowActivity;
 import cy.com.morefan.ui.ambitus.DisciplesActivity;
 import cy.com.morefan.ui.ambitus.ExchangeFlowActivity;
-import cy.com.morefan.ui.ambitus.ExchangeFlowActivity.ExchangeFlowAsynTask;
 import cy.com.morefan.ui.answer.AnswerActivity;
-import cy.com.morefan.ui.user.LoginActivity;
 import cy.com.morefan.util.ActivityUtils;
 import cy.com.morefan.util.BitmapLoader;
 import cy.com.morefan.util.DateUtils;
@@ -118,10 +112,10 @@ public class MainActivity extends BaseActivity implements OnClickListener,
     // 分享弹出层
     private PopupWindow popupWindow = null;
 
-    private Resources res;
+    //private Resources res;
 
     // 菜单背景图片
-    private Drawable drawable;
+    //private Drawable drawable;
 
     // 登出布局
     public static RelativeLayout logoutIm;
@@ -228,7 +222,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_main);
-        res = MainActivity.this.getResources();
+        //res = MainActivity.this.getResources();
         application = (MyApplication) MainActivity.this.getApplication();
         initView();
         myBroadcastReceiver = new MyBroadcastReceiver(MainActivity.this, this,
@@ -501,7 +495,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
                 default:
                     break;
                 }
-                layDrag.closeDrawer(Gravity.LEFT);
+                layDrag.closeDrawer(Gravity.START);
             }
         });
 
@@ -515,7 +509,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
         {
         case R.id.btnLeft:
         {
-            layDrag.openDrawer(Gravity.LEFT);
+            layDrag.openDrawer(Gravity.START);
         }
             break;
         case R.id.buyFlow:
@@ -797,7 +791,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
             {
                 application.mFragManager.setCurrentFrag(FragType.User);
                 mHandler.sendEmptyMessage(DataListener.IS_USER);
-                layDrag.closeDrawer(Gravity.LEFT);
+                layDrag.closeDrawer(Gravity.START);
             } else
             {
                 // 跳转到登录界面
@@ -1167,7 +1161,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
                     } else
                     {
                         // 精确到GB
-                        BigDecimal v = BigDecimal.valueOf(1024);
+                        //BigDecimal v = BigDecimal.valueOf(1024);
                         float flow = Float.parseFloat(MyApplication
                                 .readUserBalance(MainActivity.this)) / 1024;
                         MainActivity.residualFlow.setText(Util.decimalFloat(
