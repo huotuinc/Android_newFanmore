@@ -53,12 +53,6 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
 
         setContentView(R.layout.loading);
         
-//        // 判断极光是否被停止
-//        if (JPushInterface.isPushStopped(LoadingActivity.this))
-//        {
-//            JPushInterface.resumePush(LoadingActivity.this);
-//        }
-        
         initJPush();        
         
         initView();
@@ -90,19 +84,19 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
         }
     }
 
-    @Override
-    protected void onPause()
-    {
-        // TODO Auto-generated method stub
-        super.onPause();
-    }
+//    @Override
+//    protected void onPause()
+//    {
+//        // TODO Auto-generated method stub
+//        super.onPause();
+//    }
 
-    @Override
-    protected void onResume()
-    {
-        // TODO Auto-generated method stub
-        super.onResume();
-    }
+//    @Override
+//    protected void onResume()
+//    {
+//        // TODO Auto-generated method stub
+//        super.onResume();
+//    }
 
     private void initView()
     {
@@ -127,7 +121,6 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
             @Override
             public void onAnimationStart(Animation animation)
             {
-                // TODO Auto-generated method stub
                 // 开始检测网络
                 isConnection = MyApplication.checkNet(LoadingActivity.this);
                 if (!isConnection)
