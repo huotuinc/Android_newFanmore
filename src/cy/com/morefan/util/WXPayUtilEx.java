@@ -1,6 +1,7 @@
 package cy.com.morefan.util;
 
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,6 +19,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.util.Xml;
+import android.util.Xml.Encoding;
 
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -35,7 +37,7 @@ public class WXPayUtilEx
     private String wxpayNotifyUrl;
 
     // API密钥，在商户平台设置
-    private String wxpayApikey="0db0d6908d6ae6a09b0a3727888f0da6";
+    private String wxpayApikey = "0db0d4908a6ae6a09b0a7727878f0ca6";
 
     public static final int SDK_WXPAY_PAY = 9001;
 
@@ -59,16 +61,21 @@ public class WXPayUtilEx
     StringBuffer sb;
 
     public WXPayUtilEx(Context context, Handler handler, String appid,
-            String parterkey, String notifyurl )
+            String parterkey, String notifyurl)
     {
         this.context = context;
         this.handler = handler;
-        this.wxpayAppId = appid;
-        this.wxpayParterkey = parterkey;
+        this.wxpayAppId = "wxaeda2d5603b12302"; // "wxd8c58460d0199dd5";//
+                                                // appid;
+        this.wxpayParterkey = "1251040401";// parterkey;
         this.wxpayNotifyUrl = notifyurl;
+        
+        this.sb=new StringBuffer();
+        
+        this.req = new PayReq();
 
         msgApi = WXAPIFactory.createWXAPI(context, null);
-        boolean isRegister =  msgApi.registerApp(this.wxpayAppId);
+        boolean isRegister = msgApi.registerApp(this.wxpayAppId);
     }
 
     /**
@@ -81,23 +88,32 @@ public class WXPayUtilEx
         this.fee = fee;
 
         Map<String, String> getPrePayXml = getPrePayId();
-        
-        if( getPrePayXml ==null){
+
+        if (getPrePayXml == null)
+        {
             WXPayResult result = new WXPayResult();
             result.setCode(0);
             result.setMessage("请求预支付订单接口是失败");
             return result;
         }
-        if( getPrePayXml.containsKey("return_code") && getPrePayXml.containsKey("return_msg")){
-            WXPayResult result = new WXPayResult();
-            result.setCode(0);
-            result.setMessage( "return_code="+ getPrePayXml.get("return_code") +",return_msg"+ getPrePayXml.get("return_msg"));
-            return result;
+        if (getPrePayXml.containsKey("return_code")
+                && getPrePayXml.containsKey("return_msg"))
+        {
+            String resultCode = getPrePayXml.get("return_code");
+            if (resultCode.equals("FAIL"))
+            {
+                WXPayResult result = new WXPayResult();
+                result.setCode(0);
+                result.setMessage("return_code="
+                        + getPrePayXml.get("return_code") + ",return_msg="
+                        + getPrePayXml.get("return_msg"));
+                return result;
+            }
         }
-        
+
         sb.append("prepay_id\n" + getPrePayXml.get("prepay_id") + "\n\n");
         // show.setText(sb.toString());
-        
+
         prepay_id = getPrePayXml.get("prepay_id");
 
         genPayReq();
@@ -105,8 +121,8 @@ public class WXPayUtilEx
         boolean isPay = msgApi.sendReq(req);
 
         WXPayResult result = new WXPayResult();
-        result.setCode( isPay? 1:0);
-        result.setMessage(isPay?"支付成功" :"支付失败");
+        result.setCode(1);
+        result.setMessage("返回1，不能代表支付成功。");
         return result;
     }
 
@@ -155,20 +171,22 @@ public class WXPayUtilEx
     {
         Random random = new Random();
         int rnd = random.nextInt(100000);
-        String num = String.format( Locale.getDefault() , "%5d", rnd).replace(" ", "0");
-        
-        String orderno = DateUtils.formatDate( System.currentTimeMillis(), "yyyyMMddHHmmss");
-        orderno += "android"+ num ;
+        String num = String.format(Locale.getDefault(), "%5d", rnd).replace(
+                " ", "0");
+
+        String orderno = DateUtils.formatDate(System.currentTimeMillis(),
+                "yyyyMMddHHmmss");
+        orderno += "android" + num;
         return orderno;
-        
-//        return getMessageDigest(String.valueOf(random.nextInt(10000))
-//                .getBytes());
+
+        // return getMessageDigest(String.valueOf(random.nextInt(10000))
+        // .getBytes());
     }
 
     //
     private String getIP()
     {
-        return "127.0.0.1";
+        return "192.168.1.1";
     }
 
     /**
@@ -188,9 +206,11 @@ public class WXPayUtilEx
         sb.append("key=");
         sb.append(this.wxpayApikey);
 
-        String packageSign = getMessageDigest(sb.toString().getBytes())
-                .toUpperCase(Locale.getDefault());
+        String packageSign;
+        packageSign = getMessageDigest(sb.toString().getBytes()).toUpperCase(
+                Locale.getDefault());
         Log.e("orion", packageSign);
+
         return packageSign;
     }
 
@@ -280,7 +300,7 @@ public class WXPayUtilEx
             packageParams.add(new BasicNameValuePair("sign", sign));
 
             String xmlstring = toXml(packageParams);
-
+            xmlstring = new String(xmlstring.getBytes(), "ISO8859-1");
             return xmlstring;
 
         } catch (Exception e)
@@ -308,7 +328,7 @@ public class WXPayUtilEx
             sb.append('&');
         }
         sb.append("key=");
-        sb.append(this.wxpayParterkey);
+        sb.append(this.wxpayApikey);
 
         this.sb.append("sign str\n" + sb.toString() + "\n\n");
         String appSign = getMessageDigest(sb.toString().getBytes())
@@ -370,7 +390,5 @@ public class WXPayUtilEx
             return null;
         }
     }
-
-   
 
 }

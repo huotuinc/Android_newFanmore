@@ -183,32 +183,64 @@ public class FragFaqs extends BaseFragment implements Callback,
         protected FMContact doInBackground(Void... params)
         {
             // TODO Auto-generated method stub
+            
+            FMContact tes=new FMContact();
+            ContactBean b1=new ContactBean();
+            b1.setFanmoreBalance(100);
+            b1.setFanmorePicUrl("");
+            b1.setFanmoreSex(1);
+            b1.setFanmoreTele("13757193476");
+            b1.setFanmoreUsername("jxd");
+            b1.setOriginIdentify("1111");
+            b1.setOriginMobile("13757193476");
+            b1.setSortKey("j");
+            b1.setTeleBalance(22);
+            List<ContactBean> ls=new ArrayList<>();
+            ls.add(b1);
+            
+            b1=new ContactBean();
+            b1.setFanmoreBalance(33);
+            b1.setFanmorePicUrl("");
+            b1.setFanmoreSex(0);
+            b1.setFanmoreTele("18857155121");
+            b1.setFanmoreUsername("wlf");
+            b1.setOriginIdentify("2222");
+            b1.setOriginMobile("18857155121");
+            b1.setSortKey("x");
+            b1.setTeleBalance(44);
+            ls.add(b1);
+            
+            tes.setResultData(ls);
+            tes.setResultCode(1);
+            return tes;
+            
+            
             // 请求接口
-            FMContact contactBean = new FMContact();
-            JSONUtil<FMContact> jsonUtil = new JSONUtil<FMContact>();
-            String url;
-            ObtainParamsMap obtainMap = new ObtainParamsMap(getActivity());
-            Map<String, String> paramMap = obtainMap.obtainMap();
-
-            url = Constant.SENT_FLOW;
-            // 预留参数位
-            paramMap.put("params", "");
-            // 封装sign
-            String signStr = obtainMap.getSign(paramMap);
-            paramMap.put("sign", signStr);
-
-            String jsonStr = HttpUtil.getInstance().doPost(url, paramMap);
-            try
-            {
-                contactBean = jsonUtil.toBean(jsonStr, contactBean);
-            } catch (JsonSyntaxException e)
-            {
-                LogUtil.e("JSON_ERROR", e.getMessage());
-                contactBean.setResultCode(0);
-                contactBean.setResultDescription("解析json出错");
-            }
-
-            return contactBean;
+//            FMContact contactBean = new FMContact();
+//            JSONUtil<FMContact> jsonUtil = new JSONUtil<FMContact>();
+//            String url;
+//            ObtainParamsMap obtainMap = new ObtainParamsMap(getActivity());
+//            Map<String, String> paramMap = obtainMap.obtainMap();
+//
+//            url = Constant.SENT_FLOW;
+//            // 预留参数位
+//            paramMap.put("params", "");
+//            // 封装sign
+//            String signStr = obtainMap.getSign(paramMap);
+//            paramMap.put("sign", signStr);
+//
+//            String jsonStr = HttpUtil.getInstance().doPost(url, paramMap);
+//            try
+//            {
+//                contactBean = jsonUtil.toBean(jsonStr, contactBean);
+//            } catch (JsonSyntaxException e)
+//            {
+//                LogUtil.e("JSON_ERROR", e.getMessage());
+//                contactBean.setResultCode(0);
+//                contactBean.setResultDescription("解析json出错");
+//            }
+//
+//            return contactBean;
         }
 
         @Override

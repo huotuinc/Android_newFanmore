@@ -14,7 +14,7 @@
         <item>师徒联盟</item>
         <item>更多设置</item>
         <item>签到中心</item>
-        <!-- <item>送流量</item> -->
+        <item>送流量</item> 
     </string-array>
     
     <integer-array name="menu_imgs">
@@ -24,7 +24,7 @@
         <item>@drawable/menu_master</item>
         <item>@drawable/menu_more</item>
         <item>@drawable/menu_mark</item>
-        <!-- <item>@drawable/contact</item> -->
+        <item>@drawable/contact</item> 
     </integer-array>
     
     <string-array name="more_setting">

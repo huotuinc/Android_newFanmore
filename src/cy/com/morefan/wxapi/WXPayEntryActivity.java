@@ -15,6 +15,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import cy.com.morefan.R;
 import cy.com.morefan.constant.Constant;
+import cy.com.morefan.util.ToastUtils;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 	
@@ -48,11 +49,25 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler{
 		Log.d(TAG, "onPayFinish, errCode = " + resp.errCode);
 
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("提示");
-			String msg = String.format( "微信支付结果：%s" , resp.errCode);
-			builder.setMessage( msg );
-			builder.show();
+			String msg = "";
+		    if( resp.errCode== 0)
+			{
+		        msg="支付成功";
+			}else if( resp.errCode== -1){
+			    msg="支付失败";
+			    this.finish();
+			}else if(resp.errCode ==-2){
+			    msg="用户取消支付";
+			    this.finish();
+			}
+		    
+		    //AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			//builder.setTitle("提示");
+			//String msg = String.format( "微信支付结果：%s" , resp.errCode);
+			//builder.setMessage( msg );
+			//builder.show();
+		    ToastUtils.showLongToast(this, msg);
+			
 		}
 	}
 }

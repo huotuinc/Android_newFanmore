@@ -187,7 +187,7 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
         //
         WXPayEntryActivity.WXPAYAPPID = result.getResultData().getWxpayAppId();
 
-        new WXPayAsyncTask(handler,"测试充值30M流量。","0.01").execute();
+        new WXPayAsyncTask(handler,"测试充值30M流量。","1").execute();
     }
 
     /**
@@ -628,8 +628,9 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
             rlWaiting.setVisibility(View.GONE);
             pgbarWaiting.setVisibility(View.GONE);
             
-            ToastUtils.showLongToast(BuyFlowActivity.this, result.getMessage());
-
+            if( result !=null && result.getCode() != 1 ){
+                ToastUtils.showLongToast(BuyFlowActivity.this, result.getMessage());
+            }
         }
 
         @Override
