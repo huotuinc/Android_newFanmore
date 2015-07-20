@@ -46,4 +46,6 @@
     <string name="hint_old_pwd">请输入旧密码</string>
     <string name="hint_new_pwd">请输入新密码</string>
     <string name="hint_new_pwd_re">请再次输入新密码</string>
+    
+    <string name="channel_name">app_channel</string>
 </resources>
