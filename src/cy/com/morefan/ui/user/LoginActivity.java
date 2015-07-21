@@ -360,9 +360,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener
         protected void onPreExecute()
         {
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
+            //progressBar.setVisibility(View.VISIBLE);
             // 登录按钮不可用
-            loginBtn.setClickable(false);
+            //loginBtn.setClickable(false);
+            showProgress();
+
+
 
             ObtainParamsMap obtainMap = new ObtainParamsMap(LoginActivity.this);
             String paramMap = obtainMap.getMap();
@@ -397,7 +400,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener
         {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
-            progressBar.setVisibility(View.GONE);
+            //progressBar.setVisibility(View.GONE);
+
+            dismissProgress();
 
             if (null == result)
             {

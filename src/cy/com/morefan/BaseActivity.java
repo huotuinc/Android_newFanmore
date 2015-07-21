@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,12 +16,20 @@ import cy.com.morefan.ui.user.ForgetActivity;
 import cy.com.morefan.ui.user.LoginActivity;
 import cy.com.morefan.ui.user.RegisterActivity;
 import cy.com.morefan.util.ActivityUtils;
+import cy.com.morefan.util.ToastUtils;
+import cy.com.morefan.util.Util;
 import cy.com.morefan.view.SystemBarTintManager;
+import cy.com.morefan.view.WindowProgress;
 
-public class BaseActivity extends FragmentActivity{    
-    
+public class BaseActivity extends FragmentActivity{
+	protected static final String NULL_NETWORK = "无网络或当前网络不可用!";
+
     public MyApplication application;
-    
+
+	private WindowProgress progress;
+
+	protected Handler handler = new Handler();
+
 	@Override
     protected void onCreate(Bundle arg0)
     {
@@ -155,6 +164,47 @@ public class BaseActivity extends FragmentActivity{
         // TODO Auto-generated method stub
         return super.onKeyDown(keyCode, event);
     }
+
+
+
+	public void showProgress() {
+		//网络访问前先检测网络是否可用
+		if(!Util.isConnect(BaseActivity.this)){
+			ToastUtils.showLongToast(this , NULL_NETWORK);
+			return;
+		}
+
+		if(progress == null){
+			progress = new WindowProgress(this);
+		}
+
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				if(!BaseActivity.this.isFinishing())
+					try {
+						progress.showProgress();
+					} catch (Exception e) {
+						System.out.println(e.toString());
+					}
+
+			}
+		});
+
+	}
+	public void dismissProgress(){
+		if(progress == null)
+			return;
+
+		handler.post(new Runnable() {
+			@Override
+			public void run() {
+				progress.dismissProgress();
+			}
+		});
+
+
+	}
 	
 
 }

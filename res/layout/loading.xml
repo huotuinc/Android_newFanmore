@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/loding_bg"
-    tools:context=".AllScoreActivity" 
+    tools:context=".LoadingActivity"
     android:id="@+id/loadL">
 
 

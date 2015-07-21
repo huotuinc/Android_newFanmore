@@ -335,8 +335,10 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
             // TODO Auto-generated method stub
             super.onPreExecute();
             
-            rlWaiting.setVisibility(View.VISIBLE);
-            pgbarWaiting.setVisibility(View.VISIBLE);
+            //rlWaiting.setVisibility(View.VISIBLE);
+            //pgbarWaiting.setVisibility(View.VISIBLE);
+
+            showProgress();
             
         }
 
@@ -346,8 +348,10 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
             // TODO Auto-generated method stub
             super.onPostExecute(result);
             
-            rlWaiting.setVisibility(View.GONE);
-            pgbarWaiting.setVisibility(View.GONE);
+            //rlWaiting.setVisibility(View.GONE);
+            //pgbarWaiting.setVisibility(View.GONE);
+
+            dismissProgress();
             
             if(result==null){
                 ToastUtils.showLongToast(ExchangeFlowActivity.this, "请求失败。");
