@@ -146,13 +146,13 @@
             android:textSize="@dimen/normal_label" />
     </FrameLayout>
 
-        <ProgressBar
+        <!-- <ProgressBar
             android:id="@+id/loginPB"
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/btnLogin"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true" /> -->
 
     </RelativeLayout>
     </ScrollView>

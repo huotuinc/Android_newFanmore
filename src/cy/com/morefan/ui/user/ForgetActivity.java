@@ -384,6 +384,9 @@ public class ForgetActivity extends BaseActivity implements OnClickListener
         {
             // TODO Auto-generated method stub
             super.onPreExecute();
+            btnComplete.setEnabled(false);
+            showProgress();
+            
         }
 
         @Override
@@ -391,6 +394,8 @@ public class ForgetActivity extends BaseActivity implements OnClickListener
         {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
+            btnComplete.setEnabled(true);
+            dismissProgress();
             if (1 == result.getResultCode())
             {
                 // 弹出注册成功提示框

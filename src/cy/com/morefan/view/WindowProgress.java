@@ -81,7 +81,7 @@ public class WindowProgress {
 			progressLay = new LinearLayout(mActivity);
 //			LinearLayout.LayoutParams lp1=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,200);
 //			progressLay.setLayoutParams(lp1);
-			progressLay.setBackgroundResource(R.drawable.window_progress_bg);
+			progressLay.setBackgroundResource(R.drawable.circle_text);
 
 		}
 //		layAll.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -124,10 +124,12 @@ public class WindowProgress {
 			progressLay.addView(bar);
 
 			txt = new TextView(mActivity);
-			txt.setTextColor(Color.BLACK);
+			txt.setTextColor(Color.WHITE);
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL);
+			params.setMargins(10, 10, 10, 10);
 			txt.setLayoutParams(params);
-			txt.setVisibility(View.GONE);
+			txt.setVisibility(View.VISIBLE);
+			txt.setText("正在努力加载中...");
 			progressLay.addView(txt);
 
 //			LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -161,11 +163,11 @@ public class WindowProgress {
 		this.keyBack = keyBack;
 	}
 
-	public void setText(String msg){
+/*	public void setText(String msg){
 		if(txt.getVisibility() == View.GONE)
 			txt.setVisibility(View.VISIBLE);
 		txt.setText(msg);
-	}
+	}*/
 
 	public void dismissProgress() {
 		state = STATUS_DISMISS;

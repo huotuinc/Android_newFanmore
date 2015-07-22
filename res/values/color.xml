@@ -79,4 +79,6 @@
     <color name="people_color">#FF6001</color>
     <!-- 白色 -->
     <color name="white_bg">#ffffff</color>
+    <!-- 透明 -->
+    <color name="transparent">#00000000</color>
 </resources>

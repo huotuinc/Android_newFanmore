@@ -78,7 +78,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener
     private TextView registerBtn;
 
     // 登录进度
-    private ProgressBar progressBar;
+    //private ProgressBar progressBar;
 
     //
     public MyApplication apolication;
@@ -183,7 +183,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener
         registerBtn = (TextView) this.findViewById(R.id.btnReg);
         // titleIcon = (ImageView) this.findViewById(R.id.titleImage);
         titleBack = (CyButton) this.findViewById(R.id.backImage);
-        progressBar = (ProgressBar) this.findViewById(R.id.loginPB);
+        //progressBar = (ProgressBar) this.findViewById(R.id.loginPB);
         backText = (TextView) this.findViewById(R.id.backtext);
         backText.setOnClickListener(this);
 
@@ -360,12 +360,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener
         protected void onPreExecute()
         {
             super.onPreExecute();
-            //progressBar.setVisibility(View.VISIBLE);
             // 登录按钮不可用
-            //loginBtn.setClickable(false);
+            loginBtn.setEnabled(false);
             showProgress();
-
-
 
             ObtainParamsMap obtainMap = new ObtainParamsMap(LoginActivity.this);
             String paramMap = obtainMap.getMap();
@@ -403,20 +400,17 @@ public class LoginActivity extends BaseActivity implements OnClickListener
             //progressBar.setVisibility(View.GONE);
 
             dismissProgress();
+            loginBtn.setEnabled(true);
 
             if (null == result)
             {
                 apolication.isLogin = false;
-                progressBar.setVisibility(View.GONE);
-                loginBtn.setClickable(true);
                 ToastUtils.showLongToast(LoginActivity.this, "登录异常，请重试");
                 return;
             }
             if (result.getSystemResultCode() != 1)
             {
                 apolication.isLogin = false;
-                progressBar.setVisibility(View.GONE);
-                loginBtn.setClickable(true);
                 ToastUtils.showLongToast(LoginActivity.this,
                         result.getSystemResultDescription());
                 return;
@@ -457,9 +451,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener
                                     .getInvalidCode(), loginUser.getSex(),
                             loginUser.getRealName());
                 }
-                progressBar.setVisibility(View.GONE);
-                // 登录按钮可用
-                loginBtn.setClickable(true);
                 // 判断用户是否需要绑定手机
                 if (0 == result.getResultData().getRequireMobile())
                 {
@@ -483,9 +474,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener
             {
                 // 失败
                 apolication.isLogin = false;
-                progressBar.setVisibility(View.GONE);
-                // 登录按钮可用
-                loginBtn.setClickable(true);
                 // 弹出登录失败提示
                 noticeDialog = new NoticeDialog(LoginActivity.this,
                         R.style.NoticeDialog, "用户登录", "用户名或者密码出错",
@@ -512,9 +500,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener
 
                 // 失败
                 apolication.isLogin = false;
-                progressBar.setVisibility(View.GONE);
-                // 登录按钮可用
-                loginBtn.setClickable(true);
                 // 弹出登录失败提示
                 noticeDialog = new NoticeDialog(LoginActivity.this,
                         R.style.NoticeDialog, "用户登录", msg,
