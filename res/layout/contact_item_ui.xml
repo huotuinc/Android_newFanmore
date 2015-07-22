@@ -27,6 +27,7 @@
         android:layout_marginBottom="10dp">
         </com.android.volley.toolbox.NetworkImageView>
         <ImageView
+            android:id="@+id/hread_img"
         android:layout_width="@dimen/contact_logo_width"
         android:layout_height="@dimen/contact_logo_height"
         android:background="@drawable/menu_user_logo_bg" 
@@ -34,7 +35,14 @@
         android:layout_below="@id/alpha"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        />
+        <TextView
+        android:layout_width="@dimen/contact_logo_width"
+        android:layout_height="10dp"
+        android:layout_below="@+id/hread_img"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/white_bg" />
+        
 
     <TextView
         android:id="@+id/account"

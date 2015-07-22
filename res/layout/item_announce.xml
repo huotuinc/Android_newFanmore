@@ -10,31 +10,40 @@
         android:id="@+id/preimg"
         android:layout_width="@dimen/pre_logo_width"
         android:layout_height="@dimen/pre_logo_height"
-        android:layout_margin="10dp"
-        android:background="@drawable/task_image">
-        </com.android.volley.toolbox.NetworkImageView>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/task_image" >
+    </com.android.volley.toolbox.NetworkImageView>
+
+    <TextView
+        android:layout_width="@dimen/pre_logo_width"
+        android:layout_height="10dp"
+        android:layout_below="@+id/preimg"
+        android:layout_marginLeft="10dp"
+        android:background="@color/white_bg" />
 
     <TextView
         android:id="@+id/pretitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/preimg"
-        android:layout_toRightOf="@+id/preimg"
         android:layout_toLeftOf="@+id/prestatus"
-        android:text="标题xxx" 
-        android:textStyle="normal"
+        android:layout_toRightOf="@+id/preimg"
         android:maxLines="2"
+        android:text="标题xxx"
         android:textColor="@color/black"
-        android:textSize="@dimen/pre_task_list_title_textsize"/>
+        android:textSize="@dimen/pre_task_list_title_textsize"
+        android:textStyle="normal" />
 
     <ImageView
         android:id="@+id/prestatus"
         android:layout_width="@dimen/tasklist_width"
         android:layout_height="@dimen/tasklist_height"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/unit_status_online" 
-        android:visibility="gone"/>
+        android:layout_alignParentTop="true"
+        android:src="@drawable/unit_status_online"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/presummary"
@@ -44,8 +53,8 @@
         android:layout_below="@+id/pretitle"
         android:singleLine="true"
         android:text="简介"
-        android:textSize="@dimen/canyu_label" 
-        android:textColor="@color/list_text_normal"/>
+        android:textColor="@color/list_text_normal"
+        android:textSize="@dimen/canyu_label" />
 
     <TextView
         android:id="@+id/pretips"
@@ -86,6 +95,6 @@
         android:text="设置提醒"
         android:textColor="@color/frist_page_flow_color"
         android:textSize="@dimen/task_list_con_textsize"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
 </RelativeLayout>

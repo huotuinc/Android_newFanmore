@@ -2,13 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/theme_color">
+    android:background="@color/theme_color" >
+
     <RelativeLayout
         android:id="@+id/msgConU"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:background="@color/theme_color">
-    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/theme_color" >
+
+        <TextView
             android:id="@+id/msgLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -16,12 +18,12 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:padding="2dp"
+            android:background="@drawable/msg"
             android:gravity="center"
+            android:padding="2dp"
             android:text="系统消息"
             android:textColor="@color/theme_color"
-            android:textSize="@dimen/mark_text_size"
-            android:background="@drawable/msg"/>
+            android:textSize="@dimen/mark_text_size" />
 
         <TextView
             android:id="@+id/msgCon"
@@ -35,13 +37,15 @@
             android:text="TextView"
             android:textColor="@color/black"
             android:textSize="@dimen/mark_text_size" />
-</RelativeLayout>
-<RelativeLayout
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/msgTimeD"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:background="@color/theme_color"
-	    android:layout_below="@+id/msgConU">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/msgConU"
+        android:background="@color/theme_color" >
+
         <TextView
             android:id="@+id/msgTime"
             android:layout_width="wrap_content"
@@ -49,10 +53,18 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
             android:text="TextView"
             android:textColor="@color/black"
             android:textSize="@dimen/mark_text_size" />
-        </RelativeLayout>
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_below="@+id/msgTime"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/white_bg" />
+        
+
 
     </RelativeLayout>
+
+</RelativeLayout>
