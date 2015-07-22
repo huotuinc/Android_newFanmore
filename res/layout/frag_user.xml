@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:slideswitch="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/activity_bg"
@@ -201,26 +202,29 @@
                      android:id="@+id/tvPushMsg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="关闭推送消息"
+                    android:text="消息推送"
                     android:textSize="@dimen/normal_label"
                     android:textColor="@color/black" />
-              
-               <TextView
-                    android:id="@+id/pushCenter"
+                 <TextView
+                    android:id="@+id/pushMsg"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:maxLength="6"
+                    android:maxLength="10"
                     android:text=""
                     android:textColor="@color/black"
                     android:textSize="@dimen/normal_label" />
-               <ImageView
-                    android:layout_width="@dimen/info_arrow_width"
-                    android:layout_height="@dimen/info_arrow_height"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/info_arrow" />
+              <cy.com.morefan.view.SlideSwitch
+			        android:id="@+id/pushSwit"
+			        android:layout_width="40dp"
+			        android:layout_height="30dp"
+			        slideswitch:isOpen="true"
+			        slideswitch:shape="rect"
+			        slideswitch:themeColor="#ffee3a00"
+			        android:layout_marginLeft="20dp"
+                    android:gravity="center_horizontal" />
            </LinearLayout>
            <!-- 关闭或开启推送消息End -->
            <ImageView
