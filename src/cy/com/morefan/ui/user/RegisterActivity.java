@@ -89,8 +89,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener ,C
 
     private Button btnReg;// 注册按钮
 
-    private ProgressBar regPB;// 注册时进度条
-
     private NoticeDialog noticeDialog;
 
     // 返回文字事件
@@ -180,7 +178,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener ,C
         txtYinSi.getPaint().setAntiAlias(true);
         btnReg = (Button) this.findViewById(R.id.btnReg);
 
-        regPB = (ProgressBar) this.findViewById(R.id.regPB);
         backText = (TextView) this.findViewById(R.id.backtext);
         backText.setOnClickListener(this);
         
@@ -433,9 +430,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener ,C
         {
             // TODO Auto-generated method stub
             super.onPreExecute();
-            regPB.setVisibility(View.VISIBLE);
             // 注册按钮不能用
-            btnReg.setClickable(false);
+            btnReg.setEnabled(false);
+            showProgress();
         }
 
         @Override
@@ -444,7 +441,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener ,C
             // TODO Auto-generated method stub
             super.onPostExecute(result);
                         
-
+            btnReg.setEnabled(true);
+            dismissProgress();
             if (1 == result.getResultCode())
             {
                 // 更新用户资料
@@ -471,9 +469,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener ,C
                                     .getWelcomeTip(), regUser.getInvalidCode(),
                             regUser.getSex(), regUser.getRealName());
                 }
-                regPB.setVisibility(View.GONE);
-                // 注册按钮可用
-                btnReg.setClickable(true);
                 // 弹出注册成功提示框
                 noticeDialog = new NoticeDialog(RegisterActivity.this,
                         R.style.NoticeDialog, "注册结果", "注册成功",
@@ -497,9 +492,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener ,C
                 if( msg==null || msg.length()<1){
                     msg="注册失败";
                 }
-                regPB.setVisibility(View.GONE);
-                // 注册按钮可用
-                btnReg.setClickable(true);
                 // 弹出注册失败提示框
                 noticeDialog = new NoticeDialog(RegisterActivity.this,
                         R.style.NoticeDialog, "注册结果", msg ,
@@ -518,7 +510,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener ,C
                 noticeDialog.show();
             }
 
-            // closeSelf(RegisterActivity.this);
         }
 
         @Override
