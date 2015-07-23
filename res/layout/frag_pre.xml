@@ -28,6 +28,6 @@
         android:textSize="@dimen/notice_text_size"
         android:textColor="@color/theme_color"
         android:text="TextView"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 </RelativeLayout>

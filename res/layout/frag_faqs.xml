@@ -41,14 +41,18 @@
         android:dividerHeight="@dimen/listview_item_margin"
        	android:divider="@color/activity_bg">
     </ListView>
+
     <cy.com.morefan.view.QuickAlphabeticBar
-		android:layout_alignRight="@id/contactList"
-		android:layout_gravity="top|right|center"
-		android:layout_alignTop="@+id/contactList"
-		android:id="@+id/fast_scroller" android:background="@null"
-		android:layout_width="30dp" android:layout_height="wrap_content"
-		android:scaleType="centerInside"
-		android:src="@drawable/dic_background" />
+        android:id="@+id/fast_scroller"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/contactList"
+        android:layout_alignTop="@+id/contactList"
+        android:layout_gravity="top|right|center"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/dic_background" />
+
 	<TextView
 		android:layout_centerInParent="true" 
 		android:id="@+id/fast_position" android:textSize="48dp" android:visibility="invisible"

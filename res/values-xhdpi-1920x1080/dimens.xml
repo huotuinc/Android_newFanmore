@@ -170,4 +170,7 @@
     <dimen name="pre_logo_height">100dp</dimen>
     <!-- 登出提示 -->
     <dimen name="logout_textsize">30sp</dimen>
+    <!-- 流量面板单元 -->
+    <dimen name="flow_item_width">90dp</dimen>
+    <dimen name="flow_item_height">60dp</dimen>
 </resources>

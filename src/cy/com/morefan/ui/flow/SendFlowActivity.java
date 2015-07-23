@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 
 import cy.com.morefan.BaseActivity;
+import cy.com.morefan.MyApplication;
 import cy.com.morefan.R;
 import cy.com.morefan.util.BitmapLoader;
 import cy.com.morefan.view.CyButton;
@@ -183,9 +184,10 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         title.setText("流量分享");
         //用户的logo
         img = (NetworkImageView) this.findViewById(R.id.img);
-        BitmapLoader.create().displayUrl(SendFlowActivity.this, img, "http://hottech.gitcafe.io/resources/fanmoreicon/images/mrtou_b.png");
+        String imageUrl = MyApplication.readUserLogo(this);
+        BitmapLoader.create().displayUrl(SendFlowActivity.this, img, imageUrl,R.drawable.mrtou,R.drawable.mrtou);
         imgRight = (NetworkImageView) this.findViewById(R.id.imgRight);
-        BitmapLoader.create().displayUrl(SendFlowActivity.this, imgRight, bundle.getString("fanmorePicUrl"));
+        BitmapLoader.create().displayUrl(SendFlowActivity.this, imgRight, bundle.getString("fanmorePicUrl"),R.drawable.mrtou,R.drawable.mrtou);
         operator = (TextView) this.findViewById(R.id.operator);
         operator.setText(bundle.getString("fanmoreTele"));
         isAccount = (TextView) this.findViewById(R.id.isAccount);
