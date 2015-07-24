@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
     // 提示
     public static TextView tips;
 
-    // 头像
+    // 头像  
     public static NetworkImageView headImage;
 
     // 标题处logo

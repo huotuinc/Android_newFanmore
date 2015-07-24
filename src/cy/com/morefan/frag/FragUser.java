@@ -29,9 +29,12 @@ import cy.com.morefan.ui.account.MsgCenterActivity;
 import cy.com.morefan.ui.account.PswManagentActivity;
 import cy.com.morefan.util.ActivityUtils;
 import cy.com.morefan.util.BitmapLoader;
+import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.util.Util;
+import cy.com.morefan.view.SlideSwitch;
+import cy.com.morefan.view.SlideSwitch.SlideListener;
 
-public class FragUser extends BaseFragment implements Callback
+public class FragUser extends BaseFragment implements Callback, SlideListener
 {
 
     public Handler mHandler = new Handler(this);
@@ -45,12 +48,10 @@ public class FragUser extends BaseFragment implements Callback
     private LinearLayout changePswLayout;
 
     private LinearLayout msgCenterLayout;
-    
-    private LinearLayout pushMsgLayout;
-    
-    private TextView tvPush;
 
     private Button logoutBtn;
+    private SlideSwitch pushSwit;
+    private TextView pushMsg;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -80,10 +81,12 @@ public class FragUser extends BaseFragment implements Callback
                 .findViewById(R.id.changePswLabel);
         msgCenterLayout = (LinearLayout) parentView
                 .findViewById(R.id.msgCenterLabel);
-        pushMsgLayout =(LinearLayout)parentView.findViewById(R.id.pushMsgLabel);
-        tvPush = (TextView)parentView.findViewById(R.id.tvPushMsg);
         
         logoutBtn = (Button) parentView.findViewById(R.id.logoutBtn);
+        //推送开关
+        pushSwit = (SlideSwitch) parentView.findViewById(R.id.pushSwit);
+        pushSwit.setSlideListener(this);
+        pushMsg = (TextView) parentView.findViewById(R.id.pushMsg);
     }
 
     private void initData()
@@ -229,24 +232,6 @@ public class FragUser extends BaseFragment implements Callback
             }
         });
 
-        
-        pushMsgLayout.setOnClickListener(new OnClickListener()
-        {            
-            @Override
-            public void onClick(View v)
-            {
-                int enable = MyApplication.readInt(getActivity(), Constant.LOGIN_USER_INFO , Constant.PUSH_ENABLE , 1 );
-                if( enable ==1){
-                    JPushInterface.stopPush(getActivity());
-                    MyApplication.writeInt( getActivity(), Constant.LOGIN_USER_INFO , Constant.PUSH_ENABLE , 0);
-                    tvPush.setText("开启推送消息");
-                }else {
-                    JPushInterface.resumePush(getActivity());
-                    MyApplication.writeInt(getActivity(), Constant.LOGIN_USER_INFO, Constant.PUSH_ENABLE , 1);
-                    tvPush.setText("关闭推送消息");
-                }
-            }
-        });
     }
 
     @Override
@@ -315,11 +300,31 @@ public class FragUser extends BaseFragment implements Callback
         
         int enablePush  = MyApplication.readInt(getActivity(), Constant.LOGIN_USER_INFO , Constant.PUSH_ENABLE , 1 );
         if( enablePush==1){
-            tvPush.setText("关闭推送消息");
+            pushSwit.setState(true);
+            pushMsg.setText("当前已开启消息推送");
         }
         else{
-            tvPush.setText("开启推送消息");
+            pushSwit.setState(false);
+            pushMsg.setText("当前已关闭消息推送");
         }        
+    }
+
+    @Override
+    public void open()
+    {
+        // TODO Auto-generated method stub
+        JPushInterface.resumePush(getActivity());
+        MyApplication.writeInt(getActivity(), Constant.LOGIN_USER_INFO, Constant.PUSH_ENABLE , 1);
+        pushMsg.setText("当前已开启消息推送");
+    }
+
+    @Override
+    public void close()
+    {
+        // TODO Auto-generated method stub
+        JPushInterface.stopPush(getActivity());
+        MyApplication.writeInt( getActivity(), Constant.LOGIN_USER_INFO , Constant.PUSH_ENABLE , 0);
+        pushMsg.setText("当前已关闭消息推送");
     }
 
 }

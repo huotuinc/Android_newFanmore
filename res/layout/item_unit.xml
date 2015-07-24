@@ -11,7 +11,7 @@
         android:layout_height="@dimen/first_item_timel"
         android:background="@color/activity_bg"
         android:gravity="center_horizontal" 
-        android:visibility="gone">
+        >
 
         <TextView
             android:id="@+id/txtDate"
@@ -30,12 +30,18 @@
         android:layout_width="@dimen/firstPage_logo_width"
         android:layout_height="@dimen/firstPage_logo_height"
         android:layout_below="@+id/timeL"
-        android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/task_image" >
     </com.android.volley.toolbox.NetworkImageView>
+    <TextView
+        android:layout_width="@dimen/firstPage_logo_width"
+        android:layout_height="10dp"
+        android:layout_below="@+id/img"
+        android:layout_marginLeft="10dp"
+        android:background="@color/white_bg" />
+    
 
     <TextView
         android:id="@+id/txtName"
