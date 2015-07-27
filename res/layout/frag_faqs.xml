@@ -13,7 +13,7 @@
 		android:paddingRight="5dp"
 		android:background="@color/theme_color"
 		android:gravity="center">
-    <cy.lib.edittext.CyEditText
+    <com.huotu.android.library.libedittext.EditText
         android:id="@+id/etSearch"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/send_flow_searchtext_height"
@@ -30,7 +30,7 @@
         android:paddingLeft="5dp"
         android:singleLine="true"
         android:textSize="@dimen/normal_label" >
-    </cy.lib.edittext.CyEditText>
+    </com.huotu.android.library.libedittext.EditText>
    </LinearLayout>
 
     <ListView

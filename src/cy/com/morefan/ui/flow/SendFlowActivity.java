@@ -20,7 +20,7 @@ import cy.com.morefan.MyApplication;
 import cy.com.morefan.R;
 import cy.com.morefan.util.BitmapLoader;
 import cy.com.morefan.view.CyButton;
-import cy.lib.edittext.CyEditText;
+import com.huotu.android.library.libedittext.EditText;
 /**
  * 
  * @类名称：SendFlowActivity
@@ -41,7 +41,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
     private NetworkImageView imgRight;
     private TextView operator;
     private TextView isAccount;
-    private CyEditText flowText;
+    private EditText flowText;
     private Button sendFlow;
     private Button accetFlow;
     private CyButton backImage;
@@ -204,7 +204,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         {
             isAccount.setText("粉猫用户");
         }
-        flowText = (CyEditText) this.findViewById(R.id.flowText);
+        flowText = (EditText) this.findViewById(R.id.flowText);
         sendFlow = (Button) this.findViewById(R.id.sendFlow);
         sendFlow.setOnClickListener(this);
         accetFlow = (Button) this.findViewById(R.id.accetFlow);

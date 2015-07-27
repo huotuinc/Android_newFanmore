@@ -2,20 +2,28 @@ apply plugin: 'android'
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    compile project(':cropper')
+    //compile project(':cropper')
     compile project(':WeiboSDK')
-    compile project(':CyLibEditText')
+    //compile project(':CyLibEditText')
+    compile 'com.huotu.android.library:libcropper:1.0'
+    compile 'com.huotu.android.library:libedittext:1.0'
 }
 
 android {
+    signingConfigs {
+        defaultConfig {
+            keyAlias 'huotu_fm.keystore'
+            keyPassword 'huotuheyun'
+            storeFile file('E:/myjob/keystore/huotu_fm.keystore')
+            storePassword 'huotuheyun'
+        }
+    }
     compileSdkVersion 19
     buildToolsVersion "23.0.0 rc2"
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -39,5 +47,10 @@ android {
         // by a similar customization.
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.defaultConfig
+        }
     }
 }

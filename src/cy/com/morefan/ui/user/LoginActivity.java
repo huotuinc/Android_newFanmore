@@ -39,7 +39,7 @@ import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.view.CyButton;
 import cy.com.morefan.view.NoticeDialog;
-import cy.lib.edittext.CyEditText;
+import com.huotu.android.library.libedittext.EditText;
 
 /**
  * 
@@ -60,10 +60,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener
     private CyButton titleBack;
 
     // 用户名
-    private CyEditText userName;
+    private EditText userName;
 
     // 密码
-    private CyEditText passWord;
+    private EditText passWord;
 
     // 登录按钮
     private Button loginBtn;
@@ -176,8 +176,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener
     {
         titleName = (TextView) this.findViewById(R.id.title);
         titleName.setText("用户登录");
-        userName = (CyEditText) this.findViewById(R.id.edtUserName);
-        passWord = (CyEditText) this.findViewById(R.id.edtPwd);
+        userName = (EditText) this.findViewById(R.id.edtUserName);
+        passWord = (EditText) this.findViewById(R.id.edtPwd);
         loginBtn = (Button) this.findViewById(R.id.btnLogin);
         forgetPswBtn = (TextView) this.findViewById(R.id.btnForget);
         registerBtn = (TextView) this.findViewById(R.id.btnReg);
@@ -216,7 +216,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener
      * @exception
      * @since
      */
-    private int canLogin(CyEditText userName, CyEditText passWord)
+    private int canLogin(EditText userName, EditText passWord)
     {
         if (TextUtils.isEmpty(userName.getText())
                 && TextUtils.isEmpty(passWord.getText()))

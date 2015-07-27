@@ -46,7 +46,7 @@ import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.SystemTools;
 import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.view.QuickAlphabeticBar;
-import cy.lib.edittext.CyEditText;
+import com.huotu.android.library.libedittext.EditText;
 
 /**
  * 
@@ -65,7 +65,7 @@ public class FragFaqs extends BaseFragment implements Callback,
     private Handler mHandler = new Handler(this);
 
     // 搜索框
-    private CyEditText etSearch;
+    private EditText etSearch;
 
     // 内容列表
     private ListView contactList;
@@ -97,7 +97,7 @@ public class FragFaqs extends BaseFragment implements Callback,
 
     private void initView(View rootView)
     {
-        etSearch = (CyEditText) rootView.findViewById(R.id.etSearch);
+        etSearch = (EditText) rootView.findViewById(R.id.etSearch);
         contactList = (ListView) rootView.findViewById(R.id.contactList);
         alpha = (QuickAlphabeticBar) rootView.findViewById(R.id.fast_scroller);
 

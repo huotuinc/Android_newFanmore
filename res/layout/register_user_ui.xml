@@ -50,7 +50,7 @@
                     android:textColor="@color/black" 
                     android:textSize="@dimen/normal_label"/>
 
-                <cy.lib.edittext.CyEditText
+                <com.huotu.android.library.libedittext.EditText
                     android:id="@+id/edtInvitationCode"
                     style="@style/CyEditTextStyle"
                     cy:style="transparent"

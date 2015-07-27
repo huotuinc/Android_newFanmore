@@ -30,7 +30,7 @@ import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.view.CyButton;
 import cy.com.morefan.view.NoticeDialog;
-import cy.lib.edittext.CyEditText;
+import com.huotu.android.library.libedittext.EditText;
 /**
  * 
  * @类名称：PswManagentActivity
@@ -49,11 +49,11 @@ public class PswManagentActivity extends BaseActivity implements Callback,
 
     private TextView titleName;
 
-    private CyEditText edtOld;// 旧密码
+    private EditText edtOld;// 旧密码
 
-    private CyEditText edtNew;// 新密码
+    private EditText edtNew;// 新密码
 
-    private CyEditText edtNewRe;// 新密码确认
+    private EditText edtNewRe;// 新密码确认
 
     private CyButton backImage;
 
@@ -82,9 +82,9 @@ public class PswManagentActivity extends BaseActivity implements Callback,
         commit = (TextView) this.findViewById(R.id.backImage);
         forgetPsw = (TextView) this.findViewById(R.id.txtForget);
 
-        edtOld = (CyEditText) this.findViewById(R.id.edtOld);
-        edtNew = (CyEditText) this.findViewById(R.id.edtNew);
-        edtNewRe = (CyEditText) this.findViewById(R.id.edtNewRes);
+        edtOld = (EditText) this.findViewById(R.id.edtOld);
+        edtNew = (EditText) this.findViewById(R.id.edtNew);
+        edtNewRe = (EditText) this.findViewById(R.id.edtNewRes);
 
         titleName.setText("修改密码");
         backImage.setOnClickListener(this);

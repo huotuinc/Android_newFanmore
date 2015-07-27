@@ -35,7 +35,7 @@ import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.view.CountDownTimerButton;
 import cy.com.morefan.view.CyButton;
 import cy.com.morefan.view.NoticeDialog;
-import cy.lib.edittext.CyEditText;
+import com.huotu.android.library.libedittext.EditText;
 /**
  * 
  * @类名称：ForgetActivity
@@ -51,15 +51,15 @@ public class ForgetActivity extends BaseActivity implements OnClickListener
 
     private TextView titleName;
 
-    private CyEditText edtPhone;
+    private EditText edtPhone;
 
-    private CyEditText edtCode;
+    private EditText edtCode;
 
     private TextView btnGet;
 
-    private CyEditText edtPwd;
+    private EditText edtPwd;
 
-    private CyEditText edtRePwd;
+    private EditText edtRePwd;
 
     private Button btnComplete;
     //返回文字事件
@@ -106,14 +106,14 @@ public class ForgetActivity extends BaseActivity implements OnClickListener
         titleName.setText("用户忘记密码");
         // titleIcon = (ImageView) this.findViewById(R.id.titleImage);
         titleBack = (CyButton) this.findViewById(R.id.backImage);
-        edtPhone = (CyEditText) this.findViewById(R.id.edtPhone);
-        edtCode = (CyEditText) this.findViewById(R.id.edtCode);
+        edtPhone = (EditText) this.findViewById(R.id.edtPhone);
+        edtCode = (EditText) this.findViewById(R.id.edtCode);
         btnGet = (TextView) this.findViewById(R.id.btnGet);
         //标记文本短信
         btnGet.setTag(Constant.SMS_TYPE_TEXT);
         btnGet.setText("获取验证码");
-        edtPwd = (CyEditText) this.findViewById(R.id.edtPwd);
-        edtRePwd = (CyEditText) this.findViewById(R.id.edtRePwd);
+        edtPwd = (EditText) this.findViewById(R.id.edtPwd);
+        edtRePwd = (EditText) this.findViewById(R.id.edtRePwd);
         btnComplete = (Button) this.findViewById(R.id.btnComplete);
         backText = (TextView) this.findViewById(R.id.backtext);
         backText.setOnClickListener(this);
