@@ -317,6 +317,7 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
                 LoadingActivity.this.finish();                           
             }          
         }
+        
     }
 
     @Override

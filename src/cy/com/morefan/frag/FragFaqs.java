@@ -192,7 +192,7 @@ public class FragFaqs extends BaseFragment implements Callback,
             b1.setFanmoreTele("13757193476");
             b1.setFanmoreUsername("jxd");
             b1.setOriginIdentify("1111");
-            b1.setOriginMobile("13757193476");
+            //b1.setOriginMobile("13757193476");
             b1.setSortKey("j");
             b1.setTeleBalance(22);
             List<ContactBean> ls=new ArrayList<>();
@@ -205,7 +205,7 @@ public class FragFaqs extends BaseFragment implements Callback,
             b1.setFanmoreTele("18857155121");
             b1.setFanmoreUsername("wlf");
             b1.setOriginIdentify("2222");
-            b1.setOriginMobile("18857155121");
+          //  b1.setOriginMobile("18857155121");
             b1.setSortKey("x");
             b1.setTeleBalance(44);
             ls.add(b1);
