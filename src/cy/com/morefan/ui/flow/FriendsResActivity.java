@@ -379,12 +379,12 @@ public class FriendsResActivity extends BaseActivity implements
             ContactBean contact = new ContactBean();
             contact.setFanmoreUsername("Aaron");
             contact.setFanmorePicUrl("http://img4.imgtn.bdimg.com/it/u=3309848897,132969131&fm=21&gp=0.jpg");
-            contact.setFanmoreBalance(100);
+            contact.setFanmoreBalance(100f);
             contact.setOriginMobile("13588741728");
             contact.setFanmoreTele("移动");
             contact.setFanmoreSex(1);
             contact.setOriginIdentify("123");
-            contact.setTeleBalance(700);
+            contact.setTeleBalance(700f);
             contacts.add(contact);
             return null;
         }

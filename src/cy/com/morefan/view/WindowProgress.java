@@ -58,8 +58,11 @@ public class WindowProgress {
 		return state == STATUS_SHOW;
 	}
 
+	public void showProgress(){
+		showProgress("正在努力加载中...");
+	}
 
-	public void showProgress() {
+	public void showProgress(String msg) {
 		if(mActivity.isFinishing())
 			return;
 		state = STATUS_SHOW;
@@ -129,7 +132,7 @@ public class WindowProgress {
 			params.setMargins(10, 10, 10, 10);
 			txt.setLayoutParams(params);
 			txt.setVisibility(View.VISIBLE);
-			txt.setText("正在努力加载中...");
+			txt.setText(msg);
 			progressLay.addView(txt);
 
 //			LinearLayout.LayoutParams lp2 = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

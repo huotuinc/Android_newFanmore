@@ -37,6 +37,7 @@ import cy.com.morefan.MyApplication;
 import cy.com.morefan.R;
 import cy.com.morefan.bean.FMPrepareCheckout;
 import cy.com.morefan.constant.Constant;
+import cy.com.morefan.listener.MyBroadcastReceiver;
 import cy.com.morefan.ui.account.MsgCenterActivity;
 import cy.com.morefan.ui.flow.FriendsResActivity;
 import cy.com.morefan.util.ActivityUtils;
@@ -58,14 +59,11 @@ import cy.com.morefan.view.RingView;
  * @version:
  */
 public class ExchangeFlowActivity extends BaseActivity implements Callback,
-        OnClickListener
+        OnClickListener ,MyBroadcastReceiver.BroadcastListener
 {
-
     public Handler mHandler = new Handler(this);
 
     private RingView flowCount;
-
-    //private String flowSize;
 
     private CyButton backImage;
 
@@ -73,24 +71,10 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
 
     private TextView functionBtn;
 
-    //private ViewFlipper selectFlow;
-
     private Button exchangeBtn;
 
     private Button buyFlowBtn;
 
-//    private Animation leftInAnimation;
-//
-//    private Animation leftOutAnimation;
-//
-//    private Animation rightInAnimation;
-//
-//    private Animation rightOutAnimation;
-//    
-//    private PopupWindow popupWindow;
-//    
-//    private String selectedFlow="";
-    
     private MyApplication app=null;
     
     private ProgressBar pgbarWaiting=null;
@@ -103,12 +87,12 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
     private Button friends;
     //返回文字事件
     private TextView backText;
-  
     //
     public int RequestCodeCheckOut=2001;
-    
-    
-    //private GestureDetector detector; // 手势检测
+
+    // 监听广播
+    private MyBroadcastReceiver myBroadcastReceiver;
+
 
     @Override
     public void onClick(View v)
@@ -216,6 +200,10 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
         friends.setOnClickListener(this);
         backText = (TextView) this.findViewById(R.id.backtext);
         backText.setOnClickListener(this);
+
+        myBroadcastReceiver = new MyBroadcastReceiver(this, this,
+                MyBroadcastReceiver.ACTION_FLOW_ADD);
+
         new ExchangeFlowAsynTask().execute();
     }
 
@@ -250,7 +238,21 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
             new ExchangeFlowAsynTask().execute();
         }
     }
-    
+
+    @Override
+    public void onFinishReceiver(MyBroadcastReceiver.ReceiverType type, Object msg) {
+
+        new ExchangeFlowAsynTask().execute();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        myBroadcastReceiver.unregisterReceiver();
+    }
+
     /**
      * 准备兑现 接口
      * 仅仅是为了获取可以兑换的流量列表
@@ -275,51 +277,25 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
             Map<String , String> signMap = new HashMap<>();
             String sign = obtainMap.getSign(signMap);
             
-            try
-            {
-                url += "?sign="+ URLEncoder.encode( sign , "UTF-8");
+            try {
+                url += "?sign=" + URLEncoder.encode(sign, "UTF-8");
                 url += paramString;
-                
+
                 Log.i("exchanger", url);
-                
-                if( Constant.IS_PRODUCTION_ENVIRONMENT){
-                
-                    String responseStr=HttpUtil.getInstance().doGet(url);
-                    FMPrepareCheckout result= new FMPrepareCheckout();
-                    JSONUtil<FMPrepareCheckout> jsonUtil=new JSONUtil<>();
-                    try
-                    {
-                        result = jsonUtil.toBean(responseStr, result);   
-                    }
-                    catch(JsonSyntaxException e)
-                    {
-                       LogUtil.e("JSON_ERROR", e.getMessage());
-                       result.setResultCode(0);
-                       result.setResultDescription("解析json出错");
-                    }
-                    return result;                
+
+                String responseStr = HttpUtil.getInstance().doGet(url);
+                FMPrepareCheckout result = new FMPrepareCheckout();
+                JSONUtil<FMPrepareCheckout> jsonUtil = new JSONUtil<>();
+                try {
+                    result = jsonUtil.toBean(responseStr, result);
+                } catch (JsonSyntaxException e) {
+                    LogUtil.e("JSON_ERROR", e.getMessage());
+                    result.setResultCode(0);
+                    result.setResultDescription("解析json出错");
                 }
-                else {
-                    FMPrepareCheckout result= new FMPrepareCheckout();
-                    //result.setResultData(new InnerData() );
-                    
-                    result.setSystemResultCode(1);
-                    result.setResultCode(1);
-                    result.getResultData().setCurrentBalance( new BigDecimal(110));//
-                    List<BigDecimal> targets=new ArrayList<BigDecimal>();
-                    targets.add( new BigDecimal(30));
-                    targets.add(new BigDecimal(50));
-                    targets.add(new BigDecimal(80));
-                    targets.add(new BigDecimal(100));
-                    targets.add(new BigDecimal(130));
-                    targets.add(new BigDecimal(150));
-                    targets.add(new BigDecimal(200));
-                    targets.add(new BigDecimal(500));
-                    targets.add(new BigDecimal(1000));
-                    result.getResultData().setTargets(targets);
-                    return result;
-                }
-                
+                return result;
+
+
             } catch (UnsupportedEncodingException e)
             {
                 // TODO Auto-generated catch block

@@ -1,7 +1,6 @@
 package cy.com.morefan.util;
 
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -30,9 +29,9 @@ import cy.com.morefan.constant.Constant;
 
 public class WXPayUtilEx
 {
-    private String wxpayAppId;
+    public static final String wxpayAppId = "wxaeda2d5603b12302";
 
-    private String wxpayParterkey;
+    private String wxpayParterkey="1251040401";
 
     private String wxpayNotifyUrl;
 
@@ -60,14 +59,18 @@ public class WXPayUtilEx
 
     StringBuffer sb;
 
-    public WXPayUtilEx(Context context, Handler handler, String appid,
-            String parterkey, String notifyurl)
+    String out_trade_no;
+
+    int productType=0;
+    long productId=0;
+
+    public WXPayUtilEx(Context context, Handler handler, String notifyurl)
     {
         this.context = context;
         this.handler = handler;
-        this.wxpayAppId = "wxaeda2d5603b12302"; // "wxd8c58460d0199dd5";//
+        //this.wxpayAppId = "wxaeda2d5603b12302"; // "wxd8c58460d0199dd5";//
                                                 // appid;
-        this.wxpayParterkey = "1251040401";// parterkey;
+        //this.wxpayParterkey = "1251040401";// parterkey;
         this.wxpayNotifyUrl = notifyurl;
         
         this.sb=new StringBuffer();
@@ -82,10 +85,12 @@ public class WXPayUtilEx
      * 必须异步调用
      *
      */
-    public WXPayResult pay(String body, String fee)
+    public WXPayResult pay(String body, String fee , int productType, long productid)
     {
         this.body = body;
         this.fee = fee;
+        this.productId=productid;
+        this.productType=productType;
 
         Map<String, String> getPrePayXml = getPrePayId();
 
@@ -117,6 +122,9 @@ public class WXPayUtilEx
         prepay_id = getPrePayXml.get("prepay_id");
 
         genPayReq();
+
+        String extData = "{orderNo:"+out_trade_no+",productType:"+this.productType+",productId:"+this.productId+"}";
+        req.extData = extData;
 
         boolean isPay = msgApi.sendReq(req);
 
@@ -280,6 +288,8 @@ public class WXPayUtilEx
         {
             String nonceStr = genNonceStr();
 
+            out_trade_no=genOutTradNo();
+
             xml.append("</xml>");
             List<NameValuePair> packageParams = new LinkedList<NameValuePair>();
             packageParams.add(new BasicNameValuePair("appid", this.wxpayAppId));
@@ -289,8 +299,7 @@ public class WXPayUtilEx
             packageParams.add(new BasicNameValuePair("nonce_str", nonceStr));
             packageParams.add(new BasicNameValuePair("notify_url",
                     this.wxpayNotifyUrl));
-            packageParams.add(new BasicNameValuePair("out_trade_no",
-                    genOutTradNo()));
+            packageParams.add(new BasicNameValuePair("out_trade_no", out_trade_no ));
             packageParams.add(new BasicNameValuePair("spbill_create_ip",
                     getIP()));
             packageParams.add(new BasicNameValuePair("total_fee", fee));

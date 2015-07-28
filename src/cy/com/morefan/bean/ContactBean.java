@@ -17,11 +17,12 @@ public class ContactBean implements Serializable
     private String originMobile; // 联系人手机号码
     private String originIdentify; //用户提交的联系人唯一识别码
     private String fanmoreUsername ; //该联系人电话号码所关联的粉猫用户名 通常是一个手机号码 如果没有找到则返回null
-    private int fanmoreBalance; //在粉猫平台的剩余流量
+    private Float fanmoreBalance; //在粉猫平台的剩余流量
     private String fanmoreTele; //运营商
-    private int teleBalance; //运营商当月剩余流量 无法查询则为null
+    private Float teleBalance; //运营商当月剩余流量 无法查询则为null
     private int fanmoreSex;//性别 0男1女
-    private String sortKey; // 排序用的  
+    private String sortKey; // 排序用的
+    private String originName; //联系人姓名
     
     public String getSortKey()
     {
@@ -63,11 +64,11 @@ public class ContactBean implements Serializable
     {
         this.fanmoreUsername = fanmoreUsername;
     }
-    public int getFanmoreBalance()
+    public Float getFanmoreBalance()
     {
         return fanmoreBalance;
     }
-    public void setFanmoreBalance(int fanmoreBalance)
+    public void setFanmoreBalance(Float fanmoreBalance)
     {
         this.fanmoreBalance = fanmoreBalance;
     }
@@ -79,11 +80,11 @@ public class ContactBean implements Serializable
     {
         this.fanmoreTele = fanmoreTele;
     }
-    public int getTeleBalance()
+    public Float getTeleBalance()
     {
         return teleBalance;
     }
-    public void setTeleBalance(int teleBalance)
+    public void setTeleBalance(Float teleBalance)
     {
         this.teleBalance = teleBalance;
     }
@@ -96,4 +97,6 @@ public class ContactBean implements Serializable
         this.fanmoreSex = fanmoreSex;
     }
 
+    public void setOriginName(String originName){this.originName=originName;}
+    public String getOriginName(){return this.originName;}
 }

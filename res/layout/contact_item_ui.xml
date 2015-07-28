@@ -16,7 +16,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/ic_launcher" >
+        android:background="@drawable/mrtou" >
     </com.android.volley.toolbox.NetworkImageView>
 
     <ImageView
@@ -30,6 +30,7 @@
         android:background="@drawable/menu_user_logo_bg" />
 
     <TextView
+        android:id="@+id/tvline"
         android:layout_width="@dimen/contact_logo_width"
         android:layout_height="10dp"
         android:layout_below="@+id/hread_img"
@@ -40,13 +41,13 @@
         android:id="@+id/account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/contactName"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/contactName"
+        android:layout_alignLeft="@+id/phoneNumber"
         android:background="@drawable/friends_sex_male"
         android:gravity="center_vertical|right"
         android:text=""
+        android:layout_below="@+id/contactName"
         android:textColor="@color/white"
+        android:layout_marginTop="5dp"
         android:textSize="12sp" />
 
     <TextView

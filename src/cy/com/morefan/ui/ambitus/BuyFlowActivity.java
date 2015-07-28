@@ -45,9 +45,12 @@ import cy.com.morefan.MyApplication;
 import cy.com.morefan.R;
 import cy.com.morefan.bean.AliPayResult;
 import cy.com.morefan.bean.FMPrepareBuy;
+import cy.com.morefan.bean.PayGoodBean;
 import cy.com.morefan.bean.Purchase;
 import cy.com.morefan.bean.WXPayResult;
 import cy.com.morefan.constant.Constant;
+import cy.com.morefan.listener.MyBroadcastReceiver;
+import cy.com.morefan.task.DeliveryGoodAsyncTask;
 import cy.com.morefan.ui.account.MsgCenterActivity;
 import cy.com.morefan.util.ActivityUtils;
 import cy.com.morefan.util.AliPayUtil;
@@ -72,7 +75,7 @@ import cy.com.morefan.wxapi.WXPayEntryActivity;
  * @version:
  */
 public class BuyFlowActivity extends BaseActivity implements Callback,
-        OnClickListener, OnItemClickListener
+        OnClickListener, OnItemClickListener , MyBroadcastReceiver.BroadcastListener
 {
 
     private CyButton backImage;
@@ -99,15 +102,10 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
 
     private TextView phone;
 
+    private MyBroadcastReceiver myBroadcastReceiver;
+
     // 返回文字事件
     private TextView backText;
-
-    private Resources res;
-
-    // 模拟数据
-    private String[] flowC =
-    { "10M", "20M", "30M", "50M", "70M", "150M", "210M", "500M", "1000M",
-            "1500M", "3000M" };
 
     private List<Purchase> datas = new ArrayList<Purchase>();
 
@@ -118,76 +116,62 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
     private FMPrepareBuy result;
 
     @Override
-    public void onClick(View v)
-    {
-        // TODO Auto-generated method stub
-
-        switch (v.getId())
-        {
-        case R.id.backImage:
-        {
-            closeSelf(BuyFlowActivity.this);
-        }
-            break;
-        case R.id.rechargeBtn:
-        {
-            // 充值
-            doRecharge();
-        }
-            break;
-        case R.id.btnAliPay:
-        {
-            aliPay();
-        }
-            break;
-        case R.id.btnWXPay:
-        {
-            wxPay();
-        }
-            break;
-        case R.id.btnCancel:
-        {
-            if (payPopupWindow != null)
-            {
-                payPopupWindow.dismiss();
-                payPopupWindow = null;
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.backImage: {
+                closeSelf(BuyFlowActivity.this);
             }
-        }
             break;
-        case R.id.backtext:
-        {
-            closeSelf(BuyFlowActivity.this);
-        }
+            case R.id.rechargeBtn: {
+                // 充值
+                doRecharge();
+            }
             break;
-        default:
+            case R.id.btnAliPay: {
+                aliPay();
+            }
             break;
+            case R.id.btnWXPay: {
+                wxPay();
+            }
+            break;
+            case R.id.btnCancel: {
+                hidePopup();
+            }
+            break;
+            case R.id.backtext: {
+                closeSelf(BuyFlowActivity.this);
+            }
+            break;
+            default:
+                break;
         }
     }
 
-    private void wxPay()
-    {
-        if (result == null)
-        {
-            ToastUtils.showLongToast(BuyFlowActivity.this, "支付信息空");
+    /**
+     * 微信支付
+     */
+    private void wxPay() {
+        if (null == selectedPurchase) {
+            ToastUtils.showLongToast(BuyFlowActivity.this, "请选择需要购买的流量套餐");
             return;
         }
-        if( null == result.getResultData().getWxpayAppId()  || result.getResultData().getWxpayAppId().length()<1 ){
-            ToastUtils.showLongToast(BuyFlowActivity.this, "支付APPID空");
+        if (result == null) {
+            ToastUtils.showLongToast(BuyFlowActivity.this, "支付信息空,无法进行支付操作");
             return;
         }
-        if( null == result.getResultData().getWxpayMerchantId()  || result.getResultData().getWxpayMerchantId().length()<1 ){
-            ToastUtils.showLongToast(BuyFlowActivity.this, "商户ID空");
+        if (null == result.getResultData().getWxpayNotifyUri() || result.getResultData().getWxpayNotifyUri().length() < 1) {
+            ToastUtils.showLongToast(BuyFlowActivity.this, "支付通知地址空，无法进行支付操作");
             return;
         }
-        if( null == result.getResultData().getWxpayNotifyUri()  || result.getResultData().getWxpayNotifyUri().length()<1 ){
-            ToastUtils.showLongToast(BuyFlowActivity.this, "支付通知地址空");
-            return;
-        }
-        
-        //
-        WXPayEntryActivity.WXPAYAPPID = result.getResultData().getWxpayAppId();
 
-        new WXPayAsyncTask(handler,"测试充值30M流量。","1").execute();
+        //
+        String body = selectedPurchase.getM() + "M，售价:￥"+ selectedPurchase.getPrice().toString();
+        BigDecimal price = selectedPurchase.getPrice().multiply(new BigDecimal(100)); //单位分，正数
+        String priceStr = String.valueOf(price.intValue());
+        long productid = selectedPurchase.getPurchaseid();
+        int producttype = 0;//套餐
+        new WXPayAsyncTask(handler, body, priceStr, producttype, productid).execute();
     }
 
     /**
@@ -206,19 +190,33 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
     {
         if (null == selectedPurchase)
         {
-            ToastUtils.showLongToast(BuyFlowActivity.this, "请选择需要购买的流量");
+            ToastUtils.showLongToast(BuyFlowActivity.this, "请选择需要购买的流量套餐");
+            return;
+        }
+        if (result == null)
+        {
+            ToastUtils.showLongToast(BuyFlowActivity.this, "支付信息空,无法进行支付操作");
+            return;
+        }
+        if( null == result.getResultData().getAlipayNotifyUri() || result.getResultData().getWxpayNotifyUri().length()<1 ){
+            ToastUtils.showLongToast(BuyFlowActivity.this, "支付通知地址空,无法进行支付操作");
             return;
         }
 
         AliPayUtil aliPay = new AliPayUtil(this, handler);
-        String body = selectedPurchase.getM() + "M，售价:￥"
-                + selectedPurchase.getPrice().toString(); // "测试充值30M流量。";
+        String body = selectedPurchase.getM() + "M，售价:￥" + selectedPurchase.getPrice().toString();
         String subject = "粉猫APP购买流量";
-        String price = selectedPurchase.getPrice().toString(); // "0.01";
+        String price = selectedPurchase.getPrice().toString();
+        int productType=0;
+        long productId= selectedPurchase.getPurchaseid();
+        String notifyurl= result.getResultData().getAlipayNotifyUri();
 
-        aliPay.pay(subject, body, price);
+        aliPay.pay(subject, body, price, notifyurl, productType, productId);
     }
 
+    /**
+     * 弹出支付界面
+     */
     private void doRecharge()
     {
         showPopup();
@@ -227,12 +225,16 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
     // 显示菜单
     private void showPopup()
     {
-
         if (payPopupWindow == null)
             initPopupWindow();
-
         // 设置位置
         payPopupWindow.showAtLocation(rechargeBtn, Gravity.BOTTOM, 0, 0); // 设置在屏幕中的显示位置
+    }
+
+    private void hidePopup(){
+        if( payPopupWindow==null)return;
+        payPopupWindow.dismiss();
+        payPopupWindow=null;
     }
 
     private void initPopupWindow()
@@ -253,29 +255,34 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
     }
 
     @Override
-    public boolean handleMessage(Message msg)
-    {
-        // TODO Auto-generated method stub
-        switch (msg.what)
-        {
-        case AliPayUtil.SDK_PAY_FLAG:
-        {
-            DealAliPayResult(msg);
-        }
+    public boolean handleMessage(Message msg) {
+        switch (msg.what) {
+            case AliPayUtil.SDK_PAY_FLAG: {
+                DealAliPayResult(msg);
+            }
             break;
-        case WXPayUtil.SDK_WX_ACCESSTOKEN_FAIL:
-        {
-            String info = msg.obj.toString();
-            ToastUtils.showLongToast(BuyFlowActivity.this, info);
-        }
+            case WXPayUtil.SDK_WX_ACCESSTOKEN_FAIL: {
+                String info = msg.obj.toString();
+                ToastUtils.showLongToast(BuyFlowActivity.this, info);
+            }
             break;
-        case WXPayUtilEx.SDK_WXPAY_PAY:
-        {
-
-        }
+//            case WXPayUtilEx.SDK_WXPAY_PAY: {
+//
+//            }
+//            break;
+            case DeliveryGoodAsyncTask.PAY_ERROR: {
+                ToastUtils.showLongToast(BuyFlowActivity.this, msg.obj.toString());
+            }
             break;
-        default:
+            case DeliveryGoodAsyncTask.PAY_OK: {
+                hidePopup();
+                MyBroadcastReceiver.sendBroadcast(BuyFlowActivity.this, MyBroadcastReceiver.ACTION_FLOW_ADD);
+                ToastUtils.showLongToast(BuyFlowActivity.this, msg.obj.toString());
+                BuyFlowActivity.this.finish();
+            }
             break;
+            default:
+                break;
         }
 
         return false;
@@ -283,7 +290,9 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
 
     private void DealAliPayResult(Message msg)
     {
-        AliPayResult payResult = new AliPayResult((String) msg.obj);
+        PayGoodBean payData= (PayGoodBean)msg.obj;
+
+        AliPayResult payResult = new AliPayResult((String) payData.getTag());
         // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
         String resultInfo = payResult.getResult();
 
@@ -292,8 +301,9 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
         // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
         if (TextUtils.equals(resultStatus, "9000"))
         {
-            Toast.makeText(BuyFlowActivity.this, "支付成功", Toast.LENGTH_SHORT)
-                    .show();
+            //Toast.makeText(BuyFlowActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+            new DeliveryGoodAsyncTask( BuyFlowActivity.this , handler , payData.getOrderNo() , payData.getProductType(),payData.getProductId() ).execute();
+            return;
         } else
         {
             // 判断resultStatus 为非“9000”则代表可能支付失败
@@ -302,12 +312,18 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
             {
                 Toast.makeText(BuyFlowActivity.this, "支付结果确认中",
                         Toast.LENGTH_SHORT).show();
-
-            } else
+                hidePopup();
+            }else if(TextUtils.equals(resultStatus,"6001")){
+                String paymsg= payResult.getMemo();
+                ToastUtils.showLongToast(BuyFlowActivity.this, paymsg);
+                hidePopup();
+            }
+            else
             {
                 // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                Toast.makeText(BuyFlowActivity.this, "支付失败", Toast.LENGTH_SHORT)
+                Toast.makeText(BuyFlowActivity.this, "支付失败" , Toast.LENGTH_SHORT)
                         .show();
+                hidePopup();
             }
         }
     }
@@ -315,12 +331,9 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
     @Override
     protected void onCreate(Bundle arg0)
     {
-        // TODO Auto-generated method stub
         super.onCreate(arg0);
         this.setContentView(R.layout.buy_flow_ui);
-        res = BuyFlowActivity.this.getResources();
         this.initView();
-
         this.initGridView();
     }
 
@@ -343,6 +356,8 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
         backText = (TextView) this.findViewById(R.id.backtext);
         backText.setOnClickListener(this);
         rlWaiting =(RelativeLayout)this.findViewById(R.id.rlWaiting);
+
+        myBroadcastReceiver=new MyBroadcastReceiver(this,this, MyBroadcastReceiver.ACTION_WX_PAY_CALLBACK);
     }
 
     private void initGridView()
@@ -353,6 +368,14 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
         caAdapter = new FlowCAdapter();
         // 配置适配器
         flowGrid.setAdapter(caAdapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if( myBroadcastReceiver==null)return;
+        myBroadcastReceiver.unregisterReceiver();
     }
 
     @Override
@@ -371,42 +394,39 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
 
     private void getData()
     {
-        // for(int i=0; i<flowC.length; i++)
-        // {
-        // datas.add(flowC[i]);
-        // }
-
         new BuyFlowAsyncTask().execute();
+    }
+
+    @Override
+    public void onFinishReceiver(MyBroadcastReceiver.ReceiverType type, Object msg) {
+        if( type == MyBroadcastReceiver.ReceiverType.WX_Pay_Callback) {
+            this.finish();
+        }
     }
 
     class FlowCAdapter extends BaseAdapter
     {
-
         @Override
         public int getCount()
         {
-            // TODO Auto-generated method stub
             return datas.size();
         }
 
         @Override
         public Object getItem(int position)
         {
-            // TODO Auto-generated method stub
             return datas.get(position);
         }
 
         @Override
         public long getItemId(int position)
         {
-            // TODO Auto-generated method stub
             return position;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent)
         {
-            // TODO Auto-generated method stub
             ViewHolder holder = null;
             if (convertView == null)
             {
@@ -448,7 +468,6 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
         {
             TextView buyFlowC;
         }
-
     }
 
     @Override
@@ -460,7 +479,6 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
         selectedPurchase = datas.get(position);
 
         setFlowInfo();
-
     }
 
     private void setFlowInfo()
@@ -471,10 +489,11 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
         caAdapter.notifyDataSetChanged();
 
         oldPrice.setText(selectedPurchase.getMsg());
-        // oldPrice.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
         oldPrice.setVisibility(View.VISIBLE);
 
         newPrice.setText("售价：￥" + selectedPurchase.getPrice());
+
         newPrice.setVisibility(View.VISIBLE);
     }
 
@@ -536,27 +555,25 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
         @Override
         protected void onPreExecute()
         {
-            // TODO Auto-generated method stub
             super.onPreExecute();
-
-            rlWaiting.setVisibility(View.VISIBLE);
-            pgbarWaiting.setVisibility(View.VISIBLE);
+            BuyFlowActivity.this.showProgress();
         }
 
         @Override
         protected void onPostExecute(FMPrepareBuy result)
         {
-            // TODO Auto-generated method stub
             super.onPostExecute(result);
-
-            rlWaiting.setVisibility(View.GONE);
-            pgbarWaiting.setVisibility(View.GONE);
+            BuyFlowActivity.this.dismissProgress();
 
             if (result == null)
             {
                 ToastUtils.showLongToast(BuyFlowActivity.this, "请求失败。");
                 return;
-            } else if (1 == result.getResultCode())
+            }else if(1 != result.getSystemResultCode()){
+                ToastUtils.showLongToast(BuyFlowActivity.this, result.getSystemResultDescription());
+                return;
+            }
+            else if (1 == result.getResultCode())
             {
                 String mobileMsg = result.getResultData().getMobileMsg();
                 operator.setText(mobileMsg);
@@ -567,7 +584,7 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
                 datas = result.getResultData().getPurchases();
                 // 并切换按钮样式
                 SystemTools.loadBackground(rechargeBtn,
-                        res.getDrawable(R.drawable.btn_red_sel));
+                        BuyFlowActivity.this.getResources().getDrawable(R.drawable.btn_red_sel));
                 rechargeBtn.setEnabled(true);
                 if (datas != null && datas.size() > 0)
                 {
@@ -591,42 +608,45 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
                     @Override
                     public void run()
                     {
-                        // TODO Auto-generated method stub
                         ActivityUtils.getInstance().loginOutInActivity(
                                 (Activity) BuyFlowActivity.this);
                     }
                 }, 2000);
+            }else if( 1 != result.getResultCode()){
+                ToastUtils.showLongToast(BuyFlowActivity.this, result.getResultDescription());
+                return;
             }
 
         }
     }
-
    
     class WXPayAsyncTask extends AsyncTask<Void, Void, WXPayResult>
     {
         private Handler handler;
         private String body;
         private String price;
+        private int productType;
+        private long productId;
 
-        public WXPayAsyncTask(Handler handler , String body , String price)
+        public WXPayAsyncTask(Handler handler , String body , String price , int productType, long productId )
         {
             this.handler = handler;
             this.body=body;
             this.price=price;
+            this.productType=productType;
+            this.productId= productId;
         }
 
         @Override
         protected void onPreExecute()
         {
-            rlWaiting.setVisibility(View.VISIBLE);
-            pgbarWaiting.setVisibility(View.VISIBLE);
+            BuyFlowActivity.this.showProgress();
         }
 
         @Override
         protected void onPostExecute(WXPayResult result)
         {
-            rlWaiting.setVisibility(View.GONE);
-            pgbarWaiting.setVisibility(View.GONE);
+            BuyFlowActivity.this.dismissProgress();
             
             if( result !=null && result.getCode() != 1 ){
                 ToastUtils.showLongToast(BuyFlowActivity.this, result.getMessage());
@@ -640,14 +660,9 @@ public class BuyFlowActivity extends BaseActivity implements Callback,
             try
             {
                 WXPayUtilEx wxPay = new WXPayUtilEx(BuyFlowActivity.this,
-                        handler, result.getResultData().getWxpayAppId(), result
-                                .getResultData().getWxpayMerchantId(), result
-                                .getResultData().getWxpayNotifyUri()  );
+                        handler, result.getResultData().getWxpayNotifyUri()  );
 
-               payResult =  wxPay.pay( this.body , this.price );
-                                
-                //payResult.setCode(1);
-                //payResult.setMessage("ok");
+               payResult =  wxPay.pay( this.body , this.price , productType , productId );
                 
             } catch (Exception ex)
             {

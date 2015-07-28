@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -26,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -178,69 +180,102 @@ public class FragFaqs extends BaseFragment implements Callback,
     class LoadDataAsyncTask extends AsyncTask<Void, Void, FMContact>
     {
         private List<InnerContact> contactss;
+        ContentResolver cr = getActivity().getContentResolver();
 
         @Override
         protected FMContact doInBackground(Void... params)
         {
-            // TODO Auto-generated method stub
-            
-            FMContact tes=new FMContact();
-            ContactBean b1=new ContactBean();
-            b1.setFanmoreBalance(100);
-            b1.setFanmorePicUrl("");
-            b1.setFanmoreSex(1);
-            b1.setFanmoreTele("13757193476");
-            b1.setFanmoreUsername("jxd");
-            b1.setOriginIdentify("1111");
-            b1.setOriginMobile("13757193476");
-            b1.setSortKey("j");
-            b1.setTeleBalance(22);
-            List<ContactBean> ls=new ArrayList<>();
-            ls.add(b1);
-            
-            b1=new ContactBean();
-            b1.setFanmoreBalance(33);
-            b1.setFanmorePicUrl("");
-            b1.setFanmoreSex(0);
-            b1.setFanmoreTele("18857155121");
-            b1.setFanmoreUsername("wlf");
-            b1.setOriginIdentify("2222");
-            b1.setOriginMobile("18857155121");
-            b1.setSortKey("x");
-            b1.setTeleBalance(44);
-            ls.add(b1);
-            
-            tes.setResultData(ls);
-            tes.setResultCode(1);
-            return tes;
-            
-            
             // 请求接口
-//            FMContact contactBean = new FMContact();
-//            JSONUtil<FMContact> jsonUtil = new JSONUtil<FMContact>();
-//            String url;
-//            ObtainParamsMap obtainMap = new ObtainParamsMap(getActivity());
-//            Map<String, String> paramMap = obtainMap.obtainMap();
-//
-//            url = Constant.SENT_FLOW;
-//            // 预留参数位
-//            paramMap.put("params", "");
-//            // 封装sign
-//            String signStr = obtainMap.getSign(paramMap);
-//            paramMap.put("sign", signStr);
-//
-//            String jsonStr = HttpUtil.getInstance().doPost(url, paramMap);
-//            try
-//            {
-//                contactBean = jsonUtil.toBean(jsonStr, contactBean);
-//            } catch (JsonSyntaxException e)
-//            {
-//                LogUtil.e("JSON_ERROR", e.getMessage());
-//                contactBean.setResultCode(0);
-//                contactBean.setResultDescription("解析json出错");
-//            }
-//
-//            return contactBean;
+            FMContact contactBean = new FMContact();
+            JSONUtil<FMContact> jsonUtil = new JSONUtil<FMContact>();
+            String url;
+            ObtainParamsMap obtainMap = new ObtainParamsMap(getActivity());
+            Map<String, String> paramMap = obtainMap.obtainMap();
+
+            url = Constant.CONTACTINFO;
+
+            String contractString = getContracts();
+            // 参数位
+            paramMap.put("contacts", contractString);
+            // 封装sign
+            String signStr = obtainMap.getSign(paramMap);
+            paramMap.put("sign", signStr);
+
+            String jsonStr = HttpUtil.getInstance().doPost(url, paramMap);
+            try
+            {
+                contactBean = jsonUtil.toBean(jsonStr, contactBean);
+
+                List<ContactBean> data = changeContracts( contactBean.getResultData().getContactInfo() );
+
+                contactBean.getResultData().setContactInfo(data);
+
+            } catch (JsonSyntaxException e)
+            {
+                LogUtil.e("JSON_ERROR", e.getMessage());
+                contactBean.setResultCode(0);
+                contactBean.setResultDescription("解析json出错");
+            }
+
+            return contactBean;
+        }
+
+
+        protected String getContracts(){
+            if(contactss==null || contactss.size()<1 ) return "";
+            String contractString ="";
+            for( InnerContact item : contactss){
+                String str = item.getContactId()+"\r"+item.getPhone();
+                if(contractString.length()>0) {
+                    contractString += "\t";
+                }
+                contractString+= str;
+            }
+
+            return contractString;
+        }
+
+        protected ContactBean findContact( InnerContact model , List<ContactBean> fanContracts){
+
+            for( ContactBean item : fanContracts){
+                if( item.getOriginIdentify().equals( model.getContactId() )){
+                    ContactBean newInst=new ContactBean();
+                    newInst.setFanmoreBalance(item.getFanmoreBalance());
+                    newInst.setFanmorePicUrl(item.getFanmorePicUrl());
+                    newInst.setFanmoreSex(item.getFanmoreSex());
+                    newInst.setFanmoreTele(item.getFanmoreTele());
+                    newInst.setFanmoreUsername(item.getFanmoreUsername());
+                    newInst.setOriginIdentify(item.getOriginIdentify());
+                    newInst.setOriginMobile(item.getOriginMobile());
+                    newInst.setSortKey(item.getSortKey());
+                    newInst.setTeleBalance(item.getTeleBalance());
+                    newInst.setOriginName(item.getOriginName());
+                    return newInst;
+                }
+            }
+            return  null;
+        }
+
+        protected List<ContactBean> changeContracts( List<ContactBean> fanContracts){
+            List<ContactBean> data=new ArrayList<>();
+            for( InnerContact item : contactss){
+                ContactBean bean = findContact(item , fanContracts);
+                if( bean==null){
+                    bean=new ContactBean();
+                    bean.setTeleBalance(null);
+                    bean.setSortKey(item.getSortKey());
+                    bean.setOriginMobile(item.getPhone());
+                    bean.setOriginIdentify(item.getContactId());
+                    bean.setFanmoreBalance(null);
+                    bean.setFanmorePicUrl("");
+                    bean.setFanmoreSex(-1);
+                    bean.setFanmoreTele("");
+                    bean.setFanmoreUsername(null);
+                    bean.setOriginName(item.getName());
+                }
+                data.add(bean);
+            }
+            return data;
         }
 
         @Override
@@ -248,82 +283,209 @@ public class FragFaqs extends BaseFragment implements Callback,
         {
             // TODO Auto-generated method stub
             super.onPreExecute();
-            Cursor cursor = null;
-            // 获取本地通讯录
-            // 采用provider获取本地联系方式
-            contactss = new ArrayList<InnerContact>();
-            try
-            {
-                cursor = getActivity().getContentResolver()
-                        .query(ContactsContract.Contacts.CONTENT_URI,
-                                new String[]
-                                { "_id", "display_name", "has_phone_number",
-                                        "sort_key" }, null, null,
-                                "sort_key COLLATE LOCALIZED ASC");
-                if (cursor != null)
-                {
-                    if (cursor.moveToFirst())
-                    {
-                        InnerContact contact;
-                        do
-                        {
-                            contact = new InnerContact();
-                            // 获得联系人的ID号
-                            String contactId = cursor.getString(cursor
-                                    .getColumnIndex("_id"));
 
-                            // 获得联系人姓名
-                            String name = cursor.getString(cursor
-                                    .getColumnIndex("display_name"));
-                            // 查看该联系人有多少个电话号码。如果没有这返回值为0
-                            int phoneCount = cursor.getInt(cursor
-                                    .getColumnIndex("has_phone_number"));
-                            String number = null;
-                            String sortKey = cursor.getString(cursor
-                                    .getColumnIndex("sort_key"));
-                            if (phoneCount > 0)
-                            {
-                                // 获得联系人的电话号码
-                                Cursor phones = getActivity()
-                                        .getContentResolver()
-                                        .query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                                                null,
-                                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID
-                                                        + " = " + contactId,
-                                                null, null);
-                                if (phones.moveToFirst())
-                                {
-                                    number = phones
-                                            .getString(phones
-                                                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                                }
-                                phones.close();
-                                contact.setContactId(contactId);
-                                contact.setName(name);
-                                contact.setPhone(number);
-                                contact.setSortKey(sortKey);
-                            }
-                            contactss.add(contact);
-                        } while (cursor.moveToNext());
-                    }
-                }
-            } finally
-            {
-                cursor.close();
-            }
+            getContractData();
+
+//            Cursor cursor = null;
+//            // 获取本地通讯录
+//            // 采用provider获取本地联系方式
+//            contactss = new ArrayList<InnerContact>();
+//            try
+//            {
+//                cursor = getActivity().getContentResolver()
+//                        .query(ContactsContract.Contacts.CONTENT_URI,
+//                                new String[]
+//                                { "_id", "display_name", "has_phone_number",
+//                                        "sort_key" }, null, null,
+//                                "sort_key COLLATE LOCALIZED ASC");
+//                if (cursor != null)
+//                {
+//                    if (cursor.moveToFirst())
+//                    {
+//                        InnerContact contact;
+//                        do
+//                        {
+//                            contact = new InnerContact();
+//                            // 获得联系人的ID号
+//                            String contactId = cursor.getString(cursor
+//                                    .getColumnIndex("_id"));
+//
+//                            // 获得联系人姓名
+//                            String name = cursor.getString(cursor
+//                                    .getColumnIndex("display_name"));
+//                            // 查看该联系人有多少个电话号码。如果没有这返回值为0
+//                            int phoneCount = cursor.getInt(cursor
+//                                    .getColumnIndex("has_phone_number"));
+//                            String number = null;
+//                            String sortKey = cursor.getString(cursor
+//                                    .getColumnIndex("sort_key"));
+//                            if (phoneCount > 0)
+//                            {
+//                                // 获得联系人的电话号码
+//                                Cursor phones = getActivity()
+//                                        .getContentResolver()
+//                                        .query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+//                                                null,
+//                                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+//                                                        + " = " + contactId,
+//                                                null, null);
+//                                if (phones.moveToFirst())
+//                                {
+//                                    number = phones
+//                                            .getString(phones
+//                                                    .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//                                }
+//                                phones.close();
+//
+//                                if( null== number){
+//                                    continue;
+//                                }
+//
+//                                contact.setContactId(contactId);
+//                                contact.setName(name);
+//                                contact.setPhone(number);
+//                                contact.setSortKey(sortKey);
+//                            }
+//                            contactss.add(contact);
+//                        } while (cursor.moveToNext());
+//                    }
+//                }
+//            } finally
+//            {
+//                cursor.close();
+//            }
 
         }
+
+        protected void getContractData(){
+
+            contactss = new ArrayList<InnerContact>();
+
+            //ContentResolver cr = getActivity().getContentResolver();
+
+            InnerContact contact;
+
+            Cursor cursor = cr
+                    .query(ContactsContract.Contacts.CONTENT_URI,
+                            new String[]{ContactsContract.Contacts._ID,
+                                    ContactsContract.Contacts.DISPLAY_NAME,
+                                    ContactsContract.Contacts.HAS_PHONE_NUMBER,
+                                    "sort_key"}, null, null,
+                            "sort_key COLLATE LOCALIZED asc");
+
+            String contactId = "";
+            String name = "";
+            String sort_key = "";
+            String phoneNumber = "";
+            String has_phoneNumber = "0";
+
+            String company = "";
+            while (cursor.moveToNext()) {
+
+                has_phoneNumber = cursor
+                        .getString(cursor
+                                .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+
+                if (has_phoneNumber.equals("1")) {
+
+                    name = cursor
+                            .getString(cursor
+                                    .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+
+                    if (name != null) {
+
+                        contactId = cursor.getString(cursor
+                                .getColumnIndex(ContactsContract.Contacts._ID));
+
+                        sort_key = cursor.getString(cursor
+                                .getColumnIndex("sort_key"));
+                        has_phoneNumber = cursor
+                                .getString(cursor
+                                        .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+
+                        contact = new InnerContact();
+                        contact.setName(name);
+                        contact.setContactId(contactId);
+                        contact.setPhone(phoneNumber);
+                        contact.setSortKey(sort_key);
+                        contact.setHas_phonenumber(has_phoneNumber);
+
+                        contactss.add(contact);
+                    }
+                }
+            }
+
+            cursor.close();
+
+            Pad_FirstPhone(contactss);
+
+
+        }
+
+        private void Pad_FirstPhone(List<InnerContact> data ) {
+
+            Cursor phones = cr
+                    .query(ContactsContract.Data.CONTENT_URI,
+                            new String[]{ContactsContract.Data.CONTACT_ID,
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER},
+                            ContactsContract.Contacts.Data.MIMETYPE
+                                    + "='"
+                                    + ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE
+                                    + "'", null, null);
+
+            String contactId = "";
+            String phoneNumber = "";
+
+            while (phones.moveToNext()) {
+
+                contactId = phones.getString(phones
+                        .getColumnIndex(ContactsContract.Data.CONTACT_ID));
+
+                phoneNumber = phones
+                        .getString(phones
+                                .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                for (InnerContact showData : data ) {
+
+                    if (showData.getPhone().length() == 0) {
+
+                        if (showData.getContactId().equals(contactId)) {
+
+                            phoneNumber = phones
+                                    .getString(phones
+                                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            phoneNumber = phoneNumber == null ? "" : phoneNumber;
+
+                            showData.setPhone(phoneNumber);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            phones.close();
+        }
+
+
 
         @Override
         protected void onPostExecute(FMContact result)
         {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
+
+            if( result==null){
+                ToastUtils.showLongToast(getActivity(),"请求失败");
+                return;
+            }
+
             if (1 == result.getResultCode())
             {
                 // 添加数据集备份
-                copyContacts = result.getResultData();
-                contacts.addAll(result.getResultData());
+                copyContacts = result.getResultData().getContactInfo();
+                contacts.clear();
+
+                contacts.addAll(result.getResultData().getContactInfo());
                 alphaIndexer = new HashMap<String, Integer>();
                 sections = new String[contacts.size()];
 
@@ -406,8 +568,6 @@ public class FragFaqs extends BaseFragment implements Callback,
     public void onItemClick(AdapterView<?> parent, View view, int position,
             long id)
     {
-        // TODO Auto-generated method stub
-
         // 跳转到赠送界面
         ContactBean contact = contacts.get(position);
         Bundle bundle = new Bundle();
@@ -415,7 +575,7 @@ public class FragFaqs extends BaseFragment implements Callback,
         bundle.putString("originMobile", contact.getOriginMobile());
         bundle.putString("fanmoreUsername", contact.getFanmoreUsername());
         bundle.putString("fanmorePicUrl", contact.getFanmorePicUrl());
-        bundle.putInt("fanmoreBalance", contact.getFanmoreBalance());
+        bundle.putFloat("fanmoreBalance", contact.getFanmoreBalance()==null?0:contact.getFanmoreBalance());
         ActivityUtils.getInstance().showActivity(getActivity(),
                 SendFlowActivity.class, bundle);
 
@@ -483,6 +643,8 @@ public class FragFaqs extends BaseFragment implements Callback,
                 holder.flows = (TextView) convertView.findViewById(R.id.flows);
                 holder.operator = (TextView) convertView
                         .findViewById(R.id.operator);
+
+                holder.rlAlphaL=(RelativeLayout)convertView.findViewById(R.id.alphaL);
                 holder.alpha = (TextView) convertView.findViewById(R.id.alpha);
                 convertView.setTag(holder);
             } else
@@ -492,8 +654,10 @@ public class FragFaqs extends BaseFragment implements Callback,
             // 加载图片
             if (contacts.size() > 0)
             {
+                holder.img.setImageUrl("",null);
+                holder.img.setBackgroundResource(R.drawable.mrtou);
                 BitmapLoader.create().displayUrl(getActivity(), holder.img,
-                        contacts.get(position).getFanmorePicUrl());
+                        contacts.get(position).getFanmorePicUrl(), R.drawable.mrtou, R.drawable.mrtou);
                 holder.phoneNumber.setText(contacts.get(position)
                         .getOriginMobile());
                 String userName = contacts.get(position).getFanmoreUsername();
@@ -502,12 +666,17 @@ public class FragFaqs extends BaseFragment implements Callback,
                     holder.contactName.setText(userName);
                     holder.account.setText("");
                 } else
-                {
+                {//非粉猫用户，则显示联系人姓名
                     holder.account.setText("");
+                    holder.contactName.setText(contacts.get(position).getOriginName());
                 }
 
-                holder.flows.setText(contacts.get(position).getFanmoreBalance()
-                        + "M");
+                if(null != contacts.get(position).getFanmoreBalance()) {
+                    holder.flows.setText(contacts.get(position).getFanmoreBalance()
+                            + "M");
+                }else{
+                    holder.flows.setText("");
+                }
                 holder.operator
                         .setText(contacts.get(position).getFanmoreTele());
                 int sex = contacts.get(position).getFanmoreSex();
@@ -520,6 +689,8 @@ public class FragFaqs extends BaseFragment implements Callback,
                 {
                     SystemTools.loadBackground(holder.account,
                             res.getDrawable(R.drawable.friends_sex_female));
+                }else{
+                    SystemTools.loadBackground(holder.account,null);
                 }
 
                 // 当前联系人的sortKey
@@ -535,8 +706,10 @@ public class FragFaqs extends BaseFragment implements Callback,
                 { // 当前联系人的sortKey！=上一个联系人的sortKey，说明当前联系人是新组。
                     holder.alpha.setVisibility(View.VISIBLE);
                     holder.alpha.setText(currentStr);
+                    holder.rlAlphaL.setVisibility(View.VISIBLE);
                 } else
                 {
+                    holder.rlAlphaL.setVisibility(View.GONE);
                     holder.alpha.setVisibility(View.GONE);
                 }
             }
@@ -558,6 +731,8 @@ public class FragFaqs extends BaseFragment implements Callback,
             TextView operator;// 运营商
 
             TextView alpha;
+
+            RelativeLayout rlAlphaL;
         }
 
     }
@@ -602,6 +777,8 @@ public class FragFaqs extends BaseFragment implements Callback,
 
         private String sortKey;
 
+        private String has_phonenumber;
+
         public String getName()
         {
             return name;
@@ -642,6 +819,13 @@ public class FragFaqs extends BaseFragment implements Callback,
             this.contactId = contactId;
         }
 
+        public String getHas_phonenumber() {
+            return has_phonenumber;
+        }
+
+        public void setHas_phonenumber(String has_phonenumber) {
+            this.has_phonenumber = has_phonenumber;
+        }
     }
 
 }
