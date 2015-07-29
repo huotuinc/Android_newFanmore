@@ -9,6 +9,15 @@ dependencies {
 }
 
 android {
+    signingConfigs {
+        defaultConfig {
+            keyAlias 'huotu_fm.keystore'
+            keyPassword 'huotuheyun'
+            storeFile file('E:/myjob/keystore/huotu_fm.keystore')
+            storePassword 'huotuheyun'
+        }
+    }
+
 
     compileSdkVersion 19
     buildToolsVersion "19.1.0"
@@ -40,6 +49,11 @@ android {
         // by a similar customization.
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.defaultConfig
+        }
     }
 
 }
