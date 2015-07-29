@@ -100,6 +100,13 @@ public class Constant
 
     public static final String SETUP_ALIAS = BASE_URL + "updateDeviceToken";// 将极光的别名推送给服务端
                                                                             // ---POST
+    public static final String CONTACTINFO = BASE_URL + "contactInfo";//获取联系人流量信息 POST
+
+    public static final String MAKEREQUEST= BASE_URL + "makeRequest";//求流量 GET
+
+    public static final String MAKEPROVIDE = BASE_URL +"makeProvide";//赠送流量
+
+    public static final String DELIVERGOOD = BASE_URL +"deliverGood";//发货接口
 
     // 获取验证码类型
     public static final String GET_VD_TYPE_REG = "1";//

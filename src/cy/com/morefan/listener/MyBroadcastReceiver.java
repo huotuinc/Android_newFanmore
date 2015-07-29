@@ -28,9 +28,12 @@ public class MyBroadcastReceiver extends BroadcastReceiver{
 	
 	//分享成功后微信没有回调
 	public static String ACTION_WX_NOT_BACK = "cy.com.morefan.ACTION_WX_NOT_BACK" ;
+	public static String ACTION_WX_PAY_CALLBACK="cy.com.morefan.ACTION_WX_PAY_CALLBACK";
+
 	public enum ReceiverType{
 		WXNotBack,AlarmUp, RefreshTaskList,UserMainDataUpdate, Sms, Login, Logout, ShareToWeixinSuccess, 
-		ShareToSinaSuccess, ShareToQzoneSuccess, BackgroundBackToUpdate, FlowAdd,Register,RefreshTaskDetail
+		ShareToSinaSuccess, ShareToQzoneSuccess, BackgroundBackToUpdate, FlowAdd,Register,RefreshTaskDetail,
+		WX_Pay_Callback
 	}
 	public interface BroadcastListener{
 		void onFinishReceiver(ReceiverType type, Object msg);
@@ -113,6 +116,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver{
 		    listener.onFinishReceiver(ReceiverType.Register, null);
 		}else if( intent.getAction().equals( ACTION_REFRESH_TASK_DETAIL)){
 		    listener.onFinishReceiver(ReceiverType.RefreshTaskDetail, intent.getExtras() );
+		}else if( intent.getAction().equals(ACTION_WX_PAY_CALLBACK)){
+			listener.onFinishReceiver(ReceiverType.WX_Pay_Callback,null);
 		}
 
 	}

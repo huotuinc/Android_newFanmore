@@ -518,6 +518,7 @@ public class FriendsResActivity extends BaseActivity implements
             // TODO Auto-generated method stub
             super.onPreExecute();
             FriendsResActivity.this.showProgress();
+
         }
 
         @Override

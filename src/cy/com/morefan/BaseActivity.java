@@ -165,9 +165,11 @@ public class BaseActivity extends FragmentActivity{
         return super.onKeyDown(keyCode, event);
     }
 
+	public void showProgress(){
+		showProgress("正在努力加载中...");
+	}
 
-
-	public void showProgress() {
+	public void showProgress(final String msg) {
 		//网络访问前先检测网络是否可用
 		if(!Util.isConnect(BaseActivity.this)){
 			ToastUtils.showLongToast(this , NULL_NETWORK);
@@ -183,7 +185,7 @@ public class BaseActivity extends FragmentActivity{
 			public void run() {
 				if(!BaseActivity.this.isFinishing())
 					try {
-						progress.showProgress();
+						progress.showProgress(msg);
 					} catch (Exception e) {
 						System.out.println(e.toString());
 					}

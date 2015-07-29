@@ -81,8 +81,8 @@ public class HttpUtil
                 byte[] dataByte = SystemTools.readInputStream(inStream);
                 jsonStr = new String(dataByte);
 
-                //Log.i("HttpUtil Post",url);
-                //Log.i("HttpUtil Post", jsonStr);
+                Log.i("HttpUtil Post",url);
+                Log.i("HttpUtil Post", jsonStr);
             } else
             {
                 // 获取数据失败

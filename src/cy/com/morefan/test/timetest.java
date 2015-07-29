@@ -1,9 +1,19 @@
 package cy.com.morefan.test;
 
+import android.app.Application;
+import android.test.ApplicationTestCase;
+
 import junit.framework.TestCase;
 
-public class timetest extends TestCase
+import cy.com.morefan.bean.FMDeliveryGood;
+import cy.com.morefan.util.JSONUtil;
+
+public class timetest extends ApplicationTestCase<Application>//TestCase
 {
+    public timetest() {
+        super(Application.class);
+    }
+
     public void test(){
         int t=60*60*24+3*60*60+8*60+56;
         
@@ -43,5 +53,15 @@ public class timetest extends TestCase
        
         //assertEquals(" a> b ::::", a>b);
         //assertEquals("math(a-b)>0", Math.abs(a-b)>0 );
+    }
+
+    public void testjson(){
+        String jsonStr= " {\"systemResultCode\":1,\"systemResultDescription\":null,\"resultCode\":1,\"resultDescription\":\"操作成功\",\"resultData\":null}";
+        JSONUtil<FMDeliveryGood> jsonUtil=new JSONUtil<>();
+        FMDeliveryGood result=new FMDeliveryGood();
+        result= jsonUtil.toBean(jsonStr,result);
+
+        assertEquals("tetet:", result.getResultCode()==1);
+
     }
 }

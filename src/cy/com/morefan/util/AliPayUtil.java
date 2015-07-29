@@ -16,6 +16,8 @@ import android.os.Message;
 
 import com.alipay.sdk.app.PayTask;
 
+import cy.com.morefan.bean.PayGoodBean;
+
 public class AliPayUtil
 {
     // 商户PID
@@ -40,8 +42,7 @@ public class AliPayUtil
     
     // 服务器异步通知页面路径
     // 支付宝服务器主动通知商户网站里指定的页面http路径。
-    public static final String NOTIFY_URL="http://www.baidu.com";
-
+    private String notify_url="";
     //
     public static final int SDK_PAY_FLAG = 7001;
 
@@ -49,13 +50,22 @@ public class AliPayUtil
     
     private Handler handler =null;
     private Activity context=null;
+
+    private String out_trade_no="";
+    private int productType=0;
+    private long productId=0;
+
     
     public AliPayUtil( Activity context , Handler handler){
         this.handler=handler;
         this.context = context;
     }
     
-    public void pay( String subject , String body , String price  ){
+    public void pay( String subject , String body , String price ,String noticeUrl, final int productType, final long productId ){
+        this.notify_url = noticeUrl;
+        this.productId=productId;
+        this.productType=productType;
+
         // 订单
         String orderInfo = getOrderInfo( subject , body, price );
         // 对订单做RSA签名
@@ -81,7 +91,12 @@ public class AliPayUtil
 
                 Message msg = new Message();
                 msg.what = SDK_PAY_FLAG;
-                msg.obj = result;
+                PayGoodBean payResult=new PayGoodBean();
+                payResult.setOrderNo( out_trade_no);
+                payResult.setProductId(productId);
+                payResult.setProductType(productType);
+                payResult.setTag(result);
+                msg.obj = payResult;
                 handler.sendMessage(msg);
             }
         };
@@ -114,7 +129,8 @@ public class AliPayUtil
         orderInfo += "&seller_id=" + "\"" + SELLER + "\"";
 
         // 商户网站唯一订单号
-        orderInfo += "&out_trade_no=" + "\"" + getOutTradeNo() + "\"";
+        this.out_trade_no=getOutTradeNo();
+        orderInfo += "&out_trade_no=" + "\"" + out_trade_no + "\"";
 
         // 商品名称
         orderInfo += "&subject=" + "\"" + subject + "\"";
@@ -126,7 +142,7 @@ public class AliPayUtil
         orderInfo += "&total_fee=" + "\"" + price + "\"";
 
         // 服务器异步通知页面路径
-        orderInfo += "&notify_url=" + "\"" + NOTIFY_URL + "\"";
+        orderInfo += "&notify_url=" + "\"" + notify_url + "\"";
 
         // 服务接口名称， 固定值
         orderInfo += "&service=\"mobile.securitypay.pay\"";
@@ -161,15 +177,25 @@ public class AliPayUtil
      * 
      */
     public String getOutTradeNo() {
-        SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss",
-                Locale.getDefault());
-        Date date = new Date();
-        String key = format.format(date);
+//        SimpleDateFormat format = new SimpleDateFormat("MMddHHmmss",
+//                Locale.getDefault());
+//        Date date = new Date();
+//        String key = format.format(date);
+//
+//        Random r = new Random();
+//        key = key + r.nextInt();
+//        key = key.substring(0, 15);
+//
+//        return key;
 
-        Random r = new Random();
-        key = key + r.nextInt();
-        key = key.substring(0, 15);
-        return key;
+        Random random = new Random();
+        int rnd = random.nextInt(100000);
+        String num = String.format(Locale.getDefault(), "%5d", rnd).replace(
+                " ", "0");
+        String orderno = DateUtils.formatDate(System.currentTimeMillis(),
+                "yyyyMMddHHmmss");
+        orderno += "android" + num;
+        return orderno;
     }
 
     /**

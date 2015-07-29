@@ -1,12 +1,16 @@
 package cy.com.morefan.ui.flow;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,9 +22,26 @@ import com.android.volley.toolbox.NetworkImageView;
 import cy.com.morefan.BaseActivity;
 import cy.com.morefan.MyApplication;
 import cy.com.morefan.R;
+import cy.com.morefan.bean.FMMakeProvide;
+import cy.com.morefan.bean.FMMakeRequest;
+import cy.com.morefan.bean.FMPrepareBuy;
+import cy.com.morefan.constant.Constant;
+import cy.com.morefan.util.ActivityUtils;
 import cy.com.morefan.util.BitmapLoader;
+import cy.com.morefan.util.HttpUtil;
+import cy.com.morefan.util.JSONUtil;
+import cy.com.morefan.util.ObtainParamsMap;
+import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.view.CyButton;
+
+import com.google.gson.JsonSyntaxException;
 import com.huotu.android.library.libedittext.EditText;
+import com.sina.weibo.sdk.utils.LogUtil;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -108,7 +129,28 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         else
         {
             // 求流量接口
-            //new AccpetFlowAsyncTask().execute();
+            String to ="";
+            String message="";
+            if( bundle.containsKey("fanmoreUsername")){
+                to= bundle.getString("fanmoreUsername");
+            }
+
+            int flow = 0;
+
+            try {
+                flow = Integer.parseInt(flowText.getText().toString());
+            }
+            catch ( NumberFormatException ex){
+                ToastUtils.showLongToast(SendFlowActivity.this,"请输入正确的数字");
+                return;
+            }
+            if(flow<=0){
+                ToastUtils.showLongToast(SendFlowActivity.this,"请输入大于零的数字");
+                return;
+            }
+            String flowStr=String.valueOf(flow);
+
+            new MakeRequestAsyncTask( SendFlowActivity.this , to, message , flowStr ).execute();
         }
                     
     }
@@ -122,43 +164,57 @@ public class SendFlowActivity extends BaseActivity implements Callback,
      *@exception 
      *@since
      */
-    private void sendFlow()
-    {
-        if(TextUtils.isEmpty(flowText.getText()))
-        {
+    private void sendFlow() {
+        if (TextUtils.isEmpty(flowText.getText())) {
             //
             flowText.setError("请输入流量");
             return;
         }
-        else
+
+        float flow =0;
+        try
         {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(SendFlowActivity.this);
-            dialog.setTitle("送流量");
-            dialog.setMessage("我要送"+ flowText.getText().toString() + "M流量。");
-            dialog.setPositiveButton("确定", new DialogInterface.OnClickListener()
-            {
-                
-                @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    // TODO Auto-generated method stub
-                    // 送流量接口
-                    //new SendFlowAsyncTask().execute();
-                }
-            });
-            dialog.setNegativeButton("取消", new DialogInterface.OnClickListener()
-            {
-                
-                @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    // TODO Auto-generated method stub
-                    
-                }
-            });
-            
-            dialog.show();
+            flow=Float.parseFloat( flowText.getText().toString());
+            if( flow<=0){
+                ToastUtils.showLongToast(SendFlowActivity.this,"请输入大于零的数字");
+                return;
+            }
+        }catch (NumberFormatException ex){
+            ToastUtils.showLongToast(SendFlowActivity.this,"请输入正确的数字");
+            return;
         }
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(SendFlowActivity.this);
+        dialog.setTitle("送流量");
+        dialog.setMessage("我要送" + flowText.getText().toString() + "M流量。");
+        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                // 送流量接口
+                //new SendFlowAsyncTask().execute();
+                String mobile="";
+                if( bundle.containsKey("originMobile")) {
+                    mobile = bundle.getString("originMobile");
+                }
+                String message="";
+                float flow = Float.parseFloat(flowText.getText().toString());
+                String flowStr= String.valueOf(flow);
+                new MakeProvideAsyncTask(SendFlowActivity.this , mobile , flowStr , message ).execute();
+            }
+        });
+        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        dialog.show();
+
     }
 
     @Override
@@ -196,16 +252,8 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         phoneNumber = (TextView) this.findViewById(R.id.phoneNumber);
         phoneNumber.setText(bundle.getString("originMobile"));
         flows = (TextView) this.findViewById(R.id.flows);
-        flows.setText(bundle.getInt("fanmoreBalance") + "M");
-        String name = bundle.getString("fanmoreUsername");
-        if(null == name)
-        {
-            isAccount.setText("非粉猫用户");
-        }
-        else if(null != name)
-        {
-            isAccount.setText("粉猫用户");
-        }
+        flows.setText(bundle.getFloat("fanmoreBalance") + "M");
+
         flowText = (EditText) this.findViewById(R.id.flowText);
         sendFlow = (Button) this.findViewById(R.id.sendFlow);
         sendFlow.setOnClickListener(this);
@@ -213,6 +261,17 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         accetFlow.setOnClickListener(this);
         backText = (TextView) this.findViewById(R.id.backtext);
         backText.setOnClickListener(this);
+        String name = bundle.getString("fanmoreUsername");
+        if(null == name)
+        {
+            isAccount.setText("非粉猫用户");
+            accetFlow.setVisibility(View.GONE);
+        }
+        else if(null != name)
+        {
+            isAccount.setText("粉猫用户");
+            accetFlow.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -230,5 +289,209 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         return super.onKeyDown(keyCode, event);
     }
     
+    class MakeRequestAsyncTask extends AsyncTask<Void,Void, FMMakeRequest>{
+        Context context;
+        String to;
+        String flow;
+        String message;
+
+        public MakeRequestAsyncTask(Context context , String to ,String message, String flow){
+            this.context=context;
+            this.to=to;
+            this.message=message;
+            this.flow=flow;
+        }
+
+        @Override
+        protected FMMakeRequest doInBackground(Void... params) {
+            FMMakeRequest result=null;
+            try {
+                String url = Constant.MAKEREQUEST;
+
+                ObtainParamsMap obtainMap = new ObtainParamsMap(
+                        SendFlowActivity.this);
+                String paramString = obtainMap.getMap();
+                Map<String, String> signMap = new HashMap<>();
+                signMap.put("to", to);
+                signMap.put("message", message);
+                signMap.put("fc", flow);
+                String sign = obtainMap.getSign(signMap);
+                url +="?to="+ URLEncoder.encode(to,"UTF-8");
+                url +="&message="+URLEncoder.encode(message,"UTF-8");
+                url +="&fc="+URLEncoder.encode(flow,"UTF-8");
+                url += paramString;
+                url +="&sign=" + URLEncoder.encode(sign, "UTF-8");
+
+                String responseStr = HttpUtil.getInstance().doGet(url);
+                result = new FMMakeRequest();
+                JSONUtil<FMMakeRequest> jsonUtil = new JSONUtil<>();
+                result= jsonUtil.toBean(responseStr , result );
+
+                return null;
+            }
+            catch (JsonSyntaxException e)
+            {
+                LogUtil.e("JSON_ERROR", e.getMessage());
+                result= new FMMakeRequest();
+                result.setResultCode(0);
+                result.setResultDescription("解析json出错");
+                return result;
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(FMMakeRequest fmMakeRequest) {
+            super.onPostExecute(fmMakeRequest);
+            SendFlowActivity.this.dismissProgress();
+
+            if( fmMakeRequest==null){
+                ToastUtils.showLongToast(SendFlowActivity.this,"请求失败");
+                return;
+            }
+            if( fmMakeRequest.getSystemResultCode() != 1){
+                ToastUtils.showLongToast(SendFlowActivity.this, fmMakeRequest.getSystemResultDescription());
+                return;
+            }
+            if( Constant.TOKEN_OVERDUE == fmMakeRequest.getResultCode()){
+                // 提示账号异地登陆，强制用户退出
+                // 并跳转到登录界面
+                ToastUtils.showLongToast(SendFlowActivity.this, "账户登录过期，请重新登录");
+                Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable()
+                {
+
+                    @Override
+                    public void run()
+                    {
+                        // TODO Auto-generated method stub
+                        ActivityUtils.getInstance().loginOutInActivity(
+                                (Activity) SendFlowActivity.this);
+                    }
+                }, 2000);
+                return;
+            }
+            if( 1!= fmMakeRequest.getResultCode()){
+                ToastUtils.showLongToast(SendFlowActivity.this, fmMakeRequest.getResultDescription());
+                return;
+            }
+
+            ToastUtils.showLongToast(SendFlowActivity.this,"求流量完成");
+        }
+
+        @Override
+        protected void onPreExecute() {
+            SendFlowActivity.this.showProgress("正在请求...");
+        }
+    }
+
+
+    class MakeProvideAsyncTask extends AsyncTask<Void,Void, FMMakeProvide>{
+        String mobile;
+        Context context;
+        String flow;
+        String message;
+
+
+        public MakeProvideAsyncTask(Context context , String mobile , String flow,String message){
+            this.context=context;
+            this.mobile=mobile;
+            this.flow=flow;
+            this.message=message;
+        }
+
+        @Override
+        protected FMMakeProvide doInBackground(Void... params) {
+            FMMakeProvide result=null;
+            try {
+                String url = Constant.MAKEPROVIDE;
+
+                ObtainParamsMap obtainMap = new ObtainParamsMap(
+                        SendFlowActivity.this);
+                String paramString = obtainMap.getMap();
+                Map<String, String> signMap = new HashMap<>();
+                signMap.put("originMobile", mobile);
+                signMap.put("message", message);
+                signMap.put("fc", flow);
+                String sign = obtainMap.getSign(signMap);
+                url +="?originMobile="+ URLEncoder.encode(mobile ,"UTF-8");
+                url +="&message="+URLEncoder.encode(message,"UTF-8");
+                url +="&fc="+URLEncoder.encode(flow,"UTF-8");
+                url += paramString;
+                url +="&sign=" + URLEncoder.encode(sign, "UTF-8");
+
+                String responseStr = HttpUtil.getInstance().doGet(url);
+                result = new FMMakeProvide();
+                JSONUtil<FMMakeProvide> jsonUtil = new JSONUtil<>();
+                result= jsonUtil.toBean(responseStr , result );
+
+                return null;
+            }
+            catch (JsonSyntaxException e)
+            {
+                LogUtil.e("JSON_ERROR", e.getMessage());
+                result= new FMMakeProvide();
+                result.setResultCode(0);
+                result.setResultDescription("解析json出错");
+                return result;
+            }
+            catch (UnsupportedEncodingException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            SendFlowActivity.this.showProgress("正在赠送流量...");
+        }
+
+        @Override
+        protected void onPostExecute(FMMakeProvide fmMakeProvide) {
+            super.onPostExecute(fmMakeProvide);
+            SendFlowActivity.this.dismissProgress();
+
+            if( fmMakeProvide==null){
+                ToastUtils.showLongToast(SendFlowActivity.this,"请求失败");
+                return;
+            }
+            if( fmMakeProvide.getSystemResultCode() != 1){
+                ToastUtils.showLongToast(SendFlowActivity.this, fmMakeProvide.getSystemResultDescription());
+                return;
+            }
+            if( Constant.TOKEN_OVERDUE == fmMakeProvide.getResultCode()){
+                // 提示账号异地登陆，强制用户退出
+                // 并跳转到登录界面
+                ToastUtils.showLongToast(SendFlowActivity.this, "账户登录过期，请重新登录");
+                Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable()
+                {
+
+                    @Override
+                    public void run()
+                    {
+                        // TODO Auto-generated method stub
+                        ActivityUtils.getInstance().loginOutInActivity(
+                                (Activity) SendFlowActivity.this);
+                    }
+                }, 2000);
+                return;
+            }
+            if( 1!= fmMakeProvide.getResultCode()){
+                ToastUtils.showLongToast(SendFlowActivity.this, fmMakeProvide.getResultDescription());
+                return;
+            }
+
+            ToastUtils.showLongToast(SendFlowActivity.this,"赠送流量成功");
+        }
+    }
 
 }
