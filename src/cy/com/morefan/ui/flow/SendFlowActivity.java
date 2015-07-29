@@ -133,7 +133,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         {
             // 求流量接口
             String to ="";
-            String message="";
+            String message="亲，送奴婢点流量吧";
             if( bundle.containsKey("fanmoreUsername")){
                 to= bundle.getString("fanmoreUsername");
             }
@@ -201,7 +201,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
                 if( bundle.containsKey("originMobile")) {
                     mobile = bundle.getString("originMobile");
                 }
-                String message="";
+                String message="朕赏你点流量,还不谢恩";
                 float flow = Float.parseFloat(flowText.getText().toString());
                 String flowStr= String.valueOf(flow);
                 new MakeProvideAsyncTask(SendFlowActivity.this , mobile , flowStr , message ).execute();
