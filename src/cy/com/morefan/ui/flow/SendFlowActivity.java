@@ -402,7 +402,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
     }
 
 
-    class MakeProvideAsyncTask extends AsyncTask<Void,Void, FMMakeProvide>{
+    public class MakeProvideAsyncTask extends AsyncTask<Void,Void, FMMakeProvide>{
         String mobile;
         Context context;
         String flow;
