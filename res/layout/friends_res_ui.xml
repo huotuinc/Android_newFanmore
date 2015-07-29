@@ -23,7 +23,7 @@
         android:id="@+id/listNotice"
         android:layout_width="match_parent"
         android:layout_height="@dimen/notice_dialog_height"
-        android:layout_alignTop="@+id/listView"
+        android:layout_alignTop="@+id/friendsList"
         android:background="@color/notice_bg"
         android:gravity="center"
         android:textSize="@dimen/notice_text_size"
