@@ -100,8 +100,7 @@
         android:layout_marginLeft="20dp"
         android:text="10M"
         android:textColor="@color/list_text_normal"
-        android:textSize="@dimen/task_list_title_textsize"
-        android:visibility="gone"/>
+        android:textSize="@dimen/task_list_title_textsize"/>
 
     <TextView
         android:id="@+id/isAccount"
@@ -109,7 +108,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/send_flow_text_margin"
         android:layout_below="@+id/operator"
-        android:layout_alignLeft="@+id/operator"
         android:text="粉猫用户"
         android:visibility="gone"
         android:textColor="@color/list_text_normal"
@@ -119,8 +117,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/flows"
-        android:layout_alignBottom="@+id/isAccount"
-        android:layout_toRightOf="@+id/isAccount"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="5dp"
         android:text="13757193476"

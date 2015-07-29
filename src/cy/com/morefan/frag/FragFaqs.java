@@ -605,8 +605,12 @@ public class FragFaqs extends BaseFragment implements Callback,
     public void onItemClick(AdapterView<?> parent, View view, int position,
             long id)
     {
+        int idx = position - 1;
+        if (idx < 0 || idx >= contacts.size())
+            return;
+
         // 跳转到赠送界面
-        ContactBean contact = contacts.get(position);
+        ContactBean contact = contacts.get(idx);
         Bundle bundle = new Bundle();
         bundle.putString("fanmoreTele", contact.getFanmoreTele());
         bundle.putString("originMobile", contact.getOriginMobile());
