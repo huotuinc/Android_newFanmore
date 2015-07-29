@@ -116,7 +116,6 @@
 	        android:layout_width="fill_parent"
 	        android:layout_below="@+id/userLayout"
 	        android:layout_height="fill_parent"
-	        android:layout_above="@+id/menu_bottom_img"
 	        android:layout_marginBottom="@dimen/menu_list_margin"
 	        android:layout_marginRight="@dimen/menu_list_margin"
 	        android:layout_marginLeft="@dimen/menu_list_left_margin"

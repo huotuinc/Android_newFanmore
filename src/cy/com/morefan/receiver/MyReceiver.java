@@ -173,13 +173,13 @@ public class MyReceiver extends BroadcastReceiver
             case 1:
             {
                 // 赠送流量
-
+                sendFlowMessage(context, bean);
             }
                 break;
             case 2:
             {
                 // 求流量
-
+                requestFlowMessage(context, bean);
             }
                 break;
             case 3:
@@ -318,15 +318,14 @@ public class MyReceiver extends BroadcastReceiver
         
         String message = bean.getTitle();
         final Dialog dlg = new AlertDialog.Builder(context)
-        .setTitle( "粉猫消息" )
+        .setTitle("粉猫消息")
         .setMessage(message)
-        .setPositiveButton("知道了", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        dialog.dismiss();
-                    }})
+        .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        })
         .create();
         
         dlg.getWindow().setType( WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
@@ -338,7 +337,49 @@ public class MyReceiver extends BroadcastReceiver
         Intent intent = new Intent(context, PushMsgHandlerActivity.class);            
         intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK);        
         
-        intent.putExtra("type",  Constant.MESSAGE_TYPE_SYSTEMMESSAGE );
+        intent.putExtra("type", Constant.MESSAGE_TYPE_SYSTEMMESSAGE);
         context.startActivity(intent);
+    }
+
+    protected void requestFlowMessage(Context context , JBean bean){
+        if (bean == null)
+            return;
+        String message = bean.getTitle();
+        final Dialog dlg = new AlertDialog.Builder(context)
+                .setTitle("粉猫消息")
+                .setMessage(message)
+                .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+
+        dlg.getWindow().setType( WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+
+        dlg.show();
+    }
+
+    protected void sendFlowMessage(Context context , JBean bean){
+        if (bean == null)
+            return;
+
+        String message = bean.getTitle();
+        final Dialog dlg = new AlertDialog.Builder(context)
+                .setTitle("粉猫消息")
+                .setMessage(message)
+                .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+
+        dlg.getWindow().setType( WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+
+        dlg.show();
+
     }
 }

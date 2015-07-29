@@ -88,17 +88,17 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_marginTop="@dimen/send_flow_text_margin"
-        android:text="移动 " 
+        android:text="我的流量"
         android:textColor="@color/list_text_normal"
         android:textSize="@dimen/task_list_title_textsize"/>
         <TextView
-        android:id="@+id/phoneNumber"
+        android:id="@+id/flows"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/operator"
         android:layout_toRightOf="@+id/operator"
         android:layout_marginLeft="20dp"
-        android:text="13588741728 " 
+        android:text="10M"
         android:textColor="@color/list_text_normal"
         android:textSize="@dimen/task_list_title_textsize"/>
 
@@ -109,17 +109,20 @@
         android:layout_marginTop="@dimen/send_flow_text_margin"
         android:layout_below="@+id/operator"
         android:layout_alignLeft="@+id/operator"
-        android:text="粉猫用户" 
+        android:text="粉猫用户"
+        android:visibility="gone"
         android:textColor="@color/list_text_normal"
         android:textSize="@dimen/task_list_title_textsize"/>
     <TextView
-        android:id="@+id/flows"
+        android:id="@+id/phoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/flows"
         android:layout_alignBottom="@+id/isAccount"
         android:layout_toRightOf="@+id/isAccount"
         android:layout_marginLeft="20dp"
-        android:text="100 " 
+        android:layout_marginTop="5dp"
+        android:text="13757193476"
         android:textColor="@color/list_text_normal"
         android:textSize="@dimen/task_list_title_textsize"/>
         </RelativeLayout>

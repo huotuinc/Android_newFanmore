@@ -81,6 +81,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="20dp"
         android:text="移动"
+        android:visibility="gone"
         android:textColor="@color/list_text_normal"
         android:textSize="@dimen/normal_label" />
 

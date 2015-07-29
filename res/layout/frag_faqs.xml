@@ -21,7 +21,6 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:phoneNumber="true"
         android:layout_marginBottom="10dp"
         android:background="@color/theme_color"
         android:drawableLeft="@drawable/search_in"
@@ -33,14 +32,16 @@
     </com.huotu.android.library.libedittext.EditText>
    </LinearLayout>
 
-    <ListView
+    <cy.com.morefan.view.KJListView
         android:id="@+id/contactList"
+        android:clipToPadding="true"
+        android:clipChildren="true"
         android:layout_below="@+id/searchBar"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
         android:dividerHeight="@dimen/listview_item_margin"
        	android:divider="@color/activity_bg">
-    </ListView>
+    </cy.com.morefan.view.KJListView>
 
     <cy.com.morefan.view.QuickAlphabeticBar
         android:id="@+id/fast_scroller"

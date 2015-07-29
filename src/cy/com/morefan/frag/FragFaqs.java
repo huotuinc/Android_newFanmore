@@ -42,11 +42,15 @@ import cy.com.morefan.constant.Constant;
 import cy.com.morefan.ui.flow.SendFlowActivity;
 import cy.com.morefan.util.ActivityUtils;
 import cy.com.morefan.util.BitmapLoader;
+import cy.com.morefan.util.DateUtils;
 import cy.com.morefan.util.HttpUtil;
 import cy.com.morefan.util.JSONUtil;
+import cy.com.morefan.util.LoadingUtil;
 import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.SystemTools;
 import cy.com.morefan.util.ToastUtils;
+import cy.com.morefan.view.KJListView;
+import cy.com.morefan.view.KJRefreshListener;
 import cy.com.morefan.view.QuickAlphabeticBar;
 import com.huotu.android.library.libedittext.EditText;
 
@@ -70,7 +74,7 @@ public class FragFaqs extends BaseFragment implements Callback,
     private EditText etSearch;
 
     // 内容列表
-    private ListView contactList;
+    private KJListView contactList;
 
     private QuickAlphabeticBar alpha;
 
@@ -87,20 +91,39 @@ public class FragFaqs extends BaseFragment implements Callback,
 
     private String[] sections;// 每个分组的索引表【A,B,C,F...】
 
+    private LoadingUtil loadingUtil =null;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         setRetainInstance(true);
-        // TODO Auto-generated method stub
+
         super.onCreate(savedInstanceState);
         application = (MyApplication) getActivity().getApplication();
         contacts = new ArrayList<ContactBean>();
+        loadingUtil=new LoadingUtil(getActivity());
     }
 
     private void initView(View rootView)
     {
         etSearch = (EditText) rootView.findViewById(R.id.etSearch);
-        contactList = (ListView) rootView.findViewById(R.id.contactList);
+        contactList = (KJListView) rootView.findViewById(R.id.contactList);
+        contactList.setPullLoadEnable(false);
+        contactList.setOnRefreshListener(new KJRefreshListener() {
+            @Override
+            public void onRefresh() {
+                contactList.setRefreshTime(
+                        DateUtils.formatDate(System.currentTimeMillis()), getActivity());
+                new LoadDataAsyncTask().execute();
+                contactList.stopRefreshData();
+            }
+
+            @Override
+            public void onLoadMore() {
+
+            }
+        });
+
         alpha = (QuickAlphabeticBar) rootView.findViewById(R.id.fast_scroller);
 
         etSearch.addTextChangedListener(new TextWatcher()
@@ -153,7 +176,7 @@ public class FragFaqs extends BaseFragment implements Callback,
                 List<ContactBean> points = new ArrayList<ContactBean>();
                 for (ContactBean contact : copyContacts)
                 {
-                    if (contact.getOriginMobile().contains(filter))
+                    if (contact.getOriginMobile().contains(filter) || contact.getSortKey().contains(filter.toUpperCase()))
                     {
                         points.add(contact);
                     }
@@ -170,7 +193,7 @@ public class FragFaqs extends BaseFragment implements Callback,
     {
         View rootView = inflater.inflate(R.layout.frag_faqs, container, false);
         initView(rootView);
-        // new LoadDataAsyncTask().execute();
+        new LoadDataAsyncTask().execute();
         adapter = new ContactAdapter();
         contactList.setAdapter(adapter);
         contactList.setOnItemClickListener(this);
@@ -247,7 +270,7 @@ public class FragFaqs extends BaseFragment implements Callback,
                     newInst.setFanmoreUsername(item.getFanmoreUsername());
                     newInst.setOriginIdentify(item.getOriginIdentify());
                     newInst.setOriginMobile(item.getOriginMobile());
-                    newInst.setSortKey(item.getSortKey());
+                    newInst.setSortKey(model.getSortKey());
                     newInst.setTeleBalance(item.getTeleBalance());
                     newInst.setOriginName(item.getOriginName());
                     return newInst;
@@ -283,6 +306,8 @@ public class FragFaqs extends BaseFragment implements Callback,
         {
             // TODO Auto-generated method stub
             super.onPreExecute();
+
+            loadingUtil.showProgress();
 
             getContractData();
 
@@ -467,15 +492,19 @@ public class FragFaqs extends BaseFragment implements Callback,
         }
 
 
-
         @Override
         protected void onPostExecute(FMContact result)
         {
-            // TODO Auto-generated method stub
             super.onPostExecute(result);
+
+            loadingUtil.dismissProgress();
 
             if( result==null){
                 ToastUtils.showLongToast(getActivity(),"请求失败");
+                return;
+            }
+            if( 1 != result.getSystemResultCode()){
+                ToastUtils.showLongToast(getActivity(), result.getSystemResultDescription());
                 return;
             }
 
@@ -509,7 +538,13 @@ public class FragFaqs extends BaseFragment implements Callback,
                 alpha.setListView(contactList);
                 alpha.setHight(alpha.getHeight());
                 alpha.setVisibility(View.VISIBLE);
-                adapter.notifyDataSetChanged();
+
+                String key= etSearch.getText().toString().trim();
+                if(key.length()>0) {
+                    doFilter(key);
+                }else {
+                    adapter.notifyDataSetChanged();
+                }
             } else if (Constant.TOKEN_OVERDUE == result.getResultCode())
             {
                 // 提示账号异地登陆，强制用户退出
@@ -531,7 +566,6 @@ public class FragFaqs extends BaseFragment implements Callback,
             {
                 ToastUtils.showLongToast(getActivity(), "加载通讯录失败！");
             }
-
         }
 
     }
@@ -540,7 +574,10 @@ public class FragFaqs extends BaseFragment implements Callback,
     public void onReshow()
     {
         // TODO Auto-generated method stub
-        new LoadDataAsyncTask().execute();
+        //new LoadDataAsyncTask().execute();
+
+        //String key = etSearch.getText().toString().trim();
+        //doFilter(key);
     }
 
     @Override

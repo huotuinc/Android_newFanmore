@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- main_menu -->
+    <!-- 主menu上面用户信息的高度 -->
+    <dimen name="main_menu_top_height">120dp</dimen>
+    <dimen name="mark_bg_size">80dp</dimen>
+</resources>
