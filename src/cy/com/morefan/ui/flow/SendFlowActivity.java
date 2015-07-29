@@ -26,12 +26,14 @@ import cy.com.morefan.bean.FMMakeProvide;
 import cy.com.morefan.bean.FMMakeRequest;
 import cy.com.morefan.bean.FMPrepareBuy;
 import cy.com.morefan.constant.Constant;
+import cy.com.morefan.listener.MyBroadcastReceiver;
 import cy.com.morefan.util.ActivityUtils;
 import cy.com.morefan.util.BitmapLoader;
 import cy.com.morefan.util.HttpUtil;
 import cy.com.morefan.util.JSONUtil;
 import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.ToastUtils;
+import cy.com.morefan.util.Util;
 import cy.com.morefan.view.CyButton;
 
 import com.google.gson.JsonSyntaxException;
@@ -245,13 +247,23 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         BitmapLoader.create().displayUrl(SendFlowActivity.this, img, imageUrl,R.drawable.mrtou,R.drawable.mrtou);
         imgRight = (NetworkImageView) this.findViewById(R.id.imgRight);
         BitmapLoader.create().displayUrl(SendFlowActivity.this, imgRight, bundle.getString("fanmorePicUrl"),R.drawable.mrtou,R.drawable.mrtou);
-        operator = (TextView) this.findViewById(R.id.operator);
-        operator.setText(bundle.getString("fanmoreTele"));
+        //operator = (TextView) this.findViewById(R.id.operator);
+        //operator.setText(bundle.getString("fanmoreTele"));
         isAccount = (TextView) this.findViewById(R.id.isAccount);
         phoneNumber = (TextView) this.findViewById(R.id.phoneNumber);
         phoneNumber.setText(bundle.getString("originMobile"));
         flows = (TextView) this.findViewById(R.id.flows);
-        flows.setText(bundle.getFloat("fanmoreBalance") + "M");
+        //flows.setText(bundle.getFloat("fanmoreBalance") + "M");
+
+        if (Util.isM(MyApplication.readUserBalance(SendFlowActivity.this)))
+        {
+            flows.setText(MyApplication.readUserBalance(SendFlowActivity.this) + "MB");
+        } else
+        {
+            // 精确到GB
+            float flow = Float.parseFloat(MyApplication.readUserBalance(SendFlowActivity.this)) / 1024;
+            flows.setText(Util.decimalFloat(flow,Constant.ACCURACY_3) + "GB");
+        }
 
         flowText = (EditText) this.findViewById(R.id.flowText);
         sendFlow = (Button) this.findViewById(R.id.sendFlow);
@@ -325,8 +337,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
                 result = new FMMakeRequest();
                 JSONUtil<FMMakeRequest> jsonUtil = new JSONUtil<>();
                 result= jsonUtil.toBean(responseStr , result );
-
-                return null;
+                return result;
             }
             catch (JsonSyntaxException e)
             {
@@ -385,7 +396,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
 
         @Override
         protected void onPreExecute() {
-            SendFlowActivity.this.showProgress("正在请求...");
+            SendFlowActivity.this.showProgress("正在发送请求...");
         }
     }
 
@@ -410,8 +421,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
             try {
                 String url = Constant.MAKEPROVIDE;
 
-                ObtainParamsMap obtainMap = new ObtainParamsMap(
-                        SendFlowActivity.this);
+                ObtainParamsMap obtainMap = new ObtainParamsMap(context);
                 String paramString = obtainMap.getMap();
                 Map<String, String> signMap = new HashMap<>();
                 signMap.put("originMobile", mobile);
@@ -428,8 +438,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
                 result = new FMMakeProvide();
                 JSONUtil<FMMakeProvide> jsonUtil = new JSONUtil<>();
                 result= jsonUtil.toBean(responseStr , result );
-
-                return null;
+                return result;
             }
             catch (JsonSyntaxException e)
             {
@@ -450,26 +459,26 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            SendFlowActivity.this.showProgress("正在赠送流量...");
+            ((BaseActivity) context).showProgress("正在赠送流量...");
         }
 
         @Override
         protected void onPostExecute(FMMakeProvide fmMakeProvide) {
             super.onPostExecute(fmMakeProvide);
-            SendFlowActivity.this.dismissProgress();
+            ((BaseActivity)context).dismissProgress();
 
             if( fmMakeProvide==null){
-                ToastUtils.showLongToast(SendFlowActivity.this,"请求失败");
+                ToastUtils.showLongToast(context,"请求失败");
                 return;
             }
             if( fmMakeProvide.getSystemResultCode() != 1){
-                ToastUtils.showLongToast(SendFlowActivity.this, fmMakeProvide.getSystemResultDescription());
+                ToastUtils.showLongToast(context, fmMakeProvide.getSystemResultDescription());
                 return;
             }
             if( Constant.TOKEN_OVERDUE == fmMakeProvide.getResultCode()){
                 // 提示账号异地登陆，强制用户退出
                 // 并跳转到登录界面
-                ToastUtils.showLongToast(SendFlowActivity.this, "账户登录过期，请重新登录");
+                ToastUtils.showLongToast(context, "账户登录过期，请重新登录");
                 Handler mHandler = new Handler();
                 mHandler.postDelayed(new Runnable()
                 {
@@ -479,17 +488,18 @@ public class SendFlowActivity extends BaseActivity implements Callback,
                     {
                         // TODO Auto-generated method stub
                         ActivityUtils.getInstance().loginOutInActivity(
-                                (Activity) SendFlowActivity.this);
+                                (Activity) context);
                     }
                 }, 2000);
                 return;
             }
             if( 1!= fmMakeProvide.getResultCode()){
-                ToastUtils.showLongToast(SendFlowActivity.this, fmMakeProvide.getResultDescription());
+                ToastUtils.showLongToast( context , fmMakeProvide.getResultDescription());
                 return;
             }
 
-            ToastUtils.showLongToast(SendFlowActivity.this,"赠送流量成功");
+            MyBroadcastReceiver.sendBroadcast( context ,MyBroadcastReceiver.ACTION_FLOW_ADD);
+            ToastUtils.showLongToast(context ,"赠送流量成功");
         }
     }
 
