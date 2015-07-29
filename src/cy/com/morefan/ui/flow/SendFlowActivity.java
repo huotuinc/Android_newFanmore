@@ -144,11 +144,11 @@ public class SendFlowActivity extends BaseActivity implements Callback,
                 flow = Integer.parseInt(flowText.getText().toString());
             }
             catch ( NumberFormatException ex){
-                ToastUtils.showLongToast(SendFlowActivity.this,"请输入正确的数字");
+                ToastUtils.showLongToast(SendFlowActivity.this,"请输入正确的正数字");
                 return;
             }
             if(flow<=0){
-                ToastUtils.showLongToast(SendFlowActivity.this,"请输入大于零的数字");
+                ToastUtils.showLongToast(SendFlowActivity.this,"请输入大于零的正数字");
                 return;
             }
             String flowStr=String.valueOf(flow);
@@ -174,16 +174,16 @@ public class SendFlowActivity extends BaseActivity implements Callback,
             return;
         }
 
-        float flow =0;
+        int flow =0;
         try
         {
-            flow=Float.parseFloat( flowText.getText().toString());
+            flow=Integer.parseInt(flowText.getText().toString());
             if( flow<=0){
-                ToastUtils.showLongToast(SendFlowActivity.this,"请输入大于零的数字");
+                ToastUtils.showLongToast(SendFlowActivity.this,"请输入大于零的正数字");
                 return;
             }
         }catch (NumberFormatException ex){
-            ToastUtils.showLongToast(SendFlowActivity.this,"请输入正确的数字");
+            ToastUtils.showLongToast(SendFlowActivity.this,"请输入正确的正数字");
             return;
         }
 
