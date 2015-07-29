@@ -6,7 +6,7 @@
     android:gravity="center"
     android:orientation="vertical" >
 
-    <com.edmodo.cropper.CropImageView
+    <com.huotu.android.library.libcropper.CropImageView
         xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/CropImageView"
         android:layout_width="match_parent"

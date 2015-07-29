@@ -72,6 +72,10 @@ public class Constant
 
     public static final String DELETE_MESSAGE = BASE_URL + "deleteMessage";// 删除消息列表
                                                                            // ---POST
+    public static final String DELETE_LIST =BASE_URL+"cleanRequestFC";//删除好友请求列表
+                                                                           // ---POST
+      public static final String TAKE_FRIEMDS_LIST =BASE_URL+"requestFCList";//获取好友请求列表
+                                                                           // ---POST
 
     public static final String UPDATE_PROFILE = BASE_URL + "updateProfile";// 修改资料
                                                                            // ---POST

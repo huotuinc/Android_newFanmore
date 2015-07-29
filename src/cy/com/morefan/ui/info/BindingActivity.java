@@ -44,7 +44,7 @@ import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.view.CountDownTimerButton;
 import cy.com.morefan.view.CyButton;
-import cy.lib.edittext.CyEditText;
+import com.huotu.android.library.libedittext.EditText;
 /**
  * 
  * @类名称：BindingActivity
@@ -61,8 +61,8 @@ public class BindingActivity extends BaseActivity implements Callback,
 
     private CyButton backImage;
     private TextView title;
-    private CyEditText edtPhone;
-    private CyEditText edtCode;
+    private EditText edtPhone;
+    private EditText edtCode;
     private TextView btnGet;
     private Button nextStep;
     public MyApplication application;
@@ -102,8 +102,8 @@ public class BindingActivity extends BaseActivity implements Callback,
         backImage.setOnClickListener(this);
         title = (TextView) this.findViewById(R.id.title);
         title.setText("绑定手机");
-        edtPhone = (CyEditText) this.findViewById(R.id.edtPhone);
-        edtCode = (CyEditText) this.findViewById(R.id.edtCode);
+        edtPhone = (EditText) this.findViewById(R.id.edtPhone);
+        edtCode = (EditText) this.findViewById(R.id.edtCode);
         btnGet = (TextView) this.findViewById(R.id.btnGet);
         //标记文本短信
         btnGet.setTag(Constant.SMS_TYPE_TEXT);

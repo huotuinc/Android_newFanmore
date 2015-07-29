@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 
-import com.edmodo.cropper.CropImageView;
+import com.huotu.android.library.libcropper.CropImageView;
 
 import cy.com.morefan.R;
 import cy.com.morefan.util.L;

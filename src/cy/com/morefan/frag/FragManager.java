@@ -146,4 +146,9 @@ public class FragManager  {
 //		frags.get(preFragType).setUserVisibleHint(true);
 //		ft.commitAllowingStateLoss();
 //	}
+
+	public void setPreFragType(FragType type ){
+		preFragType=type;
+	}
+
 }

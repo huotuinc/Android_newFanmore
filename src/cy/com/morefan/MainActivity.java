@@ -243,10 +243,11 @@ public class MainActivity extends BaseActivity implements OnClickListener,
 
         } else
         {
-            FragType curFragType = (FragType) savedInstanceState
-                    .getSerializable("curFragType");
-            L.i(">>>onCreate:" + curFragType);
-            application.mFragManager.setCurrentFrag(FragType.User);
+            application.mFragManager.setPreFragType(FragType.Home);
+//            FragType curFragType = (FragType) savedInstanceState
+//                    .getSerializable("curFragType");
+//            L.i(">>>onCreate:" + curFragType);
+//            application.mFragManager.setCurrentFrag(FragType.User);
         }
 
         soundUtil = new SoundUtil(MainActivity.this);

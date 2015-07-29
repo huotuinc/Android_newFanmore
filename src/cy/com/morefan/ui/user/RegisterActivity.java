@@ -52,7 +52,7 @@ import cy.com.morefan.view.CountDownTimerButton;
 import cy.com.morefan.view.CyButton;
 import cy.com.morefan.view.NoticeDialog;
 import cy.com.morefan.view.CountDownTimerButton.CountDownFinishListener;
-import cy.lib.edittext.CyEditText;
+import com.huotu.android.library.libedittext.EditText;
 
 /**
  * 
@@ -73,17 +73,17 @@ public class RegisterActivity extends BaseActivity implements OnClickListener ,C
 
     // private CyButton imgTag;// 验证码问号按钮
 
-    private CyEditText edtInvitationCode;// 邀请码
+    private EditText edtInvitationCode;// 邀请码
 
-    private CyEditText edtPhone;// 手机号
+    private EditText edtPhone;// 手机号
 
-    private CyEditText edtCode;// 验证码
+    private EditText edtCode;// 验证码
 
     private TextView btnGet;// 获取验证码按钮
 
-    private CyEditText edtPwd;// 密码
+    private EditText edtPwd;// 密码
 
-    private CyEditText edtRePwd;// 密码确认
+    private EditText edtRePwd;// 密码确认
 
     private TextView txtYinSi;// 隐私说明按钮
 
@@ -161,17 +161,17 @@ public class RegisterActivity extends BaseActivity implements OnClickListener ,C
 
         // imgTag = (CyButton) this.findViewById(R.id.imgTag);
 
-        edtInvitationCode = (CyEditText) this
+        edtInvitationCode = (EditText) this
                 .findViewById(R.id.edtInvitationCode);
-        edtPhone = (CyEditText) this.findViewById(R.id.edtPhone);
-        edtCode = (CyEditText) this.findViewById(R.id.edtCode);
+        edtPhone = (EditText) this.findViewById(R.id.edtPhone);
+        edtCode = (EditText) this.findViewById(R.id.edtCode);
         btnGet = (TextView) this.findViewById(R.id.btnGet);
         // 标记文本短信
         btnGet.setTag(Constant.SMS_TYPE_TEXT);
         btnGet.setText("获取验证码");
 
-        edtPwd = (CyEditText) this.findViewById(R.id.edtPwd);
-        edtRePwd = (CyEditText) this.findViewById(R.id.edtRePwd);
+        edtPwd = (EditText) this.findViewById(R.id.edtPwd);
+        edtRePwd = (EditText) this.findViewById(R.id.edtRePwd);
         txtYinSi = (TextView) this.findViewById(R.id.txtYinSi);
         // 添加下划线
         txtYinSi.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);

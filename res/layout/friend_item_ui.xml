@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:background="@color/theme_color" >
+
+    <!-- 首字母 -->
+
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/img"
+        android:layout_width="@dimen/contact_logo_width"
+        android:layout_height="@dimen/contact_logo_height"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/alphaL"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ic_launcher" >
+    </com.android.volley.toolbox.NetworkImageView>
+
+    <ImageView
+        android:id="@+id/hread_img"
+        android:layout_width="@dimen/contact_logo_width"
+        android:layout_height="@dimen/contact_logo_height"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/alphaL"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/menu_user_logo_bg" />
+
+    <TextView
+        android:layout_width="@dimen/contact_logo_width"
+        android:layout_height="10dp"
+        android:layout_below="@+id/hread_img"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/white_bg" />
+
+    <TextView
+        android:id="@+id/account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:background="@drawable/friends_sex_male"
+
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_below="@+id/contactName"
+        android:layout_alignLeft="@+id/contactName"
+        android:layout_alignStart="@+id/contactName" />
+
+    <TextView
+        android:id="@+id/contactName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/phoneNumber"
+        android:layout_below="@+id/phoneNumber"
+        android:layout_marginTop="5dp"
+        android:text="小米"
+        android:textColor="@color/list_text_normal"
+        android:textSize="@dimen/normal_label" />
+
+    <TextView
+        android:id="@+id/flows"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/phoneNumber"
+        android:layout_marginRight="20dp"
+        android:text="100M"
+        android:textColor="@color/black"
+        android:textSize="@dimen/normal_label" />
+
+    <TextView
+        android:id="@+id/operator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/img"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="20dp"
+        android:text="移动"
+        android:textColor="@color/list_text_normal"
+        android:textSize="@dimen/normal_label"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/phoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/img"
+        android:layout_marginLeft="30dp"
+        android:layout_toRightOf="@+id/img"
+        android:text="13588741728"
+        android:textColor="@color/list_text_normal"
+        android:textSize="@dimen/normal_label" />
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:text="TextView"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/alphaL"
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:background="@color/activity_bg"
+        >
+
+        <TextView
+            android:id="@+id/alpha"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:background="@color/activity_bg"
+            android:gravity="center_vertical|left"
+            android:textColor="@color/black"
+            android:textSize="@dimen/normal_label"
+            android:visibility="gone"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
