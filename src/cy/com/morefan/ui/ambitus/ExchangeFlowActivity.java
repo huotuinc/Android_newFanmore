@@ -196,7 +196,7 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
         rlWaiting=(RelativeLayout)this.findViewById(R.id.rlWaiting);
         pgbarWaiting = (ProgressBar)this.findViewById(R.id.pgbarWaiting);
         friends = (Button) this.findViewById(R.id.friends);
-        friends.setText("好友请求(6)");
+        friends.setText("好友请求");
         friends.setOnClickListener(this);
         backText = (TextView) this.findViewById(R.id.backtext);
         backText.setOnClickListener(this);

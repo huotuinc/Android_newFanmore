@@ -46,6 +46,7 @@ import cy.com.morefan.bean.Paging;
 import cy.com.morefan.bean.TaskData;
 import cy.com.morefan.constant.Constant;
 
+import cy.com.morefan.task.MakeProvideAsyncTask;
 import cy.com.morefan.util.ActivityUtils;
 import cy.com.morefan.util.BitmapLoader;
 import cy.com.morefan.util.DateUtils;
@@ -342,7 +343,7 @@ public class FriendsResActivity extends BaseActivity implements
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long id) {
         // TODO Auto-generated method stub
-        FCBean fcbean = reqFMlist.get(position - 1);
+        final FCBean fcbean = reqFMlist.get(position - 1);
         AlertDialog.Builder dialog = new AlertDialog.Builder(FriendsResActivity.this);
         dialog.setTitle("好友求流量");
         if (0 == fcbean.getFromSex()) {
@@ -357,7 +358,8 @@ public class FriendsResActivity extends BaseActivity implements
             public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
                 // 送流量接口
-                new SendFlowAsyncTask().execute();
+                String msg="朕赏你点流量,还不谢恩";
+                new MakeProvideAsyncTask(FriendsResActivity.this, fcbean.getFrom() , String.valueOf(fcbean.getFee()) , msg).execute();
             }
         });
         dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
