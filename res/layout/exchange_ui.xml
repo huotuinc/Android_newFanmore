@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ringview="http://schemas.android.com/apk/res/cy.com.morefan"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
     android:background="@color/theme_color">
-    
+
     <RelativeLayout
         android:id="@+id/title_login"
         android:layout_width="fill_parent"
@@ -14,7 +14,7 @@
         <include layout="@layout/title" />
     </RelativeLayout>
 
-    
+
      <!--
     <TextView
         android:id="@+id/flowCount"
@@ -27,8 +27,8 @@
         android:textSize="35sp"
         android:gravity="center"
         android:background="@drawable/circle_textview"/> -->
-       
-    <cy.com.morefan.view.RingView 
+
+    <cy.com.morefan.view.RingView
         android:id="@+id/flowCount"
         android:layout_width="match_parent"
         android:layout_height="200dp"
@@ -41,7 +41,7 @@
         ringview:titlesize="@integer/title_size"
         ringview:ringcolor="#dbdbdb"
         ringview:percentcolor="#0096ff"
-        />    
+        />
 
    <!--  <ViewFlipper
         android:id="@+id/selectFlow"
@@ -92,15 +92,14 @@
         android:textSize="@dimen/normal_label"
         android:textColor="@color/list_text_normal"
         android:text="兑换后的流量当月有效，次月清零" />
-    
 
-    
+
+
     <Button
         android:id="@+id/buyFlowBtn"
         android:layout_width="@dimen/flow_width_half"
         android:layout_height="@dimen/button_height"
         android:layout_alignLeft="@+id/exchangeBtn"
-        android:layout_alignRight="@+id/exchangeBtn"
         android:layout_below="@+id/exchangeBtn"
         android:background="@drawable/btn_red_wite"
         android:clickable="true"
@@ -116,29 +115,28 @@
         android:id="@+id/friends"
         android:layout_width="@dimen/flow_width_half"
         android:layout_height="@dimen/button_height"
-        android:layout_alignRight="@+id/exchangeBtn"
-        android:layout_below="@+id/exchangeBtn"
-        android:layout_marginTop="19dp"
         android:background="@drawable/btn_red_wite"
         android:clickable="true"
         android:focusableInTouchMode="false"
         android:gravity="center"
         android:text="好友请求"
         android:textColor="@color/black"
-        android:textSize="@dimen/button_text_size" 
-        android:visibility="gone"/>
-    
-        <RelativeLayout 
+        android:textSize="@dimen/button_text_size"
+        android:layout_alignTop="@+id/buyFlowBtn"
+        android:layout_alignRight="@+id/exchangeBtn"
+        android:layout_alignEnd="@+id/exchangeBtn" />
+
+        <RelativeLayout
         android:id="@+id/rlWaiting"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
         android:background="#60000000">
-        <ProgressBar 
+        <ProgressBar
         android:id="@+id/pgbarWaiting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
     </RelativeLayout>
-   
+
 </RelativeLayout>

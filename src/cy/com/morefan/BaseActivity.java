@@ -123,7 +123,7 @@ public class BaseActivity extends FragmentActivity{
 	}
 	
 	/**
-	 * 
+	 *
 	 *@方法描述：判断是否登录，并更新application中的标志位
 	 *@方法名：isLogin
 	 *@参数：@return

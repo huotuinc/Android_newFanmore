@@ -18,6 +18,7 @@
     <!-- 极光推送 -->
     <permission
         android:name="cy.com.morefan.permission.JPUSH_MESSAGE"
+
         android:protectionLevel="signature" />
     <uses-permission android:name="cy.com.morefan.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />

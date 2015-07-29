@@ -100,7 +100,8 @@
         android:layout_marginLeft="20dp"
         android:text="10M"
         android:textColor="@color/list_text_normal"
-        android:textSize="@dimen/task_list_title_textsize"/>
+        android:textSize="@dimen/task_list_title_textsize"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/isAccount"
