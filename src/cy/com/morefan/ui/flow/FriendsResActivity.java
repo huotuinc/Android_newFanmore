@@ -61,7 +61,6 @@ import cy.com.morefan.view.KJRefreshListener;
 import static android.app.PendingIntent.getActivity;
 
 /**
- * 
  * @类名称：FriendsResActivity
  * @类描述：好友求流量界面
  * @创建人：aaron
@@ -71,8 +70,7 @@ import static android.app.PendingIntent.getActivity;
  * @version:
  */
 public class FriendsResActivity extends BaseActivity implements
-        OnClickListener, Callback, OnItemClickListener
-{
+        OnClickListener, Callback, OnItemClickListener {
     public Handler mHandler = new Handler(this);
 
     private CyButton backImage;
@@ -94,8 +92,7 @@ public class FriendsResActivity extends BaseActivity implements
 
 
     @Override
-    protected void onCreate(Bundle arg0)
-    {
+    protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
 
@@ -109,43 +106,26 @@ public class FriendsResActivity extends BaseActivity implements
         initList();
         friendsList.setOnItemClickListener(this);
         friendsList.setRefreshTime(DateUtils.formatDate(System.currentTimeMillis()), FriendsResActivity.this);
+        new LoadFriendsAsyncTask(Constant.REFRESH)
+                .execute();
 
-        
     }
 
-    private void initList()
-    {
+    private void initList() {
         friendsList.setOnRefreshListener(new KJRefreshListener() {
 
 
-//            public void setActivity(Context activity) {
-//                this.activity = activity;
-//            }
-
-//            private Context activity;
-
-//            public Context getActivity() {
-//                return activity;
-//            }
-            /*public void onRefresh() {
+            public void onRefresh() {
                 // TODO Auto-generated method stub
-                friendsList.setRefreshTime(DateUtils.formatDate(System.currentTimeMillis()), FriendsResActivity.this);
-                friendsList.stopRefreshData();
+                // 加载数据
+                friendsList.setRefreshTime(
+                        DateUtils.formatDate(System.currentTimeMillis()),
+                        FriendsResActivity.this);
                 new LoadFriendsAsyncTask(Constant.REFRESH)
                         .execute();
-            }*/
+                friendsList.stopRefreshData();
+            }
 
-             public void onRefresh()
-             {
-                 // TODO Auto-generated method stub
-                 // 加载数据
-                 friendsList.setRefreshTime(
-                         DateUtils.formatDate(System.currentTimeMillis()),
-                         FriendsResActivity.this);
-                 new LoadFriendsAsyncTask(Constant.REFRESH)
-                         .execute();
-                 friendsList.stopRefreshData();
-             }
             @Override
             public void onLoadMore() {
                 // TODO Auto-generated method stub
@@ -163,8 +143,7 @@ public class FriendsResActivity extends BaseActivity implements
         });
     }
 
-    private void initView()
-    {
+    private void initView() {
         backImage = (CyButton) this.findViewById(R.id.backImage);
         backImage.setOnClickListener(this);
         title = (TextView) this.findViewById(R.id.title);
@@ -176,16 +155,14 @@ public class FriendsResActivity extends BaseActivity implements
         friendsList = (KJListView) this.findViewById(R.id.friendsList);
         backText = (TextView) this.findViewById(R.id.backtext);
         backText.setOnClickListener(this);
-        listNotice=(TextView) this.findViewById(R.id.listNotice);
+        listNotice = (TextView) this.findViewById(R.id.listNotice);
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
         if (keyCode == KeyEvent.KEYCODE_BACK
-                && event.getAction() == KeyEvent.ACTION_DOWN)
-        {
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
             // finish自身
             FriendsResActivity.this.finish();
             return true;
@@ -195,85 +172,70 @@ public class FriendsResActivity extends BaseActivity implements
     }
 
     @Override
-    public boolean handleMessage(Message msg)
-    {
+    public boolean handleMessage(Message msg) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public void onClick(View v)
-    {
+    public void onClick(View v) {
         // TODO Auto-generated method stub
-        switch (v.getId())
-        {
-        case R.id.backImage:
-        {
-            closeSelf(FriendsResActivity.this);
-        }
+        switch (v.getId()) {
+            case R.id.backImage: {
+                closeSelf(FriendsResActivity.this);
+            }
             break;
-        case R.id.functionBtn:
-        {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(FriendsResActivity.this);
-            dialog.setTitle("好友求流量");
-            dialog.setMessage("确认清空列表信息？");
-            dialog.setPositiveButton("确认", new DialogInterface.OnClickListener()
-            {
+            case R.id.functionBtn: {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(FriendsResActivity.this);
+                dialog.setTitle("好友求流量");
+                dialog.setMessage("确认清空列表信息？");
+                dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    // TODO Auto-generated method stub
-                    // 先删除服务端数据，服务端删除成功后删除本地数据
-                  //cleanRequestFC();
-                    //模拟删除
-                    new ClearInfoAsyncTask().execute();
-                 // 清空列表信息
-                    mHandler.post(new Runnable()
-                    {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        // 先删除服务端数据，服务端删除成功后删除本地数据
+                        //cleanRequestFC();
+                        //模拟删除
+                        new ClearInfoAsyncTask().execute();
+                        // 清空列表信息
+                        mHandler.post(new Runnable() {
 
-                        @Override
-                        public void run()
-                        {
-                            // TODO Auto-generated method stub
-                            reqFMlist.clear();
-                            adapter.notifyDataSetChanged();
-                        }
-                    });
-                }
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                reqFMlist.clear();
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
 
-                private void cleanRequestFC() {
-                }
-            });
-            dialog.setNegativeButton("取消", new DialogInterface.OnClickListener()
-            {
+                    private void cleanRequestFC() {
+                    }
+                });
+                dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which)
-                {
-                    // TODO Auto-generated method stub
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
 
-                }
-            });
+                    }
+                });
 
-            dialog.show();
-        }
+                dialog.show();
+            }
             break;
-        case R.id.backtext:
-        {
-            closeSelf(FriendsResActivity.this);
-        }
+            case R.id.backtext: {
+                closeSelf(FriendsResActivity.this);
+            }
             break;
-        default:
-            break;
+            default:
+                break;
         }
     }
 
-    
-
 
     /**
-     * 
      * @类名称：FriendtAdapter
      * @类描述：好友求流量适配
      * @创建人：aaron
@@ -282,38 +244,32 @@ public class FriendsResActivity extends BaseActivity implements
      * @修改备注：
      * @version:
      */
-    public class FriendtAdapter extends BaseAdapter
-    {
+    public class FriendtAdapter extends BaseAdapter {
 
         @Override
-        public int getCount()
-        {
+        public int getCount() {
             // TODO Auto-generated method stub
             return reqFMlist.size();
         }
 
         @Override
-        public Object getItem(int position)
-        {
+        public Object getItem(int position) {
             // TODO Auto-generated method stub
             return reqFMlist.get(position);
         }
 
         @Override
-        public long getItemId(int position)
-        {
+        public long getItemId(int position) {
             // TODO Auto-generated method stub
             return position;
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
+        public View getView(int position, View convertView, ViewGroup parent) {
             // TODO Auto-generated method stub
             ViewHolder holder = null;
             Resources res = FriendsResActivity.this.getResources();
-            if (convertView == null)
-            {
+            if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = View.inflate(FriendsResActivity.this,
                         R.layout.friend_item_ui, null);
@@ -331,24 +287,20 @@ public class FriendsResActivity extends BaseActivity implements
                 holder.label = (TextView) convertView
                         .findViewById(R.id.label);
                 convertView.setTag(holder);
-            } else
-            {
+            } else {
                 holder = (ViewHolder) convertView.getTag();
             }
             // 加载图片
-            if (reqFMlist.size() > 0)
-            {
+            if (reqFMlist.size() > 0) {
                 BitmapLoader.create().displayUrl(FriendsResActivity.this,
                         holder.img, reqFMlist.get(position).getFromPicUrl());
                 holder.phoneNumber.setText(reqFMlist.get(position)
                         .getFrom());
                 String userName = reqFMlist.get(position).getFromName();
-                if (null != userName)
-                {
+                if (null != userName) {
                     holder.contactName.setText(userName);
                     holder.account.setText("");
-                } else
-                {
+                } else {
                     holder.account.setText("");
                 }
 
@@ -361,19 +313,16 @@ public class FriendsResActivity extends BaseActivity implements
                 holder.label.setText("向你求");
                 int sex = reqFMlist.get(position).getFromSex();
                 // 男
-                if (0 == sex)
-                {
+                if (0 == sex) {
                     SystemTools.loadBackground(holder.account, res.getDrawable(R.drawable.friends_sex_male));
-                } else if (1 == sex)
-                {
+                } else if (1 == sex) {
                     SystemTools.loadBackground(holder.account, res.getDrawable(R.drawable.friends_sex_female));
                 }
             }
             return convertView;
         }
 
-        class ViewHolder
-        {
+        class ViewHolder {
             NetworkImageView img;// 联系人图片
 
             TextView phoneNumber;// 联系人手机
@@ -391,58 +340,47 @@ public class FriendsResActivity extends BaseActivity implements
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
-            long id)
-    {
+                            long id) {
         // TODO Auto-generated method stub
-        FCBean fcbean = reqFMlist.get(position-1);
+        FCBean fcbean = reqFMlist.get(position - 1);
         AlertDialog.Builder dialog = new AlertDialog.Builder(FriendsResActivity.this);
         dialog.setTitle("好友求流量");
-        if(0 == fcbean.getFromSex())
-        {
+        if (0 == fcbean.getFromSex()) {
             dialog.setMessage("送他" + fcbean.getFee() + "M流量。");
         }
-        if(1 == fcbean.getFromSex())
-        {
+        if (1 == fcbean.getFromSex()) {
             dialog.setMessage("送她" + fcbean.getFee() + "M流量。");
         }
-        dialog.setPositiveButton("确认", new DialogInterface.OnClickListener()
-        {
-            
+        dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
                 // 送流量接口
                 new SendFlowAsyncTask().execute();
             }
         });
-        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener()
-        {
-            
+        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
             @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
+            public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
-                
+
             }
         });
-        
+
         dialog.show();
         int idx = position - 1;
         if (idx < 0 || idx >= reqFMlist.size())
             return;
 
 
-
-
     }
 
-    public class LoadFriendsAsyncTask extends AsyncTask<Void, Void, FMFCList>
-    {
+    public class LoadFriendsAsyncTask extends AsyncTask<Void, Void, FMFCList> {
         private int loadType;// 0：下拉，1：上拉
 
-        public LoadFriendsAsyncTask(int loadType)
-        {
+        public LoadFriendsAsyncTask(int loadType) {
             // TODO Auto-generated constructor stub
             this.loadType = loadType;
         }
@@ -450,7 +388,7 @@ public class FriendsResActivity extends BaseActivity implements
         int size;
 
         public LoadFriendsAsyncTask() {
-            
+
         }
 
 
@@ -512,9 +450,7 @@ public class FriendsResActivity extends BaseActivity implements
         }
 
 
-
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             // TODO Auto-generated method stub
             super.onPreExecute();
             FriendsResActivity.this.showProgress();
@@ -530,110 +466,89 @@ public class FriendsResActivity extends BaseActivity implements
             AlphaAnimation anima = new AlphaAnimation(0.0f, 5.0f);
             anima.setDuration(1000);// 设置动画显示时间
             listNotice.setAnimation(anima);
-            if (Constant.IS_PRODUCTION_ENVIRONMENT)
-            {
+            if (Constant.IS_PRODUCTION_ENVIRONMENT) {
                 // 下拉刷新和上拉加载分开处理
-                if (Constant.REFRESH == loadType)
-                {
+                if (Constant.REFRESH == loadType) {
                     // 下拉刷新
-                    if (1 == result.getResultCode())
-                    {
+                    if (1 == result.getResultCode()) {
                         // 重新加载数据
                         reqFMlist.clear();
-                        if( result.getResultData().getRequests() !=null) {
+                        if (result.getResultData().getRequests() != null) {
                             reqFMlist.addAll(result.getResultData().getRequests());
                         }
                         adapter.notifyDataSetChanged();
-                        anima.setAnimationListener(new Animation.AnimationListener()
-                        {
+                        anima.setAnimationListener(new Animation.AnimationListener() {
                             @Override
-                            public void onAnimationStart(Animation animation)
-                            {
+                            public void onAnimationStart(Animation animation) {
                                 // TODO Auto-generated method stub
                                 listNotice.setVisibility(View.VISIBLE);
-                                if (result.getResultData().getRequests().isEmpty())
-                                {
+                                if (result.getResultData().getRequests().isEmpty()) {
                                     listNotice.setText("系统暂无任务");
-                                } else
-                                {
+                                } else {
                                     listNotice.setText("数据已经刷新");
                                 }
                             }
 
                             @Override
-                            public void onAnimationEnd(Animation animation)
-                            {
+                            public void onAnimationEnd(Animation animation) {
                                 // TODO Auto-generated method stub
                                 listNotice.setVisibility(View.GONE);
                             }
 
                             @Override
-                            public void onAnimationRepeat(Animation animation)
-                            {
+                            public void onAnimationRepeat(Animation animation) {
                                 // TODO Auto-generated method stub
 
                             }
 
                         });
 
-                    } else if (5000 == result.getResultCode())
-                    {
+                    } else if (5000 == result.getResultCode()) {
                         reqFMlist.clear();
                         adapter.notifyDataSetChanged();
                         // 刷新列表
-                        anima.setAnimationListener(new Animation.AnimationListener()
-                        {
+                        anima.setAnimationListener(new Animation.AnimationListener() {
 
                             @Override
-                            public void onAnimationStart(Animation animation)
-                            {
+                            public void onAnimationStart(Animation animation) {
                                 // TODO Auto-generated method stub
                                 listNotice.setVisibility(View.VISIBLE);
                                 listNotice.setText("系统暂无任务");
                             }
 
                             @Override
-                            public void onAnimationEnd(Animation animation)
-                            {
+                            public void onAnimationEnd(Animation animation) {
                                 // TODO Auto-generated method stub
                                 listNotice.setVisibility(View.GONE);
 
                             }
 
                             @Override
-                            public void onAnimationRepeat(Animation animation)
-                            {
+                            public void onAnimationRepeat(Animation animation) {
                                 // TODO Auto-generated method stub
 
                             }
 
                         });
-                    }
-                    else if (Constant.TOKEN_OVERDUE == result.getResultCode())
-                    {
+                    } else if (Constant.TOKEN_OVERDUE == result.getResultCode()) {
                         // 提示账号异地登陆，强制用户退出
                         // 并跳转到登录界面
-                        ToastUtils.showLongToast(FriendsResActivity.this , "账户登录过期，请重新登录");
+                        ToastUtils.showLongToast(FriendsResActivity.this, "账户登录过期，请重新登录");
                         Handler mHandler = new Handler();
-                        mHandler.postDelayed(new Runnable()
-                        {
+                        mHandler.postDelayed(new Runnable() {
 
                             @Override
-                            public void run()
-                            {
+                            public void run() {
                                 // TODO Auto-generated method stub
                                 ActivityUtils.getInstance().loginOutInFragment(
                                         FriendsResActivity.this);
                             }
                         }, 2000);
                     }
-                } else if (Constant.LOAD_MORE == loadType)
-                {
+                } else if (Constant.LOAD_MORE == loadType) {
                     // 上拉加载
-                    if (1 == result.getResultCode())
-                    {
-                        if (!result.getResultData().getRequests().isEmpty())
-                        {
+                    if (1 == result.getResultCode()) {
+                        if (!result.getResultData().getRequests().isEmpty()) {
                             // 重新加载数据
                             //datas.clear();
                             size = result.getResultData().getRequests().size();
@@ -641,81 +556,66 @@ public class FriendsResActivity extends BaseActivity implements
                             reqFMlist.addAll(result.getResultData().getRequests());
                             adapter.notifyDataSetChanged();
                         }
-                        anima.setAnimationListener(new Animation.AnimationListener()
-                        {
+                        anima.setAnimationListener(new Animation.AnimationListener() {
 
                             @Override
-                            public void onAnimationStart(Animation animation)
-                            {
+                            public void onAnimationStart(Animation animation) {
                                 // TODO Auto-generated method stub
                                 listNotice.setVisibility(View.VISIBLE);
-                                if (!result.getResultData().getRequests().isEmpty())
-                                {
+                                if (!result.getResultData().getRequests().isEmpty()) {
                                     listNotice.setText("加载了" + size + "条数据");
-                                } else
-                                {
+                                } else {
                                     listNotice.setText("没有可加载的数据");
                                 }
                             }
 
                             @Override
-                            public void onAnimationEnd(Animation animation)
-                            {
+                            public void onAnimationEnd(Animation animation) {
                                 // TODO Auto-generated method stub
                                 listNotice.setVisibility(View.GONE);
                             }
 
                             @Override
-                            public void onAnimationRepeat(Animation animation)
-                            {
+                            public void onAnimationRepeat(Animation animation) {
                                 // TODO Auto-generated method stub
 
                             }
 
                         });
-                    } else if (5000 == result.getResultCode())
-                    {
-                        anima.setAnimationListener(new Animation.AnimationListener()
-                        {
+                    } else if (5000 == result.getResultCode()) {
+                        anima.setAnimationListener(new Animation.AnimationListener() {
 
                             @Override
-                            public void onAnimationStart(Animation animation)
-                            {
+                            public void onAnimationStart(Animation animation) {
                                 // TODO Auto-generated method stub
                                 listNotice.setVisibility(View.VISIBLE);
                                 listNotice.setText("没有可加载的数据");
                             }
 
                             @Override
-                            public void onAnimationEnd(Animation animation)
-                            {
+                            public void onAnimationEnd(Animation animation) {
                                 // TODO Auto-generated method stub
                                 listNotice.setVisibility(View.GONE);
 
                             }
 
                             @Override
-                            public void onAnimationRepeat(Animation animation)
-                            {
+                            public void onAnimationRepeat(Animation animation) {
                                 // TODO Auto-generated method stub
 
                             }
 
                         });
 
-                    }
-                    else if (Constant.TOKEN_OVERDUE == result.getResultCode())
-                    {
+                    } else if (Constant.TOKEN_OVERDUE == result.getResultCode()) {
                         // 提示账号异地登陆，强制用户退出
                         // 并跳转到登录界面
                         ToastUtils.showLongToast(FriendsResActivity.this, "账户登录过期，请重新登录");
                         Handler mHandler = new Handler();
-                        mHandler.postDelayed(new Runnable()
-                        {
+                        mHandler.postDelayed(new Runnable() {
 
                             @Override
-                            public void run()
-                            {
+                            public void run() {
                                 // TODO Auto-generated method stub
                                 ActivityUtils.getInstance().loginOutInFragment(
                                         FriendsResActivity.this
@@ -724,51 +624,46 @@ public class FriendsResActivity extends BaseActivity implements
                         }, 2000);
                     }
                 }
-            } else
-            {
+            } else {
                 //测试代码
             }
         }
 
 
     }
-    
-    
-    public class SendFlowAsyncTask extends AsyncTask<Void, Void, Void>
-    {
+
+
+    public class SendFlowAsyncTask extends AsyncTask<Void, Void, Void> {
 
         @Override
-        protected Void doInBackground(Void... params)
-        {
+        protected Void doInBackground(Void... params) {
             // TODO Auto-generated method stub
             return null;
         }
-        
+
     }
-    public class ClearInfoAsyncTask extends AsyncTask<Void, Void, BaseBaseBean>{
-        protected BaseBaseBean doInBackground(Void... params)
-        {
+
+    public class ClearInfoAsyncTask extends AsyncTask<Void, Void, BaseBaseBean> {
+        protected BaseBaseBean doInBackground(Void... params) {
             String url = Constant.DELETE_LIST;
-            ObtainParamsMap obtainMap=new ObtainParamsMap( FriendsResActivity.this );
+            ObtainParamsMap obtainMap = new ObtainParamsMap(FriendsResActivity.this);
             String paraString = obtainMap.getMap();
-            Map<String , String > signMap = new HashMap<String, String>();
+            Map<String, String> signMap = new HashMap<String, String>();
             String sign = obtainMap.getSign(signMap);
-            url+="?"+ paraString;
             try {
-                url+="&sign="+ URLEncoder.encode(sign, "UTF-8");
+                url += "?sign=" + URLEncoder.encode(sign, "UTF-8") + paraString;
+
+
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
 
             String responseStr = HttpUtil.getInstance().doGet(url);
-            JSONUtil<BaseBaseBean> jsonUtil=new JSONUtil<BaseBaseBean>();
+            JSONUtil<BaseBaseBean> jsonUtil = new JSONUtil<BaseBaseBean>();
             BaseBaseBean result = new BaseBaseBean();
-            try
-            {
+            try {
                 result = jsonUtil.toBean(responseStr, result);
-            }
-            catch(JsonSyntaxException e)
-            {
+            } catch (JsonSyntaxException e) {
                 LogUtil.e("JSON_ERROR", e.getMessage());
                 result.setResultCode(0);
                 result.setResultDescription("解析json出错");
@@ -787,6 +682,7 @@ public class FriendsResActivity extends BaseActivity implements
         protected void onPostExecute(BaseBaseBean result) {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
+            FriendsResActivity.this.dismissProgress();
 
 
         }
