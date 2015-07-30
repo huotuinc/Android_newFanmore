@@ -18,6 +18,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -57,6 +58,7 @@ import cy.com.morefan.util.JSONUtil;
 import cy.com.morefan.util.KJLoger;
 import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.StringUtils;
+import cy.com.morefan.util.SystemTools;
 import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.util.Util;
 import cy.com.morefan.view.KJListView;
@@ -218,6 +220,10 @@ public class FragPre extends BaseFragment implements DataListener, Callback
                 listView.setRefreshTime(
                         DateUtils.formatDate(System.currentTimeMillis()),
                         getActivity());
+
+                //SystemTools.loadBackground(listView, null);
+                listView.setBackgroundColor(Color.TRANSPARENT);
+
                 new PreTaskAsyncTask(Constant.REFRESH)
                         .execute(Constant.PREVIEW_TASK_LIST);
                 listView.stopRefreshData();
@@ -227,6 +233,8 @@ public class FragPre extends BaseFragment implements DataListener, Callback
             public void onLoadMore()
             {
                 // TODO Auto-generated method stub
+                listView.setBackgroundColor(Color.TRANSPARENT);
+
                 listView.setRefreshTime(
                         DateUtils.formatDate(System.currentTimeMillis()),
                         getActivity());
@@ -602,6 +610,7 @@ public class FragPre extends BaseFragment implements DataListener, Callback
                                 if(result.getResultData().getTask().isEmpty())
                                 {
                                     listNotice.setText("系统暂无任务");
+                                    listView.setBackgroundResource(R.drawable.nodata);
                                 }
                                 else
                                 {
