@@ -35,6 +35,8 @@ public class ObtainParamsMap
         timestamp = String.valueOf(System.currentTimeMillis());
     }
 
+
+
     /**
      * 
      * @方法描述：获取post数据

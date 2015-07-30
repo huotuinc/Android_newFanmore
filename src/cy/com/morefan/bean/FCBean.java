@@ -28,7 +28,7 @@ public class FCBean {
         return fromTele;
     }
 
-    public float getInfoId() {
+    public int getInfoId() {
         return infoId;
     }
 
@@ -60,7 +60,7 @@ public class FCBean {
         this.fromTele = fromTele;
     }
 
-    public void setInfoId(float infoId) {
+    public void setInfoId(int infoId) {
         this.infoId = infoId;
     }
 
@@ -74,7 +74,7 @@ public class FCBean {
     private String fromPicUrl;
     private int fromSex;
     private String fromTele;
-    private float infoId;
+    private int infoId;
     private String message;
 
 }
