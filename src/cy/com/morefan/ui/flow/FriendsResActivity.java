@@ -59,7 +59,6 @@ import cy.com.morefan.view.CyButton;
 import cy.com.morefan.view.KJListView;
 import cy.com.morefan.view.KJRefreshListener;
 
-import static android.app.PendingIntent.getActivity;
 
 /**
  * @类名称：FriendsResActivity

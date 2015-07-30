@@ -106,6 +106,8 @@ public class Constant
 
     public static final String MAKEPROVIDE = BASE_URL +"makeProvide";//赠送流量
 
+    public static final String DELETEREQUEST = BASE_URL +"deleteRequestFC";//删除一条求赠信息
+
     public static final String DELIVERGOOD = BASE_URL +"deliverGood";//发货接口
 
     // 获取验证码类型
