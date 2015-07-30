@@ -17,6 +17,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -123,41 +125,65 @@ public class SendFlowActivity extends BaseActivity implements Callback,
      *@exception 
      *@since
      */
-    private void accpetFlow()
-    {
-        if(TextUtils.isEmpty(flowText.getText()))
-        {
+    private void accpetFlow() {
+        if (TextUtils.isEmpty(flowText.getText())) {
             //
             flowText.setError("请输入流量");
             return;
-        }
-        else
-        {
-            // 求流量接口
-            String to ="";
-            String message="亲，送奴婢点流量吧";
-            if( bundle.containsKey("fanmoreUsername")){
-                to= bundle.getString("fanmoreUsername");
-            }
-
+        } else {
             int flow = 0;
-
             try {
                 flow = Integer.parseInt(flowText.getText().toString());
-            }
-            catch ( NumberFormatException ex){
-                ToastUtils.showLongToast(SendFlowActivity.this,"请输入正确的正数字");
+            } catch (NumberFormatException ex) {
+                ToastUtils.showLongToast(SendFlowActivity.this, "请输入正确的正数字");
                 return;
             }
-            if(flow<=0){
-                ToastUtils.showLongToast(SendFlowActivity.this,"请输入大于零的正数字");
+            if (flow <= 0) {
+                ToastUtils.showLongToast(SendFlowActivity.this, "请输入大于零的正数字");
                 return;
             }
-            String flowStr=String.valueOf(flow);
 
-            new MakeRequestAsyncTask( SendFlowActivity.this , to, message , flowStr ).execute();
+            AlertDialog.Builder dialog = new AlertDialog.Builder(SendFlowActivity.this);
+            LinearLayout llContent = new LinearLayout(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            llContent.setOrientation(LinearLayout.HORIZONTAL);
+            params.setMargins(5, 5, 5, 5);
+            llContent.setPadding(8, 10, 8, 0);
+            llContent.setLayoutParams(params);
+
+            final EditText etMessage = new EditText(this);
+            etMessage.setHint("亲，送奴婢点流量吧");
+            etMessage.setLayoutParams(params);
+            etMessage.setSingleLine(true);
+            llContent.addView(etMessage);
+            dialog.setView(llContent);
+
+            dialog.setTitle("向你的小伙伴说点什么");
+            dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String to = "";
+                    String message = etMessage.getText().toString().trim();
+                    if (bundle.containsKey("fanmoreUsername")) {
+                        to = bundle.getString("fanmoreUsername");
+                    }
+                    int flow = 0;
+                    flow = Integer.parseInt(flowText.getText().toString());
+                    String flowStr = String.valueOf(flow);
+                    new MakeRequestAsyncTask(SendFlowActivity.this, to, message, flowStr).execute();
+                }
+            });
+            dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // TODO Auto-generated method stub
+                }
+            });
+
+            dialog.show();
         }
-                    
     }
     
     /**
@@ -190,8 +216,30 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         }
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(SendFlowActivity.this);
-        dialog.setTitle("送流量");
-        dialog.setMessage("我要送" + flowText.getText().toString() + "M流量。");
+
+        LinearLayout llContent = new LinearLayout(this);
+        LinearLayout.LayoutParams params =new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        llContent.setOrientation(LinearLayout.HORIZONTAL);
+        params.setMargins(5, 5, 5, 5);
+        llContent.setPadding(8,10,8,0);
+        llContent.setLayoutParams(params);
+
+        final EditText etMessage=new EditText(this);
+        etMessage.setHint("朕赏你点流量，还不谢恩");
+        //params =new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+        //        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        //params.setMargins(4, 2, 4, 2);
+        //etMessage.setPadding(4, 4, 4, 4);
+        etMessage.setLayoutParams(params);
+        etMessage.setSingleLine(true);
+
+        llContent.addView(etMessage);
+
+        dialog.setView(llContent);
+
+        dialog.setTitle("向你的小伙伴说点什么");
+        //dialog.setMessage("我要送" + flowText.getText().toString() + "M流量。");
         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
             @Override
@@ -203,8 +251,8 @@ public class SendFlowActivity extends BaseActivity implements Callback,
                 if( bundle.containsKey("originMobile")) {
                     mobile = bundle.getString("originMobile");
                 }
-                String message="朕赏你点流量,还不谢恩";
-                float flow = Float.parseFloat(flowText.getText().toString());
+                String message=etMessage.getText().toString().trim();//"朕赏你点流量,还不谢恩";
+                int flow = Integer.parseInt(flowText.getText().toString());
                 String flowStr= String.valueOf(flow);
                 new MakeProvideAsyncTask(SendFlowActivity.this , mHandler , mobile , flowStr , message ).execute();
             }

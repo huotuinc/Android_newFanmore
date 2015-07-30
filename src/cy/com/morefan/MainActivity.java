@@ -193,7 +193,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
             Util.loginUI();
             BitmapLoader.create().displayUrl(MainActivity.this, headImage,
                     imageUrl, 
-                    R.drawable.ic_login_username, R.drawable.error);
+                    R.drawable.mrtou, R.drawable.error);
             loginUser.setText(MyApplication.readUserName(MainActivity.this));
             if (Util.isM(MyApplication.readUserBalance(MainActivity.this)))
             {
