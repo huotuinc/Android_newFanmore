@@ -116,7 +116,7 @@
     <!-- 送流量界面按钮 -->
     <dimen name="flow_width_half">150dp</dimen>
     <!-- 好友求流量界面流量字体 -->
-    <dimen name="friends_accpet_text">18sp</dimen>
+    <dimen name="friends_accpet_text">10sp</dimen>
     <dimen name="radius">3dp</dimen>
     <!-- 流量面板单元 -->
     <dimen name="flow_item_width">90dp</dimen>

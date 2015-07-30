@@ -294,6 +294,7 @@ public class FriendsResActivity extends BaseActivity implements
                         R.layout.friend_item_ui, null);
                 holder.img = (NetworkImageView) convertView
                         .findViewById(R.id.img);
+                holder.msg =(TextView)convertView.findViewById(R.id.msg);
                 holder.phoneNumber = (TextView) convertView
                         .findViewById(R.id.phoneNumber);
                 holder.contactName = (TextView) convertView
@@ -313,8 +314,9 @@ public class FriendsResActivity extends BaseActivity implements
             if (reqFMlist.size() > 0) {
                 BitmapLoader.create().displayUrl(FriendsResActivity.this,
                         holder.img, reqFMlist.get(position).getFromPicUrl());
-                holder.phoneNumber.setText(reqFMlist.get(position)
-                        .getFrom());
+                holder.phoneNumber.setText("("+reqFMlist.get(position)
+                        .getFrom()+")");
+                holder.msg.setText(reqFMlist.get(position).getMessage());
                 String userName = reqFMlist.get(position).getFromName();
                 if (null != userName) {
                     holder.contactName.setText(userName);
@@ -345,6 +347,7 @@ public class FriendsResActivity extends BaseActivity implements
             NetworkImageView img;// 联系人图片
 
             TextView phoneNumber;// 联系人手机
+            TextView msg;//留言信息
 
             TextView contactName;// 联系人
 

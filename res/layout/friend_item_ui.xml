@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
-    android:background="@color/theme_color" >
+    android:background="@color/theme_color">
 
     <!-- 首字母 -->
 
@@ -16,8 +16,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/ic_launcher" >
-    </com.android.volley.toolbox.NetworkImageView>
+        android:background="@drawable/ic_launcher"></com.android.volley.toolbox.NetworkImageView>
 
     <ImageView
         android:id="@+id/hread_img"
@@ -30,48 +29,52 @@
         android:background="@drawable/menu_user_logo_bg" />
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="@dimen/contact_logo_width"
         android:layout_height="10dp"
         android:layout_below="@+id/hread_img"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/white_bg"
-        android:id="@+id/textView" />
+        android:background="@drawable/white_bg" />
 
     <TextView
         android:id="@+id/account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:background="@drawable/friends_sex_male"
 
+        android:background="@drawable/friends_sex_male"
         android:textColor="@color/white"
         android:textSize="12sp"
+
         android:layout_below="@+id/msg"
-        android:layout_toLeftOf="@+id/phoneNumber"
-         />
+        android:layout_alignLeft="@+id/msg"
+        android:layout_alignStart="@+id/msg" />
 
     <TextView
         android:id="@+id/contactName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="小米"
-        android:layout_marginLeft="10dp"
-        android:textColor="@color/list_text_normal"
-        android:textSize="@dimen/normal_label"
         android:layout_alignTop="@+id/img"
+        android:layout_marginLeft="20dp"
+        android:layout_toEndOf="@+id/img"
         android:layout_toRightOf="@+id/img"
-        android:layout_toEndOf="@+id/img" />
+        android:text="小米"
+        android:textColor="@color/list_text_normal"
+        android:textSize="@dimen/normal_label" />
+
     <TextView
         android:id="@+id/msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="留言信息"
-        android:textColor="@color/list_text_normal"
-        android:textSize="@dimen/normal_label"
         android:layout_below="@+id/phoneNumber"
+        android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/img"
-        />
+        android:text="留言信息"
+        android:singleLine="true"
+        android:textColor="@color/list_text_normal"
+        android:textSize="12sp"
+        android:layout_toLeftOf="@+id/flows"
+        android:layout_toStartOf="@+id/flows" />
 
 
     <TextView
@@ -96,18 +99,18 @@
         android:text="移动"
         android:textColor="@color/list_text_normal"
         android:textSize="@dimen/normal_label"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/phoneNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/contactName"
+        android:layout_toEndOf="@+id/contactName"
+        android:layout_toRightOf="@+id/contactName"
         android:text="13588741728"
         android:textColor="@color/list_text_normal"
-        android:textSize="@dimen/normal_label"
-        android:layout_alignTop="@+id/contactName"
-        android:layout_toRightOf="@+id/contactName"
-        android:layout_toEndOf="@+id/contactName" />
+        android:textSize="@dimen/normal_label" />
 
     <TextView
         android:id="@+id/label"
@@ -123,8 +126,7 @@
         android:id="@+id/alphaL"
         android:layout_width="fill_parent"
         android:layout_height="20dp"
-        android:background="@color/activity_bg"
-        >
+        android:background="@color/activity_bg">
 
         <TextView
             android:id="@+id/alpha"
@@ -137,8 +139,7 @@
             android:gravity="center_vertical|left"
             android:textColor="@color/black"
             android:textSize="@dimen/normal_label"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
     </RelativeLayout>
 
 </RelativeLayout>
