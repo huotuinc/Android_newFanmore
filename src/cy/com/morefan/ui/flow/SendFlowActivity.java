@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -204,7 +206,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
                 String message="朕赏你点流量,还不谢恩";
                 float flow = Float.parseFloat(flowText.getText().toString());
                 String flowStr= String.valueOf(flow);
-                new MakeProvideAsyncTask(SendFlowActivity.this , mobile , flowStr , message ).execute();
+                new MakeProvideAsyncTask(SendFlowActivity.this , mHandler , mobile , flowStr , message ).execute();
             }
         });
         dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -220,10 +222,21 @@ public class SendFlowActivity extends BaseActivity implements Callback,
 
     }
 
+
+
     @Override
     public boolean handleMessage(Message msg)
     {
         // TODO Auto-generated method stub
+        switch ( msg.what){
+            case MakeProvideAsyncTask.SUCCESS:
+                ToastUtils.showLongToast(this, msg.obj.toString());
+                break;
+            case MakeProvideAsyncTask.FAIL:
+                ToastUtils.showLongToast(this,msg.obj.toString());
+                break;
+        }
+
         return false;
     }
 
