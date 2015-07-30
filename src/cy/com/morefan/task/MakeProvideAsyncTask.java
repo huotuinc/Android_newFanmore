@@ -2,8 +2,11 @@ package cy.com.morefan.task;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Message;
 
 import com.google.gson.JsonSyntaxException;
 import com.sina.weibo.sdk.utils.LogUtil;
@@ -31,10 +34,14 @@ public class MakeProvideAsyncTask extends AsyncTask<Void,Void, FMMakeProvide> {
     Context context;
     String flow;
     String message;
+    Handler handler;
+    public static final int SUCCESS=5052;
+    public static final int FAIL=5053;
 
 
-    public MakeProvideAsyncTask(Context context , String mobile , String flow,String message){
+    public MakeProvideAsyncTask(Context context ,Handler handler , String mobile , String flow,String message){
         this.context=context;
+        this.handler=handler;
         this.mobile=mobile;
         this.flow=flow;
         this.message=message;
@@ -93,11 +100,17 @@ public class MakeProvideAsyncTask extends AsyncTask<Void,Void, FMMakeProvide> {
         ((BaseActivity)context).dismissProgress();
 
         if( fmMakeProvide==null){
-            ToastUtils.showLongToast(context, "请求失败");
+            //ToastUtils.showLongToast(context, "请求失败");
+            Message msg = handler.obtainMessage( FAIL);
+            msg.obj="请求失败";
+            handler.sendMessage(msg);
             return;
         }
         if( fmMakeProvide.getSystemResultCode() != 1){
-            ToastUtils.showLongToast(context, fmMakeProvide.getSystemResultDescription());
+            //ToastUtils.showLongToast(context, fmMakeProvide.getSystemResultDescription());
+            Message msg = handler.obtainMessage( FAIL);
+            msg.obj=fmMakeProvide.getSystemResultDescription();
+            handler.sendMessage(msg);
             return;
         }
         if( Constant.TOKEN_OVERDUE == fmMakeProvide.getResultCode()){
@@ -105,12 +118,10 @@ public class MakeProvideAsyncTask extends AsyncTask<Void,Void, FMMakeProvide> {
             // 并跳转到登录界面
             ToastUtils.showLongToast(context, "账户登录过期，请重新登录");
             Handler mHandler = new Handler();
-            mHandler.postDelayed(new Runnable()
-            {
+            mHandler.postDelayed(new Runnable() {
 
                 @Override
-                public void run()
-                {
+                public void run() {
                     // TODO Auto-generated method stub
                     ActivityUtils.getInstance().loginOutInActivity(
                             (Activity) context);
@@ -119,12 +130,39 @@ public class MakeProvideAsyncTask extends AsyncTask<Void,Void, FMMakeProvide> {
             return;
         }
         if( 1!= fmMakeProvide.getResultCode()){
-            ToastUtils.showLongToast( context , fmMakeProvide.getResultDescription());
+            //ToastUtils.showLongToast(context, fmMakeProvide.getResultDescription());
+            Message msg = handler.obtainMessage( FAIL);
+            msg.obj=fmMakeProvide.getResultDescription();
+            handler.sendMessage(msg);
             return;
         }
 
         MyBroadcastReceiver.sendBroadcast(context, MyBroadcastReceiver.ACTION_FLOW_ADD);
-        ToastUtils.showLongToast(context ,"赠送流量成功");
+
+        Message msg = handler.obtainMessage( SUCCESS);
+        msg.obj="赠送流量成功";
+        handler.sendMessage(msg);
+
+        if( null != fmMakeProvide.getResultData() && null != fmMakeProvide.getResultData().getSmsContent() && fmMakeProvide.getResultData().getSmsContent().length()>0 ){
+            sendFlowBySms( mobile , fmMakeProvide.getResultData().getSmsContent() );
+        }else {
+            //ToastUtils.showLongToast(context, "赠送流量成功");
+        }
+    }
+
+
+    /**
+     * 送给非粉猫用户，则发送短信通知
+     */
+    private void sendFlowBySms( String mobile , String smsContext ){
+
+        Uri smsToUri = Uri.parse("smsto:"+ mobile );
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO, smsToUri);
+
+        intent.putExtra("sms_body", smsContext);
+
+        context.startActivity(intent);
     }
 }
 

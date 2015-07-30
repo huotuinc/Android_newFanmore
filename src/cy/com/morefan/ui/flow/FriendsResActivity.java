@@ -358,7 +358,7 @@ public class FriendsResActivity extends BaseActivity implements
                 // TODO Auto-generated method stub
                 // 送流量接口
                 String msg="朕赏你点流量,还不谢恩";
-                new MakeProvideAsyncTask(FriendsResActivity.this, fcbean.getFrom() , String.valueOf(fcbean.getFee()) , msg).execute();
+                new MakeProvideAsyncTask(FriendsResActivity.this, mHandler, fcbean.getFrom() , String.valueOf(fcbean.getFee()) , msg).execute();
             }
         });
         dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
