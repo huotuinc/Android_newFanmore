@@ -414,6 +414,4 @@ public class SendFlowActivity extends BaseActivity implements Callback,
             SendFlowActivity.this.showProgress("正在发送请求...");
         }
     }
-
-
 }
