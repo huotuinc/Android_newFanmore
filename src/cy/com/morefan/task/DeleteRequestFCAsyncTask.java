@@ -28,7 +28,7 @@ import cy.com.morefan.util.ToastUtils;
 /**
  * Created by Administrator on 2015/7/30.
  */
-public class DeleteRequestFCAsyncTask extends AsyncTask<Integer, Void, FMDeleteRequestFC> {
+public class DeleteRequestFCAsyncTask extends AsyncTask<Void, Void, FMDeleteRequestFC> {
     Context context;
     Handler handler;
     Integer infoId;
@@ -41,7 +41,7 @@ public class DeleteRequestFCAsyncTask extends AsyncTask<Integer, Void, FMDeleteR
         this.infoId=infoId;
     }
 
-    protected FMDeleteRequestFC doInBackground(Integer... params) {
+    protected FMDeleteRequestFC doInBackground(Void... params) {
 
         String url = Constant.DELETEREQUEST;
         ObtainParamsMap obtainMap = new ObtainParamsMap(context);
@@ -53,7 +53,7 @@ public class DeleteRequestFCAsyncTask extends AsyncTask<Integer, Void, FMDeleteR
         try
 
         {
-            url += "?sign=" + URLEncoder.encode(sign, "UTF-8") + paraString+"infoId="+ URLEncoder.encode(String.valueOf(infoId), "UTF-8");
+            url += "?sign=" + URLEncoder.encode(sign, "UTF-8") + paraString+"&infoId="+ URLEncoder.encode(String.valueOf(infoId), "UTF-8");
 
 
         } catch (
