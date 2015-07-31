@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
@@ -141,6 +142,10 @@ public class MakeProvideAsyncTask extends AsyncTask<Void,Void, FMMakeProvide> {
 
         Message msg = handler.obtainMessage( SUCCESS);
         msg.obj="赠送流量成功";
+        Bundle bd= new Bundle();
+        bd.putString("flow",flow);
+        msg.setData(bd);
+        //msg.obj=flow;
         handler.sendMessage(msg);
 
         if( null != fmMakeProvide.getResultData() && null != fmMakeProvide.getResultData().getSmsContent() && fmMakeProvide.getResultData().getSmsContent().length()>0 ){

@@ -64,7 +64,6 @@ import java.util.Map;
 public class SendFlowActivity extends BaseActivity implements Callback,
         OnClickListener
 {
-
     public Handler mHandler = new Handler(this);
     private Bundle bundle;
     private NetworkImageView img;
@@ -80,6 +79,8 @@ public class SendFlowActivity extends BaseActivity implements Callback,
     private TextView flows;
     //返回文字事件
     private TextView backText;
+    //
+    private float myFlow;
     
     @Override
     public void onClick(View v)
@@ -279,6 +280,15 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         switch ( msg.what){
             case MakeProvideAsyncTask.SUCCESS:
                 ToastUtils.showLongToast(this, msg.obj.toString());
+
+                Bundle bd= msg.getData();
+                int flow=0;
+                if( bd !=null && bd.containsKey("flow")) {
+                    flow = Integer.valueOf(bd.getString("flow"));
+                }
+                myFlow = myFlow-flow;
+                setFlow(myFlow);
+
                 break;
             case MakeProvideAsyncTask.FAIL:
                 ToastUtils.showLongToast(this,msg.obj.toString());
@@ -318,15 +328,8 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         flows = (TextView) this.findViewById(R.id.flows);
         //flows.setText(bundle.getFloat("fanmoreBalance") + "M");
 
-        if (Util.isM(MyApplication.readUserBalance(SendFlowActivity.this)))
-        {
-            flows.setText(MyApplication.readUserBalance(SendFlowActivity.this) + "MB");
-        } else
-        {
-            // 精确到GB
-            float flow = Float.parseFloat(MyApplication.readUserBalance(SendFlowActivity.this)) / 1024;
-            flows.setText(Util.decimalFloat(flow,Constant.ACCURACY_3) + "GB");
-        }
+        myFlow = Float.parseFloat( MyApplication.readUserBalance(this));
+        setFlow(myFlow);
 
         flowText = (EditText) this.findViewById(R.id.flowText);
         sendFlow = (Button) this.findViewById(R.id.sendFlow);
@@ -345,6 +348,18 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         {
             isAccount.setText("粉猫用户");
             accetFlow.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setFlow( float flow ){
+        if (Util.isM( String.valueOf( flow )))
+        {
+            flows.setText( Util.decimalFloat( flow ,"0.##") + "MB");
+        } else
+        {
+            // 精确到GB
+            float temp = flow / 1024;
+            flows.setText(Util.decimalFloat(temp,Constant.ACCURACY_3) + "GB");
         }
     }
 

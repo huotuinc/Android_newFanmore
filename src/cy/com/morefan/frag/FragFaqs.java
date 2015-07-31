@@ -49,6 +49,7 @@ import cy.com.morefan.util.LoadingUtil;
 import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.SystemTools;
 import cy.com.morefan.util.ToastUtils;
+import cy.com.morefan.util.Util;
 import cy.com.morefan.view.KJListView;
 import cy.com.morefan.view.KJRefreshListener;
 import cy.com.morefan.view.QuickAlphabeticBar;
@@ -112,6 +113,8 @@ public class FragFaqs extends BaseFragment implements Callback,
         contactList.setOnRefreshListener(new KJRefreshListener() {
             @Override
             public void onRefresh() {
+
+
                 contactList.setRefreshTime(
                         DateUtils.formatDate(System.currentTimeMillis()), getActivity());
                 new LoadDataAsyncTask().execute();
@@ -713,8 +716,10 @@ public class FragFaqs extends BaseFragment implements Callback,
                 }
 
                 if(null != contacts.get(position).getFanmoreBalance()) {
-                    holder.flows.setText(contacts.get(position).getFanmoreBalance()
-                            + "M");
+
+                    Number temp = Util.decimalFloat( contacts.get(position).getFanmoreBalance(),"0.###");
+
+                    holder.flows.setText( temp + "M");
                 }else{
                     holder.flows.setText("");
                 }
