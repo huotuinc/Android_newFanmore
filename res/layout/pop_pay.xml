@@ -77,7 +77,6 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/button_height"
         android:textSize="@dimen/button_text_size"
-        android:layout_gravity="center"
         android:layout_margin="10dp"
         android:background="@drawable/play_sel"
         android:textColor="#0096FF"
@@ -85,5 +84,8 @@
         android:layout_below="@id/playConL"
         android:text="取消">
     </Button>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_below="@id/btnCancel"/>
 </RelativeLayout>
