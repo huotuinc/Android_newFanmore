@@ -6,4 +6,8 @@
     <dimen name="mark_bg_size">80dp</dimen>
     <!-- 送流量界面按钮 -->
     <dimen name="flow_width_half">120dp</dimen>
+
+    <dimen name="circle_right">12dp</dimen>
+    <dimen name="circle_top">4dp</dimen>
+
 </resources>

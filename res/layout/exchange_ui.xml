@@ -125,6 +125,17 @@
         android:layout_alignTop="@+id/buyFlowBtn"
         android:layout_alignRight="@+id/exchangeBtn"
         android:layout_alignEnd="@+id/exchangeBtn" />
+    <TextView
+        android:id="@+id/tvRed"
+        android:text=""
+        android:layout_marginTop="@dimen/circle_top"
+        android:layout_marginRight="@dimen/circle_right"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:background="@drawable/circle_red"
+        android:layout_alignTop="@id/friends"
+        android:layout_alignRight="@id/friends"
+        />
 
         <RelativeLayout
         android:id="@+id/rlWaiting"

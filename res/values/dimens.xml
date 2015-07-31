@@ -59,6 +59,8 @@
     <!-- 流量环字体 -->
     <integer name="sub_size">20</integer>
     <integer name="title_size">40</integer>
+    <dimen name="circle_right">15dp</dimen>
+    <dimen name="circle_top">5dp</dimen>
     
     <!-- 按钮字体 -->
     <dimen name="button_text_size">20sp</dimen>
