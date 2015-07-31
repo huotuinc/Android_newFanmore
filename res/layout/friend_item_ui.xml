@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
+
     android:background="@color/theme_color">
 
     <!-- 首字母 -->
@@ -31,24 +32,20 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="@dimen/contact_logo_width"
-        android:layout_height="10dp"
+        android:layout_height="1dp"
         android:layout_below="@+id/hread_img"
         android:layout_marginLeft="10dp"
         android:background="@drawable/white_bg" />
 
     <TextView
         android:id="@+id/account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-
+        android:layout_width="@dimen/friends_male_width"
+        android:layout_height="@dimen/friends_male_height"
         android:background="@drawable/friends_sex_male"
         android:textColor="@color/white"
-        android:textSize="12sp"
-
         android:layout_below="@+id/msg"
         android:layout_alignLeft="@+id/msg"
-        android:layout_alignStart="@+id/msg" />
+        />
 
     <TextView
         android:id="@+id/contactName"
@@ -120,26 +117,27 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:text="TextView"
+        android:layout_below="@+id/flow"
         android:visibility="gone" />
 
-    <RelativeLayout
-        android:id="@+id/alphaL"
-        android:layout_width="fill_parent"
-        android:layout_height="20dp"
-        android:background="@color/activity_bg">
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/alphaL"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="20dp"-->
+        <!--android:background="@color/activity_bg">-->
 
-        <TextView
-            android:id="@+id/alpha"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="10dp"
-            android:background="@color/activity_bg"
-            android:gravity="center_vertical|left"
-            android:textColor="@color/black"
-            android:textSize="@dimen/normal_label"
-            android:visibility="gone" />
-    </RelativeLayout>
+        <!--<TextView-->
+            <!--android:id="@+id/alpha"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:background="@color/activity_bg"-->
+            <!--android:gravity="center_vertical|left"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textSize="@dimen/normal_label"-->
+            <!--android:visibility="gone" />-->
+    <!--</RelativeLayout>-->
 
 </RelativeLayout>

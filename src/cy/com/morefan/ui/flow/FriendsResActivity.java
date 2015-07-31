@@ -11,6 +11,7 @@ import java.util.Map;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -49,6 +50,7 @@ import cy.com.morefan.util.JSONUtil;
 import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.SystemTools;
 import cy.com.morefan.util.ToastUtils;
+import cy.com.morefan.util.Util;
 import cy.com.morefan.view.CyButton;
 import cy.com.morefan.view.KJListView;
 import cy.com.morefan.view.KJRefreshListener;
@@ -114,17 +116,22 @@ public class FriendsResActivity extends BaseActivity implements
             public void onRefresh() {
                 // TODO Auto-generated method stub
                 // 加载数据
+                friendsList.setBackgroundColor(Color.TRANSPARENT);
                 friendsList.setRefreshTime(
                         DateUtils.formatDate(System.currentTimeMillis()),
                         FriendsResActivity.this);
                 new LoadFriendsAsyncTask(Constant.REFRESH)
                         .execute();
                 friendsList.stopRefreshData();
+                friendsList.stopLoadMore();
             }
 
             @Override
             public void onLoadMore() {
                 // TODO Auto-generated method stub
+
+                friendsList.setBackgroundColor(Color.TRANSPARENT);
+
                 friendsList.setRefreshTime(
                         DateUtils.formatDate(System.currentTimeMillis()),
                         FriendsResActivity.this);
@@ -170,19 +177,19 @@ public class FriendsResActivity extends BaseActivity implements
     @Override
     public boolean handleMessage(Message msg) {
         // TODO Auto-generated method stub
-        switch(msg.what){
+        switch (msg.what) {
             case MakeProvideAsyncTask.FAIL:
-                ToastUtils.showLongToast(FriendsResActivity.this,msg.obj.toString());
+                ToastUtils.showLongToast(FriendsResActivity.this, msg.obj.toString());
                 break;
             case MakeProvideAsyncTask.SUCCESS:
-                ToastUtils.showLongToast(FriendsResActivity.this,msg.obj.toString());
-                new DeleteRequestFCAsyncTask(FriendsResActivity.this,mHandler,infoId).execute();
+                ToastUtils.showLongToast(FriendsResActivity.this, msg.obj.toString());
+                new DeleteRequestFCAsyncTask(FriendsResActivity.this, mHandler, infoId).execute();
                 break;
             case DeleteRequestFCAsyncTask.SUCCESS:
                 new LoadFriendsAsyncTask().execute();
                 break;
             case DeleteRequestFCAsyncTask.FAIL:
-                ToastUtils.showLongToast(FriendsResActivity.this,msg.obj.toString());
+                ToastUtils.showLongToast(FriendsResActivity.this, msg.obj.toString());
                 break;
         }
 
@@ -210,6 +217,7 @@ public class FriendsResActivity extends BaseActivity implements
                         //cleanRequestFC();
                         //模拟删除
                         new ClearInfoAsyncTask().execute();
+
                         // 清空列表信息
                         mHandler.post(new Runnable() {
 
@@ -287,7 +295,7 @@ public class FriendsResActivity extends BaseActivity implements
                         R.layout.friend_item_ui, null);
                 holder.img = (NetworkImageView) convertView
                         .findViewById(R.id.img);
-                holder.msg =(TextView)convertView.findViewById(R.id.msg);
+                holder.msg = (TextView) convertView.findViewById(R.id.msg);
                 holder.phoneNumber = (TextView) convertView
                         .findViewById(R.id.phoneNumber);
                 holder.contactName = (TextView) convertView
@@ -307,8 +315,8 @@ public class FriendsResActivity extends BaseActivity implements
             if (reqFMlist.size() > 0) {
                 BitmapLoader.create().displayUrl(FriendsResActivity.this,
                         holder.img, reqFMlist.get(position).getFromPicUrl());
-                holder.phoneNumber.setText("("+reqFMlist.get(position)
-                        .getFrom()+")");
+                holder.phoneNumber.setText("(" + reqFMlist.get(position)
+                        .getFrom() + ")");
                 holder.msg.setText(reqFMlist.get(position).getMessage());
                 String userName = reqFMlist.get(position).getFromName();
                 if (null != userName) {
@@ -318,13 +326,15 @@ public class FriendsResActivity extends BaseActivity implements
                     holder.account.setText("");
                 }
 
-                holder.flows.setText("" + reqFMlist.get(position).getFee() + "M");
+                Number temp = Util.decimalFloat(reqFMlist.get(position).getFee() ,"0.##");
+
+                holder.flows.setText("" +temp + "M");
                 holder.flows.setTextSize(res
                         .getDimension(R.dimen.friends_accpet_text));
                 holder.flows.setTextColor(res.getColor(R.color.accpet_flow_color));
 
                 holder.label.setVisibility(View.VISIBLE);
-                holder.label.setText("向你求");
+                holder.label.setText("");
                 int sex = reqFMlist.get(position).getFromSex();
                 // 男
                 if (0 == sex) {
@@ -365,7 +375,7 @@ public class FriendsResActivity extends BaseActivity implements
 
         final FCBean fcbean = reqFMlist.get(idx);
 
-        infoId=fcbean.getInfoId();
+        infoId = fcbean.getInfoId();
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(FriendsResActivity.this);
         dialog.setTitle("好友求流量");
@@ -375,13 +385,24 @@ public class FriendsResActivity extends BaseActivity implements
         if (1 == fcbean.getFromSex()) {
             dialog.setMessage("送她" + fcbean.getFee() + "M流量。");
         }
+        dialog.setNeutralButton("删除", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                        // 删除接口
+
+                        new DeleteRequestFCAsyncTask(FriendsResActivity.this, mHandler, infoId).execute();
+                    }
+                }
+        );
         dialog.setPositiveButton("确认", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
                 // 送流量接口
-                String msg="朕赏你点流量,还不谢恩";
+                String msg = "朕赏你点流量,还不谢恩";
                 new MakeProvideAsyncTask(FriendsResActivity.this, mHandler, fcbean.getFrom(), String.valueOf(fcbean.getFee()), msg).execute();
             }
         });
@@ -506,8 +527,11 @@ public class FriendsResActivity extends BaseActivity implements
                                 listNotice.setVisibility(View.VISIBLE);
                                 if (result.getResultData().getRequests().isEmpty()) {
                                     listNotice.setText("系统暂无任务");
+                                    friendsList.setBackgroundResource(R.drawable.nodata);
+                                    friendsList.stopLoadMore();
                                 } else {
                                     listNotice.setText("数据已经刷新");
+                                    //friendsList.setBackgroundColor(R.color.activity_bg);
                                 }
                             }
 
@@ -535,7 +559,7 @@ public class FriendsResActivity extends BaseActivity implements
                             public void onAnimationStart(Animation animation) {
                                 // TODO Auto-generated method stub
                                 listNotice.setVisibility(View.VISIBLE);
-                                listNotice.setText("系统暂无任务");
+                                listNotice.setText("系统暂无请求信息");
                             }
 
                             @Override
@@ -588,6 +612,8 @@ public class FriendsResActivity extends BaseActivity implements
                                     listNotice.setText("加载了" + size + "条数据");
                                 } else {
                                     listNotice.setText("没有可加载的数据");
+                                    friendsList.setBackgroundResource(R.drawable.nodata);
+                                    friendsList.stopLoadMore();
                                 }
                             }
 
@@ -705,7 +731,7 @@ public class FriendsResActivity extends BaseActivity implements
             // TODO Auto-generated method stub
             super.onPostExecute(result);
             FriendsResActivity.this.dismissProgress();
-
+            // 清空列表信息
 
         }
     }

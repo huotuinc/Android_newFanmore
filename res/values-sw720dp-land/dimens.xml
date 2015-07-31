@@ -86,6 +86,10 @@
     <dimen name="flow_detail_text_size">30sp</dimen>
     
     <!-- 朋友列表 -->
+    <!--朋友求流量性别图片宽度-->
+    <dimen name="friends_male_width">20dp</dimen>
+    <!--朋友求流量性别图片高度-->
+    <dimen name="friends_male_height">20dp</dimen>
     <!-- 切换板高度 -->
     <dimen name="friends_width">150dp</dimen>
     <!-- 切块高度 -->
