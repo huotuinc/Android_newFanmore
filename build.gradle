@@ -5,12 +5,17 @@ dependencies {
     compile project(':WeiboSDK')
     compile 'com.huotu.android.library:libcropper:1.0'
     compile 'com.huotu.android.library:libedittext:1.0'
-
 }
 
 android {
     signingConfigs {
         defaultConfig {
+            keyAlias 'huotu_fm.keystore'
+            keyPassword 'huotuheyun'
+            storeFile file('E:/myjob/keystore/huotu_fm.keystore')
+            storePassword 'huotuheyun'
+        }
+        release {
             keyAlias 'huotu_fm.keystore'
             keyPassword 'huotuheyun'
             storeFile file('E:/myjob/keystore/huotu_fm.keystore')
@@ -53,6 +58,10 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.defaultConfig
+        }
+        release {
+            signingConfig signingConfigs.release
+            zipAlignEnabled true
         }
     }
 

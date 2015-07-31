@@ -3,6 +3,7 @@ package cy.com.morefan.frag;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import cy.com.morefan.util.DateUtils;
 import cy.com.morefan.view.KJListView;
 import cy.com.morefan.view.KJRefreshListener;
 
+@SuppressLint("ValidFragment")
 public class FraDisciplesTime extends Fragment
 {
     
