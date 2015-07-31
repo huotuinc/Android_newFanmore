@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -37,15 +35,10 @@ import cy.com.morefan.BaseActivity;
 import cy.com.morefan.MyApplication;
 import cy.com.morefan.R;
 import cy.com.morefan.bean.BaseBaseBean;
-import cy.com.morefan.bean.ContactBean;
 import cy.com.morefan.bean.FCBean;
 import cy.com.morefan.bean.FMFCList;
-import cy.com.morefan.bean.FMTaskData;
 import cy.com.morefan.bean.Paging;
-
-import cy.com.morefan.bean.TaskData;
 import cy.com.morefan.constant.Constant;
-
 import cy.com.morefan.task.DeleteRequestFCAsyncTask;
 import cy.com.morefan.task.MakeProvideAsyncTask;
 import cy.com.morefan.util.ActivityUtils;
@@ -103,7 +96,7 @@ public class FriendsResActivity extends BaseActivity implements
         reqFMlist = new ArrayList<FCBean>();
         this.setContentView(R.layout.friends_res_ui);
         this.initView();
-        friendsList.setPullLoadEnable(false);
+        friendsList.setPullLoadEnable(true);
         adapter = new FriendtAdapter();
         friendsList.setAdapter(adapter);
         initList();
