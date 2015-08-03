@@ -1,9 +1,13 @@
 package cy.com.morefan.view;
 
 import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.util.Log;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import cy.com.morefan.util.ToastUtils;
 
 public class FmWebViewClient extends WebViewClient
 {
@@ -21,6 +25,18 @@ public class FmWebViewClient extends WebViewClient
     {
         // TODO Auto-generated method stub
         super.onPageStarted(view, url, favicon);
+    }
+
+    @Override
+    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+        super.onReceivedError(view, errorCode, description, failingUrl);
+        String msg="";
+    }
+
+    @Override
+    public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+        super.onReceivedSslError(view, handler, error);
+        String msg="";
     }
 
     @Override
