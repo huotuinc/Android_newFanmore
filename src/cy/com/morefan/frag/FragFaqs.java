@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -68,12 +69,9 @@ import com.huotu.android.library.libedittext.EditText;
 public class FragFaqs extends BaseFragment implements Callback,
         OnItemClickListener
 {
-
     private Handler mHandler = new Handler(this);
-
     // 搜索框
     private EditText etSearch;
-
     // 内容列表
     private KJListView contactList;
 
@@ -113,8 +111,6 @@ public class FragFaqs extends BaseFragment implements Callback,
         contactList.setOnRefreshListener(new KJRefreshListener() {
             @Override
             public void onRefresh() {
-
-
                 contactList.setRefreshTime(
                         DateUtils.formatDate(System.currentTimeMillis()), getActivity());
                 new LoadDataAsyncTask().execute();
@@ -131,32 +127,25 @@ public class FragFaqs extends BaseFragment implements Callback,
 
         etSearch.addTextChangedListener(new TextWatcher()
         {
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before,
                     int count)
             {
-                // TODO Auto-generated method stub
-                // 根据输入过滤列表
-
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count,
                     int after)
             {
-                // TODO Auto-generated method stub
             }
 
             @Override
             public void afterTextChanged(Editable s)
             {
-                // TODO Auto-generated method stub
                 String filterText = etSearch.getText().toString();
                 doFilter(filterText);
             }
         });
-
     }
 
     private void doFilter(final String filter)
@@ -170,11 +159,9 @@ public class FragFaqs extends BaseFragment implements Callback,
          */
         mHandler.post(new Runnable()
         {
-
             @Override
             public void run()
             {
-                // TODO Auto-generated method stub
                 contacts.clear();
                 List<ContactBean> points = new ArrayList<ContactBean>();
                 for (ContactBean contact : copyContacts)
@@ -209,36 +196,39 @@ public class FragFaqs extends BaseFragment implements Callback,
         ContentResolver cr = getActivity().getContentResolver();
 
         @Override
-        protected FMContact doInBackground(Void... params)
-        {
-            // 请求接口
-            FMContact contactBean = new FMContact();
-            JSONUtil<FMContact> jsonUtil = new JSONUtil<FMContact>();
-            String url;
-            ObtainParamsMap obtainMap = new ObtainParamsMap(getActivity());
-            Map<String, String> paramMap = obtainMap.obtainMap();
+        protected FMContact doInBackground(Void... params) {
 
-            url = Constant.CONTACTINFO;
+            getContractData2();
 
-            String contractString = getContracts();
-            // 参数位
-            paramMap.put("contacts", contractString);
-            // 封装sign
-            String signStr = obtainMap.getSign(paramMap);
-            paramMap.put("sign", signStr);
 
-            String jsonStr = HttpUtil.getInstance().doPost(url, paramMap);
-            try
-            {
+            FMContact contactBean = null;
+            try {
+                contactBean = new FMContact();
+                JSONUtil<FMContact> jsonUtil = new JSONUtil<FMContact>();
+                String url;
+                ObtainParamsMap obtainMap = new ObtainParamsMap(getActivity());
+                Map<String, String> paramMap = obtainMap.obtainMap();
+
+                url = Constant.CONTACTINFO;
+
+                String contractString = getContracts();
+                // 参数位
+                paramMap.put("contacts", contractString);
+                // 封装sign
+                String signStr = obtainMap.getSign(paramMap);
+                paramMap.put("sign", signStr);
+
+                String jsonStr = HttpUtil.getInstance().doPost(url, paramMap);
+
                 contactBean = jsonUtil.toBean(jsonStr, contactBean);
 
-                List<ContactBean> data = changeContracts( contactBean.getResultData().getContactInfo() );
+                List<ContactBean> data = changeContracts(contactBean.getResultData().getContactInfo());
 
                 contactBean.getResultData().setContactInfo(data);
 
-            } catch (JsonSyntaxException e)
-            {
+            } catch (JsonSyntaxException e) {
                 LogUtil.e("JSON_ERROR", e.getMessage());
+                contactBean =new FMContact();
                 contactBean.setResultCode(0);
                 contactBean.setResultDescription("解析json出错");
             }
@@ -307,12 +297,11 @@ public class FragFaqs extends BaseFragment implements Callback,
         @Override
         protected void onPreExecute()
         {
-            // TODO Auto-generated method stub
             super.onPreExecute();
 
             loadingUtil.showProgress();
 
-            getContractData();
+            //getContractData();
 
 //            Cursor cursor = null;
 //            // 获取本地通讯录
@@ -386,19 +375,16 @@ public class FragFaqs extends BaseFragment implements Callback,
         }
 
         protected void getContractData(){
-
             contactss = new ArrayList<InnerContact>();
 
-            //ContentResolver cr = getActivity().getContentResolver();
 
             InnerContact contact;
-
             Cursor cursor = cr
                     .query(ContactsContract.Contacts.CONTENT_URI,
                             new String[]{ContactsContract.Contacts._ID,
                                     ContactsContract.Contacts.DISPLAY_NAME,
                                     ContactsContract.Contacts.HAS_PHONE_NUMBER,
-                                    "sort_key"}, null, null,
+                                    ContactsContract.Contacts.SORT_KEY_PRIMARY}, null, null,
                             "sort_key COLLATE LOCALIZED asc");
 
             String contactId = "";
@@ -406,30 +392,18 @@ public class FragFaqs extends BaseFragment implements Callback,
             String sort_key = "";
             String phoneNumber = "";
             String has_phoneNumber = "0";
+            int idx_hasnumber=cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
+            int idx_displayname=cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+            int idx_id= cursor.getColumnIndex(ContactsContract.Contacts._ID);
+            int idx_sortkey = cursor.getColumnIndex(ContactsContract.Contacts.SORT_KEY_PRIMARY);
 
-            String company = "";
             while (cursor.moveToNext()) {
-
-                has_phoneNumber = cursor
-                        .getString(cursor
-                                .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-
+                has_phoneNumber = cursor.getString(idx_hasnumber);
                 if (has_phoneNumber.equals("1")) {
-
-                    name = cursor
-                            .getString(cursor
-                                    .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-
+                    name = cursor.getString(idx_displayname);
                     if (name != null) {
-
-                        contactId = cursor.getString(cursor
-                                .getColumnIndex(ContactsContract.Contacts._ID));
-
-                        sort_key = cursor.getString(cursor
-                                .getColumnIndex("sort_key"));
-                        has_phoneNumber = cursor
-                                .getString(cursor
-                                        .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+                        contactId = cursor.getString(idx_id);
+                        sort_key = cursor.getString(idx_sortkey);
 
                         contact = new InnerContact();
                         contact.setName(name);
@@ -446,7 +420,47 @@ public class FragFaqs extends BaseFragment implements Callback,
             cursor.close();
 
             Pad_FirstPhone(contactss);
+        }
 
+        protected void getContractData2(){
+            contactss = new ArrayList<InnerContact>();
+            InnerContact contact;
+            Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                            new String[]{ContactsContract.CommonDataKinds.Phone._ID,
+                                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER,
+                                    ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY}, null, null,
+                            "sort_key COLLATE LOCALIZED asc");
+
+            String contactId = "";
+            String name = "";
+            String sort_key = "";
+            String phoneNumber = "";
+            int idx_number=cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+            int idx_displayname=cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+            int idx_id= cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID);
+            int idx_sortkey = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY);
+
+            while (cursor.moveToNext()) {
+                    contactId = cursor.getString(idx_id);
+                    name = cursor.getString(idx_displayname);
+                    //if (name != null) {
+                        sort_key = cursor.getString(idx_sortkey);
+                phoneNumber=cursor.getString(idx_number);
+
+                        contact = new InnerContact();
+                        contact.setName(name);
+                        contact.setContactId(contactId);
+                        contact.setPhone(phoneNumber);
+                        contact.setSortKey(sort_key);
+                        //contact.setHas_phonenumber(has_phoneNumber);
+
+                        contactss.add(contact);
+                    //}
+
+            }
+
+            cursor.close();
 
         }
 
@@ -463,15 +477,12 @@ public class FragFaqs extends BaseFragment implements Callback,
 
             String contactId = "";
             String phoneNumber = "";
+            int idx_contact_id = phones.getColumnIndex(ContactsContract.Data.CONTACT_ID);
+            int idx_phonenumber=phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
 
             while (phones.moveToNext()) {
-
-                contactId = phones.getString(phones
-                        .getColumnIndex(ContactsContract.Data.CONTACT_ID));
-
-                phoneNumber = phones
-                        .getString(phones
-                                .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                contactId = phones.getString(idx_contact_id);
+                phoneNumber = phones.getString(idx_phonenumber);
 
                 for (InnerContact showData : data ) {
 
@@ -479,9 +490,9 @@ public class FragFaqs extends BaseFragment implements Callback,
 
                         if (showData.getContactId().equals(contactId)) {
 
-                            phoneNumber = phones
-                                    .getString(phones
-                                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//                            phoneNumber = phones
+//                                    .getString(phones
+//                                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                             phoneNumber = phoneNumber == null ? "" : phoneNumber;
 
                             showData.setPhone(phoneNumber);
@@ -637,38 +648,31 @@ public class FragFaqs extends BaseFragment implements Callback,
      */
     public class ContactAdapter extends BaseAdapter
     {
-
         public ContactAdapter()
         {
-            // TODO Auto-generated constructor stub
-
         }
 
         @Override
         public int getCount()
         {
-            // TODO Auto-generated method stub
             return contacts.size();
         }
 
         @Override
         public Object getItem(int position)
         {
-            // TODO Auto-generated method stub
             return contacts.get(position);
         }
 
         @Override
         public long getItemId(int position)
         {
-            // TODO Auto-generated method stub
             return position;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent)
         {
-            // TODO Auto-generated method stub
             ViewHolder holder = null;
             Resources res = getActivity().getResources();
             if (convertView == null)

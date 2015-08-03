@@ -160,6 +160,35 @@ public class Util
         return false;
     }
 
+    public static boolean isTopActivity(Context context){
+        String packageName = context.getPackageName();
+        ActivityManager activityManager = (ActivityManager) (context
+                .getSystemService(android.content.Context.ACTIVITY_SERVICE));
+        List<RunningTaskInfo> rti = activityManager.getRunningTasks(1);
+        if( rti != null && rti.size()>0) {
+            System.out.println("----------包名---------"+rti.get(0).topActivity.getPackageName());
+            //应用程序位于堆栈的顶层
+            if(packageName.equals(rti.get(0).topActivity.getPackageName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isTopActivityByName(Context context, String className ){
+        ActivityManager activityManager = (ActivityManager) (context
+                .getSystemService(android.content.Context.ACTIVITY_SERVICE));
+        List<RunningTaskInfo> rti = activityManager.getRunningTasks(1);
+        if( rti != null && rti.size()>0) {
+            System.out.println("----------activityname---------"+rti.get(0).topActivity.getClassName());
+            //应用程序位于堆栈的顶层
+            if(className.equals(rti.get(0).topActivity.getClassName())){
+                return true;
+            }
+        }
+        return  false;
+    }
+
     public static boolean isActivityLoaded(Context context)
     {
         String packageName = context.getPackageName();

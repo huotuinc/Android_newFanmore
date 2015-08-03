@@ -55,10 +55,12 @@ import cy.com.morefan.listener.MyBroadcastReceiver.BroadcastListener;
 import cy.com.morefan.listener.MyBroadcastReceiver.ReceiverType;
 import cy.com.morefan.ui.account.MsgCenterActivity;
 import cy.com.morefan.ui.ambitus.BuyFlowActivity;
+import cy.com.morefan.ui.ambitus.DetailsActivity;
 import cy.com.morefan.ui.ambitus.DisciplesActivity;
 import cy.com.morefan.ui.ambitus.ExchangeFlowActivity;
 import cy.com.morefan.ui.ambitus.ExchangeFlowActivity.ExchangeFlowAsynTask;
 import cy.com.morefan.ui.answer.AnswerActivity;
+import cy.com.morefan.ui.flow.FriendsResActivity;
 import cy.com.morefan.ui.user.LoginActivity;
 import cy.com.morefan.util.ActivityUtils;
 import cy.com.morefan.util.BitmapLoader;
@@ -138,44 +140,6 @@ public class MainActivity extends BaseActivity implements OnClickListener,
     {
         // TODO Auto-generated method stub
         super.onStart();
-
-        // 加载签到图标
-        // SystemTools.loadBackground(buyFlow, drawable, "");
-        // 判断系统登录情况
-
-//        if (isLogin())
-//        {
-//            loginedUser = application.personal;
-//
-//            String imageUrl = MyApplication.readUserLogo(this);
-//            // 显示登录界面
-//            Util.loginUI();
-//            BitmapLoader.create().displayUrl(MainActivity.this, headImage,
-//                    imageUrl, R.drawable.ic_login_username,
-//                    R.drawable.ic_login_username);
-//            loginUser.setText(MyApplication.readUserName(MainActivity.this));
-//            if (Util.isM(MyApplication.readUserBalance(MainActivity.this)))
-//            {
-//                residualFlow.setText(MyApplication
-//                        .readUserBalance(MainActivity.this) + "MB");
-//                tips.setText("可兑换流量");
-//            } else
-//            {
-//                // 精确到GB
-//                float flow = Float.parseFloat(MyApplication
-//                        .readUserBalance(MainActivity.this)) / 1024;
-//                residualFlow.setText(Util.decimalFloat(flow,
-//                        Constant.ACCURACY_3) + "GB");
-//            }
-//
-//        } else
-//        {
-//            BitmapLoader.create().displayUrl(MainActivity.this, headImage,
-//                    Constant.LOGO_DEFAULT, R.drawable.ic_login_username,
-//                    R.drawable.error);
-//            // 显示登出界面
-//            Util.logoutUI();
-//        }
     }
 
     @Override
@@ -279,7 +243,19 @@ public class MainActivity extends BaseActivity implements OnClickListener,
             Intent intentMsg = new Intent(this, MsgCenterActivity.class);
             startActivity(intentMsg);
             return;
-        }        
+        }
+        else if( messageType == Constant.MESSAGE_TYPE_REQUESTFLOW)
+        {
+            Intent intentRequest = new Intent(this, FriendsResActivity.class);
+            startActivity(intentRequest);
+            return;
+        }
+        else if( messageType == Constant.MESSAGE_TYPE_SENDFLOW){
+            Intent intentSend=new Intent(this, DetailsActivity.class);
+            startActivity(intentSend);
+            return;
+        }
+
 
         if (getIntent().hasExtra("task") == false)
             return;

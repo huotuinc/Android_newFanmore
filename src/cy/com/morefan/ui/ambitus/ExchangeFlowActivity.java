@@ -90,6 +90,8 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
     //
     public int RequestCodeCheckOut=2001;
 
+    private TextView tvRed;
+
     // 监听广播
     private MyBroadcastReceiver myBroadcastReceiver;
 
@@ -158,6 +160,13 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
         //addView();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setRedTip();
+    }
+
     private void initView()
     {
         app= (MyApplication)getApplication();
@@ -172,7 +181,7 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
         BigDecimal balance = new BigDecimal(balanceStr);
         balance = balance.setScale(1, RoundingMode.HALF_UP);
         
-        flowCount.setText( balance +"M" );
+        flowCount.setText(balance + "M");
 
         flowCount.setAngle( balance.floatValue() );//设置完成的值
 
@@ -200,11 +209,22 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
         friends.setOnClickListener(this);
         backText = (TextView) this.findViewById(R.id.backtext);
         backText.setOnClickListener(this);
+        tvRed=(TextView)this.findViewById(R.id.tvRed);
+
 
         myBroadcastReceiver = new MyBroadcastReceiver(this, this,
                 MyBroadcastReceiver.ACTION_FLOW_ADD);
 
         new ExchangeFlowAsynTask().execute();
+    }
+
+    /**
+     * 当有消息时，显示红点
+     */
+    private void setRedTip(){
+        String username = MyApplication.readUserName(this);
+        boolean hasMessage= MyApplication.readBoolean(this, Constant.LOGIN_USER_INFO , username , false);
+        tvRed.setVisibility(hasMessage?View.VISIBLE:View.GONE);
     }
 
     @Override

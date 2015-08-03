@@ -417,7 +417,7 @@
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/arrows_right"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
             </LinearLayout>
 
             <ImageView

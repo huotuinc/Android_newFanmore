@@ -25,6 +25,8 @@ public class MyBroadcastReceiver extends BroadcastReceiver{
 	public static String GET_VOICE_REGISTER = "cy.com.morefan.voice.register";
 	
 	public static String ACTION_REFRESH_TASK_DETAIL="cy.com.morefan.REFRESH_TASK_DETAIL";
+	public static String ACTION_REQUESTFLOW="cy.com.morefan.REQUESTFLOW";
+	public static String ACTION_SENDFLOW="cy.com.morefan.SENDFLOW";
 	
 	//分享成功后微信没有回调
 	public static String ACTION_WX_NOT_BACK = "cy.com.morefan.ACTION_WX_NOT_BACK" ;
@@ -33,7 +35,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver{
 	public enum ReceiverType{
 		WXNotBack,AlarmUp, RefreshTaskList,UserMainDataUpdate, Sms, Login, Logout, ShareToWeixinSuccess, 
 		ShareToSinaSuccess, ShareToQzoneSuccess, BackgroundBackToUpdate, FlowAdd,Register,RefreshTaskDetail,
-		WX_Pay_Callback
+		WX_Pay_Callback,requestFlow,sendFlow
 	}
 	public interface BroadcastListener{
 		void onFinishReceiver(ReceiverType type, Object msg);
@@ -118,7 +120,10 @@ public class MyBroadcastReceiver extends BroadcastReceiver{
 		    listener.onFinishReceiver(ReceiverType.RefreshTaskDetail, intent.getExtras() );
 		}else if( intent.getAction().equals(ACTION_WX_PAY_CALLBACK)){
 			listener.onFinishReceiver(ReceiverType.WX_Pay_Callback,null);
+		}else if( intent.getAction().equals(ACTION_REQUESTFLOW)){
+			listener.onFinishReceiver(ReceiverType.requestFlow,null);
+		}else if( intent.getAction().equals(ACTION_SENDFLOW)){
+			listener.onFinishReceiver(ReceiverType.sendFlow,null);
 		}
-
 	}
 }

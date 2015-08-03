@@ -18,6 +18,16 @@ public class JBean implements Serializable
 
     private String data;
 
+    private String username;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getTitle()
     {
         return title;

@@ -383,5 +383,9 @@ public class Constant
     public static int MESSAGE_TYPE_SYSTEMMESSAGE=2; 
     //任务消息
     public static int MESSAGE_TYPE_TASK=1;
+    //求流量消息
+    public static int MESSAGE_TYPE_REQUESTFLOW=3;
+    //送流量消息
+    public static  int MESSAGE_TYPE_SENDFLOW=4;
 
 }

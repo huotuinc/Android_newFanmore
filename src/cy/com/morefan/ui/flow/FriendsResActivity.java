@@ -40,6 +40,7 @@ import cy.com.morefan.bean.FCBean;
 import cy.com.morefan.bean.FMFCList;
 import cy.com.morefan.bean.Paging;
 import cy.com.morefan.constant.Constant;
+import cy.com.morefan.listener.MyBroadcastReceiver;
 import cy.com.morefan.task.DeleteRequestFCAsyncTask;
 import cy.com.morefan.task.MakeProvideAsyncTask;
 import cy.com.morefan.util.ActivityUtils;
@@ -66,7 +67,7 @@ import cy.com.morefan.view.KJRefreshListener;
  * @version:
  */
 public class FriendsResActivity extends BaseActivity implements
-        OnClickListener, Callback, OnItemClickListener {
+        OnClickListener, Callback, OnItemClickListener , MyBroadcastReceiver.BroadcastListener{
     public Handler mHandler = new Handler(this);
 
     private CyButton backImage;
@@ -88,6 +89,8 @@ public class FriendsResActivity extends BaseActivity implements
 
     private int infoId;
 
+    private MyBroadcastReceiver myBroadcastReceiver=null;
+
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -104,9 +107,24 @@ public class FriendsResActivity extends BaseActivity implements
         initList();
         friendsList.setOnItemClickListener(this);
         friendsList.setRefreshTime(DateUtils.formatDate(System.currentTimeMillis()), FriendsResActivity.this);
-        new LoadFriendsAsyncTask(Constant.REFRESH)
-                .execute();
 
+        myBroadcastReceiver = new MyBroadcastReceiver(this, this,
+                MyBroadcastReceiver.ACTION_REQUESTFLOW );
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        new LoadFriendsAsyncTask(Constant.REFRESH).execute();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(myBroadcastReceiver!=null){
+            myBroadcastReceiver.unregisterReceiver();
+        }
     }
 
     private void initList() {
@@ -254,6 +272,11 @@ public class FriendsResActivity extends BaseActivity implements
         }
     }
 
+    @Override
+    public void onFinishReceiver(MyBroadcastReceiver.ReceiverType type, Object msg) {
+        new LoadFriendsAsyncTask(Constant.REFRESH).execute();
+    }
+
 
     /**
      * @类名称：FriendtAdapter
@@ -385,7 +408,7 @@ public class FriendsResActivity extends BaseActivity implements
         if (1 == fcbean.getFromSex()) {
             dialog.setMessage("送她" + fcbean.getFee() + "M流量。");
         }
-        dialog.setNeutralButton("删除", new DialogInterface.OnClickListener() {
+        dialog.setNeutralButton("拒绝", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -514,6 +537,10 @@ public class FriendsResActivity extends BaseActivity implements
                 if (Constant.REFRESH == loadType) {
                     // 下拉刷新
                     if (1 == result.getResultCode()) {
+                        //设置求流量消息为空
+                        String username = MyApplication.readUserName(FriendsResActivity.this);
+                        MyApplication.writeBoolean(FriendsResActivity.this, Constant.LOGIN_USER_INFO, username,false);
+
                         // 重新加载数据
                         reqFMlist.clear();
                         if (result.getResultData().getRequests() != null) {
@@ -594,6 +621,12 @@ public class FriendsResActivity extends BaseActivity implements
                 } else if (Constant.LOAD_MORE == loadType) {
                     // 上拉加载
                     if (1 == result.getResultCode()) {
+
+                        //设置求流量消息为空
+                        String username = MyApplication.readUserName(FriendsResActivity.this);
+                        MyApplication.writeBoolean(FriendsResActivity.this, Constant.LOGIN_USER_INFO, username,false);
+
+
                         if (!result.getResultData().getRequests().isEmpty()) {
                             // 重新加载数据
                             //datas.clear();
@@ -679,17 +712,6 @@ public class FriendsResActivity extends BaseActivity implements
 
 
     }
-
-
-//    public class SendFlowAsyncTask extends AsyncTask<Void, Void, Void> {
-//
-//        @Override
-//        protected Void doInBackground(Void... params) {
-//            // TODO Auto-generated method stub
-//            return null;
-//        }
-//
-//    }
 
     public class ClearInfoAsyncTask extends AsyncTask<Void, Void, BaseBaseBean> {
         protected BaseBaseBean doInBackground(Void... params) {
