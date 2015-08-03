@@ -10,4 +10,6 @@
     <dimen name="circle_right">12dp</dimen>
     <dimen name="circle_top">4dp</dimen>
 
+    <dimen name="ui_margin_ver">20dp</dimen>
+
 </resources>

@@ -154,6 +154,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
 
             final EditText etMessage = new EditText(this);
             etMessage.setHint("亲，送奴婢点流量吧");
+            etMessage.setText("亲，送奴婢点流量吧");
             etMessage.setLayoutParams(params);
             etMessage.setSingleLine(true);
             llContent.addView(etMessage);
@@ -228,6 +229,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
 
         final EditText etMessage=new EditText(this);
         etMessage.setHint("朕赏你点流量，还不谢恩");
+        etMessage.setText("朕赏你点流量，还不谢恩");
         //params =new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
         //        RelativeLayout.LayoutParams.WRAP_CONTENT);
         //params.setMargins(4, 2, 4, 2);

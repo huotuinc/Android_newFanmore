@@ -706,7 +706,11 @@ public class MyApplication extends Application
     }
     
     public static void writeInt( Context context , String fileName , String key , int value){
-        PreferenceHelper.writeInt(context, fileName, key, value );
+        PreferenceHelper.writeInt(context, fileName, key, value);
+    }
+
+    public static void writeBoolean(Context context , String fileName , String key , boolean value){
+        PreferenceHelper.writeBoolean(context, fileName, key,value);
     }
 
     public static String readString(Context context, String key)
@@ -722,6 +726,10 @@ public class MyApplication extends Application
     public static int readInt(Context context, String fileName, String key, int defaultVal )
     {
         return PreferenceHelper.readInt(context, fileName, key , defaultVal );
+    }
+
+    public  static boolean readBoolean(Context context , String fileName , String key , boolean defaultVal){
+        return PreferenceHelper.readBoolean(context,fileName, key , defaultVal);
     }
 
     /**

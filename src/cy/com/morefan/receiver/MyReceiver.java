@@ -12,6 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.WindowManager;
 import cn.jpush.android.api.JPushInterface;
@@ -25,13 +26,17 @@ import cy.com.morefan.bean.BaseBaseBean;
 import cy.com.morefan.bean.JBean;
 import cy.com.morefan.bean.TaskData;
 import cy.com.morefan.constant.Constant;
+import cy.com.morefan.listener.MyBroadcastReceiver;
+import cy.com.morefan.ui.ambitus.DetailsActivity;
 import cy.com.morefan.ui.ambitus.ExchangeItemActivity;
 import cy.com.morefan.ui.ambitus.ExchangeItemActivity.ExchangeAsyncTask;
+import cy.com.morefan.ui.flow.FriendsResActivity;
 import cy.com.morefan.util.HttpUtil;
 import cy.com.morefan.util.JSONUtil;
 import cy.com.morefan.util.KJLoger;
 import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.ToastUtils;
+import cy.com.morefan.util.Util;
 import cy.com.morefan.view.NoticeDialog;
 
 /**
@@ -52,7 +57,6 @@ public class MyReceiver extends BroadcastReceiver
     @Override
     public void onReceive(final Context context, Intent intent)
     {
-
         Bundle bundle = intent.getExtras();
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction()))
         {
@@ -153,6 +157,19 @@ public class MyReceiver extends BroadcastReceiver
         {
             // 接收到了自定义的通知
             // 通知ID
+            String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+            String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            // json封装成bean
+            JBean bean = new JBean();
+            JSONUtil<JBean> jsonUtil = new JSONUtil<JBean>();
+            bean = jsonUtil.toBean(extra, bean);
+            bean.setTitle(title);
+            if( null !=bean && bean.getType().equals("2")){
+                //在文件中设置请求流量标记
+                MyApplication.writeBoolean( context , Constant.LOGIN_USER_INFO , bean.getUsername() , true);
+            }
+
+
 
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent
                 .getAction()))
@@ -255,41 +272,38 @@ public class MyReceiver extends BroadcastReceiver
         .setTitle( "粉猫推送消息" )
         .setMessage(message)
         .setPositiveButton("去抢流量",
-                new DialogInterface.OnClickListener()
-                {
+                new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
+                    public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        
-                        Intent intent = new Intent(context, PushMsgHandlerActivity.class);            
-                        intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK);        
+
+                        Intent intent = new Intent(context, PushMsgHandlerActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("type", Constant.MESSAGE_TYPE_TASK);
-                        
-                        int taskid=0;       
-                        
-                        try{
-                        taskid = Integer.valueOf( bean.getData());
-                        }catch(Exception ex){}
-                        
-                        TaskData task=new TaskData();
+
+                        int taskid = 0;
+
+                        try {
+                            taskid = Integer.valueOf(bean.getData());
+                        } catch (Exception ex) {
+                        }
+
+                        TaskData task = new TaskData();
                         task.setTitle(bean.getTitle());
                         task.setTaskId(taskid);
-                        intent.putExtra("task", task );  
+                        intent.putExtra("task", task);
                         context.startActivity(intent);
 
                     }
                 })
                 .setNegativeButton("知道了",
-                new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        // TODO Auto-generated method stub
-                        dialog.dismiss();
-                    }
-                }).create();
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO Auto-generated method stub
+                                dialog.dismiss();
+                            }
+                        }).create();
     
         dlg.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         
@@ -328,7 +342,7 @@ public class MyReceiver extends BroadcastReceiver
         })
         .create();
         
-        dlg.getWindow().setType( WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        dlg.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         
         dlg.show();
     }
@@ -341,45 +355,105 @@ public class MyReceiver extends BroadcastReceiver
         context.startActivity(intent);
     }
 
-    protected void requestFlowMessage(Context context , JBean bean){
+    protected void requestFlowMessage(final Context context , JBean bean){
         if (bean == null)
             return;
-        String message = bean.getTitle();
-        final Dialog dlg = new AlertDialog.Builder(context)
-                .setTitle("粉猫消息")
-                .setMessage(message)
-                .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
 
-        dlg.getWindow().setType( WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
 
-        dlg.show();
+
+//        MyBroadcastReceiver.sendBroadcast(context,MyBroadcastReceiver.ACTION_REQUESTFLOW);
+
+//        if (Util.isTopActivity(context) ) {
+                            //如果APP运行在前台,且不是指定的Acitivity，则不跳转到求流量列表界面
+//            if(true == Util.isTopActivityByName(context , FriendsResActivity.class.getName())){
+//                Intent intent = new Intent(context, PushMsgHandlerActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.putExtra("type", Constant.MESSAGE_TYPE_REQUESTFLOW);
+//                context.startActivity(intent);
+//            }
+//        } else {
+            Intent intent = new Intent(context, PushMsgHandlerActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("type", Constant.MESSAGE_TYPE_REQUESTFLOW);
+            context.startActivity(intent);
+//        }
+
+//        String message = bean.getData();
+//        final Dialog dlg = new AlertDialog.Builder(context)
+//                .setTitle("粉猫消息")
+//                .setMessage(message)
+//                .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//
+//                        if (Util.isTopActivity(context)) {
+//                            //如果APP运行在前台，则不跳转到求流量列表界面
+//                        } else {
+//                            Intent intent = new Intent(context, PushMsgHandlerActivity.class);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                            intent.putExtra("type", Constant.MESSAGE_TYPE_REQUESTFLOW);
+//                            context.startActivity(intent);
+//                        }
+//
+//                    }
+//                })
+//                .create();
+//
+//        dlg.getWindow().setType( WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+//
+//        dlg.show();
     }
 
-    protected void sendFlowMessage(Context context , JBean bean){
+    protected void sendFlowMessage( final Context context , JBean bean){
         if (bean == null)
             return;
 
-        String message = bean.getTitle();
-        final Dialog dlg = new AlertDialog.Builder(context)
-                .setTitle("粉猫消息")
-                .setMessage(message)
-                .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .create();
+        MyBroadcastReceiver.sendBroadcast(context , MyBroadcastReceiver.ACTION_FLOW_ADD);
+        //MyBroadcastReceiver.sendBroadcast(context,MyBroadcastReceiver.ACTION_SENDFLOW);
 
-        dlg.getWindow().setType( WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        //if ( Util.isTopActivity(context) ) {
+            //如果APP运行在前台，并且不是指定的Activity，则不跳转到求流量列表界面
+//            if( true == Util.isTopActivityByName(context , DetailsActivity.class.getName()) ){
+//                Intent intent = new Intent(context, PushMsgHandlerActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.putExtra("type", Constant.MESSAGE_TYPE_SENDFLOW );
+//                context.startActivity(intent);
+//            }
+//        } else {
+            Intent intent = new Intent(context, PushMsgHandlerActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("type", Constant.MESSAGE_TYPE_SENDFLOW );
+            context.startActivity(intent);
+//        }
 
-        dlg.show();
+//        String message = bean.getData();
+//        final Dialog dlg = new AlertDialog.Builder(context)
+//                .setTitle("粉猫消息")
+//                .setMessage(message)
+//                .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//
+//                        if (Util.isTopActivity(context)) {
+//                            //如果APP运行在前台，则不跳转到求流量列表界面
+//                        } else {
+//                            Intent intent = new Intent(context, PushMsgHandlerActivity.class);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                            intent.putExtra("type", Constant.MESSAGE_TYPE_SENDFLOW );
+//                            context.startActivity(intent);
+//                        }
+//
+//                    }
+//                })
+//                .create();
+//
+//        dlg.getWindow().setType( WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+//
+//        dlg.show();
 
     }
 }

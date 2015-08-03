@@ -32,6 +32,7 @@ import cy.com.morefan.bean.Detail;
 import cy.com.morefan.bean.FMDetails;
 import cy.com.morefan.bean.Paging;
 import cy.com.morefan.constant.Constant;
+import cy.com.morefan.listener.MyBroadcastReceiver;
 import cy.com.morefan.ui.account.MsgCenterActivity;
 import cy.com.morefan.util.ActivityUtils;
 import cy.com.morefan.util.DateUtils;
@@ -55,7 +56,7 @@ import cy.com.morefan.view.KJRefreshListener;
  * @version:
  */
 public class DetailsActivity extends BaseActivity implements Callback,
-        OnClickListener
+        OnClickListener,MyBroadcastReceiver.BroadcastListener
 {
 
     private KJListView detailList;
@@ -75,6 +76,8 @@ public class DetailsActivity extends BaseActivity implements Callback,
     // 列表刷新提示
     private TextView listNotice;
 
+    private MyBroadcastReceiver myBroadcastReceiver;
+
     @Override
     protected void onCreate(Bundle arg0)
     {
@@ -89,10 +92,26 @@ public class DetailsActivity extends BaseActivity implements Callback,
         detailList.setAdapter(adapter);
 
         initList();
+
+        myBroadcastReceiver=new MyBroadcastReceiver(this,this,MyBroadcastReceiver.ACTION_SENDFLOW);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         detailList.setRefreshTime(
                 DateUtils.formatDate(System.currentTimeMillis()),
                 DetailsActivity.this);
         new GetDetailAsyncTask(Constant.REFRESH).execute();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(myBroadcastReceiver!=null){
+            myBroadcastReceiver.unregisterReceiver();
+        }
     }
 
     private void initList()
@@ -196,6 +215,11 @@ public class DetailsActivity extends BaseActivity implements Callback,
     private void reflush()
     {
 
+    }
+
+    @Override
+    public void onFinishReceiver(MyBroadcastReceiver.ReceiverType type, Object msg) {
+        new GetDetailAsyncTask(Constant.REFRESH).execute();
     }
 
     class DetailDataAdapter extends BaseAdapter
