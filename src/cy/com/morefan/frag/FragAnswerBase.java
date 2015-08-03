@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -78,6 +79,8 @@ public class FragAnswerBase extends BaseFragment implements OnClickListener
 
         wvPage = (WebView) rootView.findViewById(R.id.wvPage);
         wvPage.getSettings().setJavaScriptEnabled(true);
+        wvPage.getSettings().setDomStorageEnabled(true);
+        wvPage.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
         wvPage.setWebViewClient(new FmWebViewClient());
         wvPage.setWebChromeClient(new WebChromeClient()
         {

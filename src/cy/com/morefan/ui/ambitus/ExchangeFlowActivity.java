@@ -213,7 +213,7 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
 
 
         myBroadcastReceiver = new MyBroadcastReceiver(this, this,
-                MyBroadcastReceiver.ACTION_FLOW_ADD);
+                MyBroadcastReceiver.ACTION_FLOW_ADD,MyBroadcastReceiver.ACTION_REQUESTFLOW);
 
         new ExchangeFlowAsynTask().execute();
     }
@@ -224,7 +224,7 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
     private void setRedTip(){
         String username = MyApplication.readUserName(this);
         boolean hasMessage= MyApplication.readBoolean(this, Constant.LOGIN_USER_INFO , username , false);
-        tvRed.setVisibility(hasMessage?View.VISIBLE:View.GONE);
+        tvRed.setVisibility(hasMessage ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -248,7 +248,7 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
         datas.putSerializable("flowItem", (ArrayList<BigDecimal>) flowTargets);
         //ActivityUtils.getInstance().showActivityFromBottom(ExchangeFlowActivity.this, ExchangeItemActivity.class, datas);
         
-        ActivityUtils.getInstance().showActivityForResult(ExchangeFlowActivity.this, RequestCodeCheckOut , ExchangeItemActivity.class, datas);
+        ActivityUtils.getInstance().showActivityForResult(ExchangeFlowActivity.this, RequestCodeCheckOut, ExchangeItemActivity.class, datas);
     }
     
     @Override
@@ -262,7 +262,11 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
     @Override
     public void onFinishReceiver(MyBroadcastReceiver.ReceiverType type, Object msg) {
 
-        new ExchangeFlowAsynTask().execute();
+        if( type== MyBroadcastReceiver.ReceiverType.FlowAdd) {
+            new ExchangeFlowAsynTask().execute();
+        }else if( type == MyBroadcastReceiver.ReceiverType.requestFlow){
+            setRedTip();
+        }
 
     }
 

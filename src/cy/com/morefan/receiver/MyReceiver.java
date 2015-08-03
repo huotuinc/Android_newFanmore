@@ -166,6 +166,7 @@ public class MyReceiver extends BroadcastReceiver
             bean.setTitle(title);
             if( null !=bean && bean.getType().equals("2")){
                 //在文件中设置请求流量标记
+                MyBroadcastReceiver.sendBroadcast(context , MyBroadcastReceiver.ACTION_REQUESTFLOW);
                 MyApplication.writeBoolean( context , Constant.LOGIN_USER_INFO , bean.getUsername() , true);
             }
 

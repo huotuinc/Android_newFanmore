@@ -265,7 +265,7 @@ public class FragFaqs extends BaseFragment implements Callback,
                     newInst.setOriginMobile(item.getOriginMobile());
                     newInst.setSortKey(model.getSortKey());
                     newInst.setTeleBalance(item.getTeleBalance());
-                    newInst.setOriginName(item.getOriginName());
+                    newInst.setOriginName(model.getName());
                     return newInst;
                 }
             }
@@ -277,17 +277,18 @@ public class FragFaqs extends BaseFragment implements Callback,
             for( InnerContact item : contactss){
                 ContactBean bean = findContact(item , fanContracts);
                 if( bean==null){
-                    bean=new ContactBean();
-                    bean.setTeleBalance(null);
-                    bean.setSortKey(item.getSortKey());
-                    bean.setOriginMobile(item.getPhone());
-                    bean.setOriginIdentify(item.getContactId());
-                    bean.setFanmoreBalance(null);
-                    bean.setFanmorePicUrl("");
-                    bean.setFanmoreSex(-1);
-                    bean.setFanmoreTele("");
-                    bean.setFanmoreUsername(null);
-                    bean.setOriginName(item.getName());
+                    continue;
+//                    bean=new ContactBean();
+//                    bean.setTeleBalance(null);
+//                    bean.setSortKey(item.getSortKey());
+//                    bean.setOriginMobile(item.getPhone());
+//                    bean.setOriginIdentify(item.getContactId());
+//                    bean.setFanmoreBalance(null);
+//                    bean.setFanmorePicUrl("");
+//                    bean.setFanmoreSex(-1);
+//                    bean.setFanmoreTele("");
+//                    bean.setFanmoreUsername(null);
+//                    bean.setOriginName(item.getName());
                 }
                 data.add(bean);
             }
@@ -444,6 +445,10 @@ public class FragFaqs extends BaseFragment implements Callback,
             while (cursor.moveToNext()) {
                     contactId = cursor.getString(idx_id);
                     name = cursor.getString(idx_displayname);
+                if( name==null||name.length()<1){
+                    continue;
+                }
+
                     //if (name != null) {
                         sort_key = cursor.getString(idx_sortkey);
                 phoneNumber=cursor.getString(idx_number);
@@ -702,8 +707,8 @@ public class FragFaqs extends BaseFragment implements Callback,
             // 加载图片
             if (contacts.size() > 0)
             {
-                holder.img.setImageUrl("",null);
-                holder.img.setBackgroundResource(R.drawable.mrtou);
+                //holder.img.setImageUrl("",null);
+                //holder.img.setBackgroundResource(R.drawable.mrtou);
                 BitmapLoader.create().displayUrl(getActivity(), holder.img,
                         contacts.get(position).getFanmorePicUrl(), R.drawable.mrtou, R.drawable.mrtou);
                 holder.phoneNumber.setText(contacts.get(position)
@@ -711,7 +716,7 @@ public class FragFaqs extends BaseFragment implements Callback,
                 String userName = contacts.get(position).getFanmoreUsername();
                 if (null != userName)
                 {
-                    holder.contactName.setText(userName);
+                    holder.contactName.setText( contacts.get(position).getOriginName());
                     holder.account.setText("");
                 } else
                 {//非粉猫用户，则显示联系人姓名
