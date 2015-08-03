@@ -16,7 +16,7 @@
         android:layout_below="@+id/title_login"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
-        android:dividerHeight="@dimen/listview_item_margin"
+        android:dividerHeight="1dp"
        	android:divider="@color/activity_bg">
     </cy.com.morefan.view.KJListView>
     <TextView

@@ -186,7 +186,7 @@ public class FriendsResActivity extends BaseActivity implements
                 new DeleteRequestFCAsyncTask(FriendsResActivity.this, mHandler, infoId).execute();
                 break;
             case DeleteRequestFCAsyncTask.SUCCESS:
-                new LoadFriendsAsyncTask().execute();
+                new LoadFriendsAsyncTask(Constant.REFRESH ).execute();
                 break;
             case DeleteRequestFCAsyncTask.FAIL:
                 ToastUtils.showLongToast(FriendsResActivity.this, msg.obj.toString());
@@ -732,7 +732,7 @@ public class FriendsResActivity extends BaseActivity implements
             super.onPostExecute(result);
             FriendsResActivity.this.dismissProgress();
             // 清空列表信息
-
+            new LoadFriendsAsyncTask(Constant.REFRESH ).execute();
         }
     }
 
