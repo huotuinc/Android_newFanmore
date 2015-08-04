@@ -40,19 +40,29 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
         android:dividerHeight="1dp"
+        android:scrollbars="none"
        	android:divider="@color/activity_bg">
     </cy.com.morefan.view.KJListView>
 
-    <cy.com.morefan.view.QuickAlphabeticBar
+    <!--<cy.com.morefan.view.QuickAlphabeticBar-->
+        <!--android:id="@+id/fast_scroller"-->
+        <!--android:layout_width="30dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignRight="@id/contactList"-->
+        <!--android:layout_alignTop="@+id/contactList"-->
+        <!--android:layout_gravity="top|right|center"-->
+        <!--android:background="@null"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:src="@drawable/dic_background" />-->
+
+    <cy.com.morefan.view.MyLetterListView
         android:id="@+id/fast_scroller"
+        android:background="@color/transparent"
         android:layout_width="30dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignRight="@id/contactList"
         android:layout_alignTop="@+id/contactList"
-        android:layout_gravity="top|right|center"
-        android:background="@null"
-        android:scaleType="centerInside"
-        android:src="@drawable/dic_background" />
+        />
 
 	<TextView
 		android:layout_centerInParent="true" 

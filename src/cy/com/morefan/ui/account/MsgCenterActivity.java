@@ -288,8 +288,8 @@ public class MsgCenterActivity extends BaseActivity implements Callback,
             {
                 holder.msgTime.setText(DateUtils.formatDate(datas.get(position)
                         .getDate(), Constant.DATE_FORMAT_COMPACT));
-                holder.msgCon.setText(Html.fromHtml(datas.get(position)
-                        .getContext()));
+                String context = datas.get(position).getContext()==null?"":datas.get(position).getContext();
+                holder.msgCon.setText(Html.fromHtml(context));
             }
             return convertView;
         }

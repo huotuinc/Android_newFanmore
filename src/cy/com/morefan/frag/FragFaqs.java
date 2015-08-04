@@ -1,5 +1,6 @@
 package cy.com.morefan.frag;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,8 +11,10 @@ import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,9 +24,11 @@ import android.os.Message;
 import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -53,6 +58,7 @@ import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.util.Util;
 import cy.com.morefan.view.KJListView;
 import cy.com.morefan.view.KJRefreshListener;
+import cy.com.morefan.view.MyLetterListView;
 import cy.com.morefan.view.QuickAlphabeticBar;
 import com.huotu.android.library.libedittext.EditText;
 
@@ -75,7 +81,9 @@ public class FragFaqs extends BaseFragment implements Callback,
     // 内容列表
     private KJListView contactList;
 
-    private QuickAlphabeticBar alpha;
+    //private QuickAlphabeticBar alpha;
+
+    private MyLetterListView alpha;
 
     public MyApplication application;
 
@@ -92,6 +100,11 @@ public class FragFaqs extends BaseFragment implements Callback,
 
     private LoadingUtil loadingUtil =null;
 
+    private TextView overlay;
+
+    private OverlayThread overlayThread;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -101,6 +114,8 @@ public class FragFaqs extends BaseFragment implements Callback,
         application = (MyApplication) getActivity().getApplication();
         contacts = new ArrayList<ContactBean>();
         loadingUtil=new LoadingUtil(getActivity());
+
+        overlayThread = new OverlayThread();
     }
 
     private void initView(View rootView)
@@ -123,7 +138,10 @@ public class FragFaqs extends BaseFragment implements Callback,
             }
         });
 
-        alpha = (QuickAlphabeticBar) rootView.findViewById(R.id.fast_scroller);
+        //alpha = (QuickAlphabeticBar) rootView.findViewById(R.id.fast_scroller);
+
+        alpha = (MyLetterListView)rootView.findViewById(R.id.fast_scroller);
+        alpha.setOnTouchingLetterChangedListener(new LetterListViewListener());
 
         etSearch.addTextChangedListener(new TextWatcher()
         {
@@ -146,6 +164,21 @@ public class FragFaqs extends BaseFragment implements Callback,
                 doFilter(filterText);
             }
         });
+    }
+
+    //初始化汉语拼音首字母弹出提示框
+    private void initOverlay() {
+        LayoutInflater inflater = LayoutInflater.from(this.getActivity());
+        overlay = (TextView) inflater.inflate(R.layout.overlay, null);
+        overlay.setVisibility(View.INVISIBLE);
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.TYPE_APPLICATION,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                PixelFormat.TRANSLUCENT);
+        WindowManager windowManager = (WindowManager) this.getActivity().getSystemService(Context.WINDOW_SERVICE);
+        windowManager.addView(overlay, lp);
     }
 
     private void doFilter(final String filter)
@@ -183,6 +216,8 @@ public class FragFaqs extends BaseFragment implements Callback,
     {
         View rootView = inflater.inflate(R.layout.frag_faqs, container, false);
         initView(rootView);
+        initOverlay();
+
         new LoadDataAsyncTask().execute();
         adapter = new ContactAdapter();
         contactList.setAdapter(adapter);
@@ -197,12 +232,10 @@ public class FragFaqs extends BaseFragment implements Callback,
 
         @Override
         protected FMContact doInBackground(Void... params) {
-
-            getContractData2();
-
-
             FMContact contactBean = null;
             try {
+                getContractData2();
+
                 contactBean = new FMContact();
                 JSONUtil<FMContact> jsonUtil = new JSONUtil<FMContact>();
                 String url;
@@ -231,6 +264,12 @@ public class FragFaqs extends BaseFragment implements Callback,
                 contactBean =new FMContact();
                 contactBean.setResultCode(0);
                 contactBean.setResultDescription("解析json出错");
+            }
+            catch (Exception ex){
+                Log.e("error:",ex.getMessage());
+                contactBean =new FMContact();
+                contactBean.setResultCode(0);
+                contactBean.setResultDescription(ex.getMessage());
             }
 
             return contactBean;
@@ -300,7 +339,7 @@ public class FragFaqs extends BaseFragment implements Callback,
         {
             super.onPreExecute();
 
-            loadingUtil.showProgress();
+            loadingUtil.showProgressNotPost();
 
             //getContractData();
 
@@ -516,7 +555,7 @@ public class FragFaqs extends BaseFragment implements Callback,
         {
             super.onPostExecute(result);
 
-            loadingUtil.dismissProgress();
+            loadingUtil.dismissProgressNotPost();
 
             if( result==null){
                 ToastUtils.showLongToast(getActivity(),"请求失败");
@@ -533,7 +572,10 @@ public class FragFaqs extends BaseFragment implements Callback,
                 copyContacts = result.getResultData().getContactInfo();
                 contacts.clear();
 
-                contacts.addAll(result.getResultData().getContactInfo());
+                if( copyContacts !=null) {
+                    contacts.addAll(result.getResultData().getContactInfo());
+                }
+
                 alphaIndexer = new HashMap<String, Integer>();
                 sections = new String[contacts.size()];
 
@@ -543,20 +585,22 @@ public class FragFaqs extends BaseFragment implements Callback,
                     if (!alphaIndexer.containsKey(name))
                     {// 只记录在list中首次出现的位置
                         alphaIndexer.put(name, i);
+
+                        sections[i] = name;
                     }
                 }
-                Set<String> sectionLetters = alphaIndexer.keySet();
-                ArrayList<String> sectionList = new ArrayList<String>(
-                        sectionLetters);
-                Collections.sort(sectionList);
-                sections = new String[sectionList.size()];
-                sectionList.toArray(sections);
+//                Set<String> sectionLetters = alphaIndexer.keySet();
+//                ArrayList<String> sectionList = new ArrayList<String>(
+//                        sectionLetters);
+//                Collections.sort(sectionList);
+//                sections = new String[sectionList.size()];
+//                sectionList.toArray(sections);
 
-                alpha.setAlphaIndexer(alphaIndexer);
-                alpha.init(getActivity());
-                alpha.setListView(contactList);
-                alpha.setHight(alpha.getHeight());
-                alpha.setVisibility(View.VISIBLE);
+//                alpha.setAlphaIndexer(alphaIndexer);
+//                alpha.init(getActivity());
+//                alpha.setListView(contactList);
+//                alpha.setHight(alpha.getHeight());
+//                alpha.setVisibility(View.VISIBLE);
 
                 String key= etSearch.getText().toString().trim();
                 if(key.length()>0) {
@@ -883,4 +927,31 @@ public class FragFaqs extends BaseFragment implements Callback,
         }
     }
 
+
+
+    private class LetterListViewListener implements MyLetterListView.OnTouchingLetterChangedListener {
+
+        @Override
+        public void onTouchingLetterChanged(final String s) {
+            if(alphaIndexer.get(s) != null) {
+                int position = alphaIndexer.get(s);
+                contactList.setSelection(position);
+                overlay.setText(sections[position]);
+                overlay.setVisibility(View.VISIBLE);
+                mHandler.removeCallbacks(overlayThread);
+                //延迟一秒后执行，让overlay为不可见
+                mHandler.postDelayed(overlayThread, 1500);
+            }
+        }
+    }
+
+    //设置overlay不可见
+    private class OverlayThread implements Runnable {
+
+        @Override
+        public void run() {
+            overlay.setVisibility(View.GONE);
+        }
+
+    }
 }

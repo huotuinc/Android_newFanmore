@@ -432,6 +432,9 @@ public class SendFlowActivity extends BaseActivity implements Callback,
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 return null;
+            }catch (Exception ex){
+                ex.printStackTrace();
+                return null;
             }
         }
 
