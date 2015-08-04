@@ -16,6 +16,7 @@
 package cy.com.morefan.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -65,17 +66,20 @@ public class KJListViewFooter extends LinearLayout
         RelativeLayout.LayoutParams fp = new RelativeLayout.LayoutParams(
                 LayoutParams.MATCH_PARENT, 0);
         contentView = new RelativeLayout(context);
+        contentView.setBackgroundColor(Color.TRANSPARENT);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);        
         LinearLayout l = new LinearLayout(context);
+        l.setBackgroundColor(Color.TRANSPARENT);
         l.setGravity(Gravity.CENTER);
         l.setOrientation(LinearLayout.VERTICAL);
         l.setLayoutParams(params);
         hintView = new TextView(context);
         hintView.setText("");
         hintView.setGravity(Gravity.CENTER);
+        hintView.setBackgroundColor(Color.TRANSPARENT);
         l.addView(hintView);
         contentView.addView(l);
         addView(contentView, fp);

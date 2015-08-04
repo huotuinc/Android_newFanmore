@@ -224,9 +224,12 @@ public class FragPre extends BaseFragment implements DataListener, Callback
                 //SystemTools.loadBackground(listView, null);
                 listView.setBackgroundColor(Color.TRANSPARENT);
 
+                listView.stopLoadMore();
+
                 new PreTaskAsyncTask(Constant.REFRESH)
                         .execute(Constant.PREVIEW_TASK_LIST);
                 listView.stopRefreshData();
+                listView.stopLoadMore();
             }
 
             @Override
@@ -241,6 +244,7 @@ public class FragPre extends BaseFragment implements DataListener, Callback
                 new PreTaskAsyncTask(Constant.LOAD_MORE)
                         .execute(Constant.PREVIEW_TASK_LIST);
                 listView.stopRefreshData();
+                listView.stopLoadMore();
             }
         });
     }
@@ -588,6 +592,8 @@ public class FragPre extends BaseFragment implements DataListener, Callback
             AlphaAnimation anima = new AlphaAnimation(0.0f, 5.0f);
             anima.setDuration(1000);// 设置动画显示时间
             listNotice.setAnimation(anima);
+            listView.stopLoadMore();
+            listView.stopRefreshData();
 
             if (Constant.IS_PRODUCTION_ENVIRONMENT)
             {

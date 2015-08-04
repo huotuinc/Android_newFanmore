@@ -172,4 +172,13 @@
         android:clickable="true"
         android:focusableInTouchMode="false" />
 
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/accetFlow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="对未安装粉猫的好友送流量，填写你的邀请码注册后可领得流量，并建立师徒关系，好友每完成一次任务你可获得5%的额外奖励。"/>
+
 </RelativeLayout>

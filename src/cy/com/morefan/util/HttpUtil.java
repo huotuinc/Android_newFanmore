@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -74,6 +75,7 @@ public class HttpUtil
             os = conn.getOutputStream();
             os.write(data_bytes);
             conn.setConnectTimeout(10000);
+
             int statusCode = conn.getResponseCode();
             if (200 == statusCode )
             {
@@ -93,14 +95,15 @@ public class HttpUtil
             // TODO Auto-generated catch block
             KJLoger.errorLog(e.getMessage());
             // 服务无响应
-            jsonStr = "{\"resultCode\":50001,\"systemResultCode\":1}";
+            jsonStr = "{\"resultCode\":50001,\"systemResultCode\":1,\"resultDescription\":\"服务无响应\"}";
         } catch (IOException e)
         {
             // TODO Auto-generated catch block
             KJLoger.errorLog(e.getMessage());
             // 服务无响应
-            jsonStr = "{\"resultCode\":50001,\"systemResultCode\":1}";
-        } finally
+            jsonStr = "{\"resultCode\":50001,\"systemResultCode\":1,\"resultDescription\":\"服务无响应\"}";
+        }
+        finally
         {
 
             try
