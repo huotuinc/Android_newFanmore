@@ -1,5 +1,7 @@
 package cy.com.morefan.frag;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -255,10 +257,11 @@ public class FragFaqs extends BaseFragment implements Callback,
 
                 contactBean = jsonUtil.toBean(jsonStr, contactBean);
 
-                List<ContactBean> data = changeContracts(contactBean.getResultData().getContactInfo());
-
-                contactBean.getResultData().setContactInfo(data);
-
+                if( contactBean !=null && contactBean.getSystemResultCode() ==1
+                        && contactBean.getResultCode() ==1 ) {
+                    List<ContactBean> data = changeContracts(contactBean.getResultData().getContactInfo());
+                    contactBean.getResultData().setContactInfo(data);
+                }
             } catch (JsonSyntaxException e) {
                 LogUtil.e("JSON_ERROR", e.getMessage());
                 contactBean =new FMContact();
@@ -770,9 +773,13 @@ public class FragFaqs extends BaseFragment implements Callback,
 
                 if(null != contacts.get(position).getFanmoreBalance()) {
 
-                    Number temp = Util.decimalFloat( contacts.get(position).getFanmoreBalance(),"0.###");
+                    //Number temp = Util.decimalFloat( contacts.get(position).getFanmoreBalance(),"0.###");
 
-                    holder.flows.setText( temp + "M");
+                    BigDecimal balance = new BigDecimal(contacts.get(position).getFanmoreBalance());
+                    balance = balance.setScale(0, RoundingMode.HALF_DOWN);
+
+
+                    holder.flows.setText( balance + "M");
                 }else{
                     holder.flows.setText("");
                 }

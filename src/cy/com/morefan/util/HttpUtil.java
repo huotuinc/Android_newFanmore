@@ -88,7 +88,8 @@ public class HttpUtil
             } else
             {
                 // 获取数据失败
-                jsonStr = "{\"resultCode\":50601,\"systemResultCode\":1}";
+                //jsonStr = "{\"resultCode\":50601,\"systemResultCode\":1}";
+                jsonStr = "{\"systemResultCode\":0,\"systemResultDescription\":\"获取数据失败\",\"resultCode\":0}";
             }
         } catch (MalformedURLException e)
         {

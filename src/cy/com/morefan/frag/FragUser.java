@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +17,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuth;
+import com.sina.weibo.sdk.exception.WeiboException;
+import com.sina.weibo.sdk.net.RequestListener;
+import com.sina.weibo.sdk.openapi.LogoutAPI;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import cy.com.morefan.MainActivity;
 import cy.com.morefan.MyApplication;
 import cy.com.morefan.R;
@@ -29,6 +41,7 @@ import cy.com.morefan.ui.account.MsgCenterActivity;
 import cy.com.morefan.ui.account.PswManagentActivity;
 import cy.com.morefan.util.ActivityUtils;
 import cy.com.morefan.util.BitmapLoader;
+import cy.com.morefan.util.PreferenceHelper;
 import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.util.Util;
 import cy.com.morefan.view.SlideSwitch;
@@ -210,6 +223,8 @@ public class FragUser extends BaseFragment implements Callback, SlideListener
                                         .sendBroadcast(
                                                 getActivity(),
                                                 MyBroadcastReceiver.ACTION_REFRESH_TASK_LIST);
+
+                                loginoutSinaWeibo();
                             }
 
                         });
@@ -232,6 +247,51 @@ public class FragUser extends BaseFragment implements Callback, SlideListener
             }
         });
 
+    }
+
+    private void loginoutSinaWeibo(){
+        try {
+            String token = PreferenceHelper.readString(getActivity(), Constant.SP_NAME_NORMAL, Constant.SP_NAME_SINA_TOKEN);
+            /** 微博 Web 授权类，提供登陆等功能  */
+            /** 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能  */
+            Oauth2AccessToken accessToken = Oauth2AccessToken.parseAccessToken(token);
+            new LogoutAPI(accessToken).logout(mSinaListener);
+            //Toast.makeText(getActivity() , "注销按钮被单击", Toast.LENGTH_SHORT).show();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private SinaLogOutRequestListener mSinaListener = new SinaLogOutRequestListener();
+
+    class SinaLogOutRequestListener implements RequestListener {
+
+        @Override
+        public void onComplete(String response) {
+            // TODO Auto-generated method stub
+            if (!TextUtils.isEmpty(response)) {
+                try {
+                    JSONObject obj = new JSONObject(response);//创建JSON数据对象
+                    String value = obj.getString("result");
+                    if ("true".equalsIgnoreCase(value)) {
+                        //AccessTokenKeeper.clear( getActivity() );//清除AccessToken
+                        PreferenceHelper.writeString(getActivity(), Constant.SP_NAME_NORMAL, Constant.SP_NAME_SINA_TOKEN, "");
+                        //mTokenText.setText(R.string.logout_success);
+                        //inviteBtn.setEnabled(false);
+                        //shareBtn.setEnabled(false);
+                        //logoutBtn.setEnabled(false);
+                        //Toast.makeText(getActivity() , R.string.logout_success, Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onWeiboException(WeiboException e) {
+
+        }
     }
 
     @Override
