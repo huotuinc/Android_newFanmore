@@ -23,11 +23,8 @@ android {
             storePassword 'huotuheyun'
         }
     }
-
-
     compileSdkVersion 19
     buildToolsVersion "19.1.0"
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
@@ -65,5 +62,10 @@ android {
             zipAlignEnabled true
         }
     }
-
+    defaultConfig {
+        versionCode 23
+        versionName '3.1.0'
+    }
+    productFlavors {
+    }
 }
