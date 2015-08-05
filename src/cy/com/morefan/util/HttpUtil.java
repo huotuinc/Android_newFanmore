@@ -75,6 +75,7 @@ public class HttpUtil
             os = conn.getOutputStream();
             os.write(data_bytes);
             conn.setConnectTimeout(10000);
+            conn.setReadTimeout(10000);
 
             int statusCode = conn.getResponseCode();
             if (200 == statusCode )
@@ -156,6 +157,7 @@ public class HttpUtil
             conn.setDoOutput(true);
             conn.setUseCaches(false);
             conn.setConnectTimeout(10000);
+            conn.setReadTimeout(8000);
             int statusCode = conn.getResponseCode();
             if (200 == statusCode )
             {

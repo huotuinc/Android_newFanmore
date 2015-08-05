@@ -321,11 +321,25 @@ public class ForgetActivity extends BaseActivity implements OnClickListener
         
         // 拼接注册url
         url = Constant.FORGET_INTERFACE;
-        new ForgetAsyncTask().execute(url);
+
+        String phone = edtPhone.getText().toString();
+        String password =edtPwd.getText().toString();
+        String authCode= edtCode.getText().toString();
+
+        new ForgetAsyncTask( phone , password ,authCode ).execute(url);
     }
     
     class ForgetAsyncTask extends AsyncTask<String, Void, FMForget>
     {
+        private String phone;
+        private String password;
+        private String authCode;
+
+        public ForgetAsyncTask(String phone , String password , String authCode){
+            this.phone=phone;
+            this.password=password;
+            this.authCode=authCode;
+        }
 
         @Override
         protected FMForget doInBackground(String... params)
@@ -339,20 +353,20 @@ public class ForgetActivity extends BaseActivity implements OnClickListener
             // 忘记密码是get方式提交
             //封装sign
             Map<String, String> signMap = new HashMap<String, String>();
-            signMap.put("phone", edtPhone.getText().toString());
-            signMap.put("password", EncryptUtil.getInstance().encryptMd532(edtPwd.getText().toString()));
-            signMap.put("authcode", edtCode.getText().toString());
+            signMap.put("phone", phone);
+            signMap.put("password", EncryptUtil.getInstance().encryptMd532(password));
+            signMap.put("authcode", authCode);
             String signStr = obtainMap.getSign(signMap);
             try
             {
                 url = url
                         + "?phone="
-                        + URLEncoder.encode(edtPhone.getText().toString(),
+                        + URLEncoder.encode( phone,
                                 "UTF-8")
                         + "&password="
                         + URLEncoder.encode(EncryptUtil.getInstance()
-                                .encryptMd532(edtPwd.getText().toString()),
-                                "UTF-8") + "&authcode=" + URLEncoder.encode(edtCode.getText().toString(),
+                                .encryptMd532( password ),
+                                "UTF-8") + "&authcode=" + URLEncoder.encode( authCode,
                                         "UTF-8");
                 url += paramMap;
                 url += "&sign=" + URLEncoder.encode(signStr, "UTF-8");
@@ -396,6 +410,16 @@ public class ForgetActivity extends BaseActivity implements OnClickListener
             super.onPostExecute(result);
             btnComplete.setEnabled(true);
             dismissProgress();
+
+            if( result ==null){
+                ToastUtils.showLongToast(ForgetActivity.this,"请求失败。");
+                return;
+            }
+            if(result.getSystemResultCode()!=1){
+                ToastUtils.showLongToast(ForgetActivity.this, result.getSystemResultDescription());
+                return;
+            }
+
             if (1 == result.getResultCode())
             {
                 // 弹出注册成功提示框
