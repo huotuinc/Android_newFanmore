@@ -124,6 +124,12 @@ public class UserInfoView
             @Override
             public void onClick(View v)
             {
+                if(Util.isConnect(mContext) ==false ){
+                    ToastUtils.showLongToast(mContext , "无网络或当前网络不可用!");
+                    return;
+                }
+
+
                 if (curType == Type.Name)
                 {
                     /*
@@ -326,27 +332,34 @@ public class UserInfoView
             } else if (curType == Type.Job)
             {
                 profileType = 3;
-                profileData = adapter.getSelectData().get(0).id;
+                if( adapter.getSelectData().size()>0) {
+                    profileData = adapter.getSelectData().get(0).id;
+                }
             } else if (curType == Type.Income)
             {
                 profileType = 4;
-                profileData = adapter.getSelectData().get(0).id;
+                if( adapter.getSelectData().size()>0) {
+                    profileData = adapter.getSelectData().get(0).id;
+                }
             } else if (curType == Type.Fav)
             {
                 profileType = 5;
-                StringBuilder builder = new StringBuilder();
-                for (UserSelectData data : adapter.getSelectData())
-                {
-                    builder.append(data.id);
-                    builder.append(",");
+                if( adapter.getSelectData().size()>0) {
+                    StringBuilder builder = new StringBuilder();
+                    for (UserSelectData data : adapter.getSelectData()) {
+                        builder.append(data.id);
+                        builder.append(",");
+                    }
+                    profileData = builder.toString().subSequence(0,
+                            (builder.toString().length() - 1));
                 }
-                profileData = builder.toString().subSequence(0,
-                        (builder.toString().length() - 1));
             } else if (curType == Type.Sex)
             {
                 profileType = 6;
                 StringBuilder builder = new StringBuilder();
-                profileData = adapter.getSelectData().get(0).id;
+                if( adapter.getSelectData().size()>0) {
+                    profileData = adapter.getSelectData().get(0).id;
+                }
             }
 
         }
