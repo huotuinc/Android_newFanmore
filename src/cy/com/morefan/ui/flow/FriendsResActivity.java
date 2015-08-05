@@ -453,11 +453,6 @@ public class FriendsResActivity extends BaseActivity implements
 
         int size;
 
-        public LoadFriendsAsyncTask() {
-
-        }
-
-
         @Override
         protected FMFCList doInBackground(Void... params) {
             FMFCList list;
