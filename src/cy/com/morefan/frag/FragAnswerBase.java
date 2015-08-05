@@ -167,11 +167,6 @@ public class FragAnswerBase extends BaseFragment implements OnClickListener
     {
         rootView = inflater.inflate(R.layout.frag_answer, container, false);
 
-//        Bundle bd = this.getArguments();
-//        if (bd.containsKey("task"))
-//        {
-//            taskData = (TaskData) bd.getSerializable("task");
-//        }
 
         initView(rootView);
 

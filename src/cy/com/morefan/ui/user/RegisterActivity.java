@@ -246,8 +246,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener ,C
 
     private void handleBtnEvent()
     {
-        // 标题图标
-        // titleIcon.setOnClickListener(this);
         // 标题返回
         titleBack.setOnClickListener(this);
         // imgTag.setOnClickListener(this);
@@ -622,30 +620,11 @@ public class RegisterActivity extends BaseActivity implements OnClickListener ,C
                 ToastUtils.showLongToast(RegisterActivity.this , errormsg );
                 return true;
             }
-           
-            //boolean supportVoice = result.getResultData().isVoiceAble();
-            //if( supportVoice){
-                //Intent voiceIntent = new Intent(Constant.GET_VOICE_REGISTER);
-                //MyBroadcastReceiver.sendBroadcast(RegisterActivity.this , MyBroadcastReceiver.GET_VOICE_REGISTER );
-            //}
             
             return true;
         }
         return false;
     }
-
-//    @Override
-//    public void onFinishReceiver(ReceiverType type, Object msg)
-//    {
-//        // TODO Auto-generated method stub
-//        if( type == ReceiverType.Register){
-//            // 刷新获取按钮状态，设置为可获取语音
-//            btnGet.setText("尝试语音获取");
-//            btnGet.setTag(Constant.SMS_TYPE_VOICE);
-//            ToastUtils.showLongToast(RegisterActivity.this,
-//                    "还没收到短信，请尝试语音获取");
-//        }
-//    }
 
     /**
      * 倒计时控件 完成时，回调类

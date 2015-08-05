@@ -26,7 +26,14 @@ import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.ToastUtils;
 
 /**
- * Created by Administrator on 2015/7/30.
+ *
+ * @类名称：DeleteRequestFCAsyncTask
+ * @类描述：清空好友请求列表接口
+ * @创建人：aaron
+ * @修改人：
+ * @修改时间：2015年5月27日 下午7:00:59
+ * @修改备注：
+ * @version:
  */
 public class DeleteRequestFCAsyncTask extends AsyncTask<Void, Void, FMDeleteRequestFC> {
     Context context;
@@ -98,14 +105,12 @@ public class DeleteRequestFCAsyncTask extends AsyncTask<Void, Void, FMDeleteRequ
         ((BaseActivity) context).dismissProgress();
 
         if( result==null){
-            //ToastUtils.showLongToast(context, "请求失败");
             Message msg=handler.obtainMessage(FAIL);
             msg.obj="请求失败";
             handler.sendMessage(msg);
             return;
         }
         if( result.getSystemResultCode() != 1){
-            //ToastUtils.showLongToast(context, result.getSystemResultDescription());
             Message msg=handler.obtainMessage(FAIL);
             msg.obj=result.getSystemResultDescription();
             handler.sendMessage(msg);
@@ -130,7 +135,6 @@ public class DeleteRequestFCAsyncTask extends AsyncTask<Void, Void, FMDeleteRequ
             return;
         }
         if( 1!= result.getResultCode()){
-            //ToastUtils.showLongToast( context , result.getResultDescription());
             Message msg=handler.obtainMessage(FAIL);
             msg.obj=result.getResultDescription();
             handler.sendMessage(msg);

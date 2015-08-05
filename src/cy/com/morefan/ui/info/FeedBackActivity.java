@@ -57,12 +57,14 @@ public class FeedBackActivity extends BaseActivity implements Callback,
     private TextView backText;
 
     @Override
+    //设置监听
     public void onClick(View v)
     {
         // TODO Auto-generated method stub
 
         switch (v.getId())
         {
+        //提交反馈
         case R.id.btnCommit:
         {
 
@@ -76,6 +78,7 @@ public class FeedBackActivity extends BaseActivity implements Callback,
             }
         }
             break;
+        //返回事件
         case R.id.backImage:
         {
             closeSelf(FeedBackActivity.this);

@@ -63,7 +63,16 @@ import cy.com.morefan.util.ShareUtil;
 import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.util.VolleyUtil;
 import cy.com.morefan.view.CyButton;
-
+/**
+ *
+ * @类名称：AnswerActivity
+ * @类描述：答题界面
+ * @创建人：aaron
+ * @修改人：
+ * @修改时间：2015年6月10日 上午9:58:58
+ * @修改备注：
+ * @version:
+ */
 public class AnswerActivity extends BaseActivity implements Callback, OnClickListener ,BroadcastListener
 {
     private TaskData taskData = null;

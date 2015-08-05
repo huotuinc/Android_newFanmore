@@ -45,7 +45,12 @@ import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.SoundUtil;
 import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.util.Util;
-
+/**
+ * 签到
+ *
+ * @author cy
+ *
+ */
 public class FragMark extends BaseFragment implements DataListener, Callback,
         OnClickListener
 {

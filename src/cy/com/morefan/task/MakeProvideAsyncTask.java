@@ -28,7 +28,14 @@ import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.ToastUtils;
 
 /**
- * Created by Administrator on 2015/7/29.
+ *
+ * @类名称：MakeProvideAsyncTask
+ * @类描述：送流量接口
+ * @创建人：aaron
+ * @修改人：
+ * @修改时间：2015年5月27日 下午7:00:59
+ * @修改备注：
+ * @version:
  */
 public class MakeProvideAsyncTask extends AsyncTask<Void,Void, FMMakeProvide> {
     String mobile;
