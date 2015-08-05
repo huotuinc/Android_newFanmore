@@ -257,10 +257,11 @@ public class FragFaqs extends BaseFragment implements Callback,
 
                 contactBean = jsonUtil.toBean(jsonStr, contactBean);
 
-                List<ContactBean> data = changeContracts(contactBean.getResultData().getContactInfo());
-
-                contactBean.getResultData().setContactInfo(data);
-
+                if( contactBean !=null && contactBean.getSystemResultCode() ==1
+                        && contactBean.getResultCode() ==1 ) {
+                    List<ContactBean> data = changeContracts(contactBean.getResultData().getContactInfo());
+                    contactBean.getResultData().setContactInfo(data);
+                }
             } catch (JsonSyntaxException e) {
                 LogUtil.e("JSON_ERROR", e.getMessage());
                 contactBean =new FMContact();
