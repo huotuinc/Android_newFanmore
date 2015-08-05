@@ -1,7 +1,6 @@
 package cy.com.morefan.listener;
 
-//import cy.com.morefan.constant.BusinessStatic;
-//import cy.com.morefan.util.Util;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

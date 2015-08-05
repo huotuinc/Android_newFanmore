@@ -43,7 +43,16 @@ import cy.com.morefan.util.JSONUtil;
 import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.ToastUtils;
 import cy.com.morefan.view.CyButton;
-
+/**
+ *
+ * @类名称：ExchangeItemActivity
+ * @类描述：兑换流量包界面
+ * @创建人：aaron
+ * @修改人：
+ * @修改时间：2015年6月10日 上午9:59:51
+ * @修改备注：
+ * @version:
+ */
 public class ExchangeItemActivity extends BaseActivity implements
         OnClickListener, Callback, OnItemClickListener
 {

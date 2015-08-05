@@ -95,7 +95,7 @@ public class BindingActivity extends BaseActivity implements Callback,
         filter.addAction(Constant.GET_VOICE_BINING);
         BindingActivity.this.registerReceiver(smsReceiver, filter);
     }
-
+    //布局
     private void initView()
     {
         backImage = (CyButton) this.findViewById(R.id.backImage);
@@ -115,6 +115,7 @@ public class BindingActivity extends BaseActivity implements Callback,
         backText.setOnClickListener(this);
     }
     @Override
+
     protected void onDestroy()
     {
         // TODO Auto-generated method stub

@@ -161,16 +161,7 @@ public class FragAnswerList extends BaseFragment implements OnClickListener
     {
         if (currentQuestion == null)
             return;
-        //String imageUrl = currentQuestion.getImageUrl();
-        // RequestQueue queue = Volley.newRequestQueue(getActivity());
-        // LruImageCache cache = LruImageCache.instance();
-        // ImageLoader imageLoader = new ImageLoader(queue, cache);
 
-        // imgPic.setDefaultImageResId(R.drawable.ic_launcher);
-        // imgPic.setErrorImageResId(R.drawable.ic_launcher);
-        // imgPic.setImageUrl(imageUrl, imageLoader );
-
-        //BitmapLoader.create().displayUrl(getActivity(), imgPic, imageUrl);
     }
 
     private void SetQuestion()
@@ -179,13 +170,9 @@ public class FragAnswerList extends BaseFragment implements OnClickListener
         
         currentQuestion = questions.get(currentIdx);
 
-        // llA.setBackgroundResource(drawable.shape_square);
         llA.setVisibility(View.GONE);
-        // llB.setBackgroundResource(drawable.shape_square);
         llB.setVisibility(View.GONE);
-        // llC.setBackgroundResource(drawable.shape_square);
         llC.setVisibility(View.GONE);
-        // llD.setBackgroundResource(drawable.shape_square);
         llD.setVisibility(View.GONE);
         btnA.setClickable(true);
         btnA.setBackgroundResource(R.drawable.a);

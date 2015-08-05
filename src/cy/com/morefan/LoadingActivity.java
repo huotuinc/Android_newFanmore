@@ -84,20 +84,6 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
         }
     }
 
-//    @Override
-//    protected void onPause()
-//    {
-//        // TODO Auto-generated method stub
-//        super.onPause();
-//    }
-
-//    @Override
-//    protected void onResume()
-//    {
-//        // TODO Auto-generated method stub
-//        super.onResume();
-//    }
-
     private void initView()
     {
         loadLayout = (RelativeLayout) this.findViewById(R.id.loadL);
@@ -330,27 +316,6 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
             stopService(locationI);
         }
     }
-
-//    private boolean haveLocationData()
-//    {
-//        String latitude = PreferenceHelper.readString(LoadingActivity.this,
-//                Constant.LOCATION_INFO, "latitude");
-//        String Longitude = PreferenceHelper.readString(LoadingActivity.this,
-//                Constant.LOCATION_INFO, "Longitude");
-//        String cityCode = PreferenceHelper.readString(LoadingActivity.this,
-//                Constant.LOCATION_INFO, "cityCode");
-//        if (null != latitude && !"".equals(latitude.trim())
-//                && null != Longitude && !"".equals(Longitude.trim())
-//                && null != cityCode && !"".equals(cityCode.trim()))
-//        {
-//
-//            return true;
-//        } else
-//        {
-//            return false;
-//        }
-//    }
-    
     @Override
     public void onClick(View v)
     {

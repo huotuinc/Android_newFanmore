@@ -83,8 +83,6 @@ public class FragFaqs extends BaseFragment implements Callback,
     // 内容列表
     private KJListView contactList;
 
-    //private QuickAlphabeticBar alpha;
-
     private MyLetterListView alpha;
 
     public MyApplication application;

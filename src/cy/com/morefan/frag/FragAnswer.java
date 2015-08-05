@@ -26,16 +26,18 @@ import cy.com.morefan.util.JSONUtil;
 import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.ToastUtils;
 
-/*
- * 答题类/问卷类
+
+/**
+ *答题类/问卷类
  * @类名称：FragAnswer
- * @类描述：
+ * @类描述：答题类/问卷类
  * @创建人：jinxiangdong
  * @修改人：
- * @修改时间：2015年6月1日 下午3:47:44
+ * @修改时间：2015年5月27日 下午7:00:59
  * @修改备注：
  * @version:
  */
+
 public class FragAnswer extends FragAnswerBase {
 
 	@Override
@@ -80,7 +82,6 @@ public class FragAnswer extends FragAnswerBase {
 				startActivityForResult(intent, 1000);
 			} else {
 				startNextFragment();
-				// new TaskDetailAsyncTask().execute(taskData.getTaskId());
 			}
 		}
 	}

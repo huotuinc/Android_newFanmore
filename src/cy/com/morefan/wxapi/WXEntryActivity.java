@@ -249,7 +249,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler{
 		}		
 		
 		
-		//msg.thumbData = Util.InputStreamToByte(getResources().openRawResource(R.drawable.icon));
+ 		//msg.thumbData = Util.InputStreamToByte(getResources().openRawResource(R.drawable.icon));
 //		msg.thumbData = cy.com.morefan.util.Util.readFromFileByWX(path);
 
 

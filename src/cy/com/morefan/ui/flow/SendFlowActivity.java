@@ -226,14 +226,10 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         params.setMargins(5, 5, 5, 5);
         llContent.setPadding(8,10,8,0);
         llContent.setLayoutParams(params);
-
+        //发送提示信息
         final EditText etMessage=new EditText(this);
         etMessage.setHint("朕赏你点流量，还不谢恩");
         etMessage.setText("朕赏你点流量，还不谢恩");
-        //params =new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-        //        RelativeLayout.LayoutParams.WRAP_CONTENT);
-        //params.setMargins(4, 2, 4, 2);
-        //etMessage.setPadding(4, 4, 4, 4);
         etMessage.setLayoutParams(params);
         etMessage.setSingleLine(true);
 
@@ -242,14 +238,13 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         dialog.setView(llContent);
 
         dialog.setTitle("向你的小伙伴说点什么");
-        //dialog.setMessage("我要送" + flowText.getText().toString() + "M流量。");
+
         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
                 // 送流量接口
-                //new SendFlowAsyncTask().execute();
                 String mobile="";
                 if( bundle.containsKey("originMobile")) {
                     mobile = bundle.getString("originMobile");
@@ -280,6 +275,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
     {
         // TODO Auto-generated method stub
         switch ( msg.what){
+            //发送成功，提示。
             case MakeProvideAsyncTask.SUCCESS:
                 ToastUtils.showLongToast(this, msg.obj.toString());
 
@@ -292,6 +288,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
                 setFlow(myFlow);
 
                 break;
+            //发送失败，提示。
             case MakeProvideAsyncTask.FAIL:
                 ToastUtils.showLongToast(this,msg.obj.toString());
                 break;
@@ -301,6 +298,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
     }
 
     @Override
+    //布局文件
     protected void onCreate(Bundle arg0)
     {
         // TODO Auto-generated method stub
@@ -353,6 +351,7 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         }
     }
 
+    //流量精确到小数后2为。
     private void setFlow( float flow ){
         if (Util.isM( String.valueOf( flow )))
         {
@@ -379,7 +378,15 @@ public class SendFlowActivity extends BaseActivity implements Callback,
         // TODO Auto-generated method stub
         return super.onKeyDown(keyCode, event);
     }
-    
+    /**
+     * @类名称：MakeRequestAsyncTask
+     * @类描述：送流量接口
+     * @创建人：aaron
+     * @修改人：
+     * @修改时间：2015年6月13日 上午11:31:09
+     * @修改备注：
+     * @version:
+     */
     class MakeRequestAsyncTask extends AsyncTask<Void,Void, FMMakeRequest>{
         Context context;
         String to;

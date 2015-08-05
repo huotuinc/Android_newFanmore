@@ -21,7 +21,14 @@ import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.ToastUtils;
 
 /**
- * Created by Administrator on 2015/7/28.
+ *
+ * @类名称：DeliveryGoodAsyncTask
+ * @类描述：发货接口
+ * @创建人：aaron
+ * @修改人：
+ * @修改时间：2015年5月27日 下午7:00:59
+ * @修改备注：
+ * @version:
  */
 public class DeliveryGoodAsyncTask extends AsyncTask<Void,Void, FMDeliveryGood> {
     String orderNo;

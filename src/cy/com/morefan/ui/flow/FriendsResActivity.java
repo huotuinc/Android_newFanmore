@@ -130,9 +130,9 @@ public class FriendsResActivity extends BaseActivity implements
     private void initList() {
         friendsList.setOnRefreshListener(new KJRefreshListener() {
 
-
+            // 下拉刷新页面
             public void onRefresh() {
-                // TODO Auto-generated method stub
+
                 // 加载数据
                 friendsList.setBackgroundColor(Color.TRANSPARENT);
                 friendsList.setRefreshTime(
@@ -144,7 +144,7 @@ public class FriendsResActivity extends BaseActivity implements
                 friendsList.stopLoadMore();
             }
 
-            @Override
+            //上拉加载更多数据
             public void onLoadMore() {
                 // TODO Auto-generated method stub
 
@@ -204,7 +204,7 @@ public class FriendsResActivity extends BaseActivity implements
                 new DeleteRequestFCAsyncTask(FriendsResActivity.this, mHandler, infoId).execute();
                 break;
             case DeleteRequestFCAsyncTask.SUCCESS:
-                new LoadFriendsAsyncTask().execute();
+                new LoadFriendsAsyncTask(Constant.REFRESH ).execute();
                 break;
             case DeleteRequestFCAsyncTask.FAIL:
                 ToastUtils.showLongToast(FriendsResActivity.this, msg.obj.toString());
@@ -218,10 +218,12 @@ public class FriendsResActivity extends BaseActivity implements
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
+            //返回事件
             case R.id.backImage: {
                 closeSelf(FriendsResActivity.this);
             }
             break;
+            //清空列表事件
             case R.id.functionBtn: {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(FriendsResActivity.this);
                 dialog.setTitle("好友求流量");
@@ -230,10 +232,7 @@ public class FriendsResActivity extends BaseActivity implements
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // TODO Auto-generated method stub
-                        // 先删除服务端数据，服务端删除成功后删除本地数据
-                        //cleanRequestFC();
-                        //模拟删除
+                        //调用清空列表接口
                         new ClearInfoAsyncTask().execute();
 
                         // 清空列表信息
@@ -246,9 +245,6 @@ public class FriendsResActivity extends BaseActivity implements
                                 adapter.notifyDataSetChanged();
                             }
                         });
-                    }
-
-                    private void cleanRequestFC() {
                     }
                 });
                 dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -442,6 +438,15 @@ public class FriendsResActivity extends BaseActivity implements
 
 
     }
+    /**
+     * @类名称：LoadFriendsAsyncTask
+     * @类描述：刷新好友请求列表接口
+     * @创建人：aaron
+     * @修改人：
+     * @修改时间：2015年6月13日 上午11:31:09
+     * @修改备注：
+     * @version:
+     */
 
     public class LoadFriendsAsyncTask extends AsyncTask<Void, Void, FMFCList> {
         private int loadType;// 0：下拉，1：上拉
@@ -452,11 +457,6 @@ public class FriendsResActivity extends BaseActivity implements
         }
 
         int size;
-
-        public LoadFriendsAsyncTask() {
-
-        }
-
 
         @Override
         protected FMFCList doInBackground(Void... params) {
@@ -712,7 +712,7 @@ public class FriendsResActivity extends BaseActivity implements
 
 
     }
-
+    //删除请求接口
     public class ClearInfoAsyncTask extends AsyncTask<Void, Void, BaseBaseBean> {
         protected BaseBaseBean doInBackground(Void... params) {
             String url = Constant.DELETE_LIST;
@@ -754,7 +754,7 @@ public class FriendsResActivity extends BaseActivity implements
             super.onPostExecute(result);
             FriendsResActivity.this.dismissProgress();
             // 清空列表信息
-
+            new LoadFriendsAsyncTask(Constant.REFRESH ).execute();
         }
     }
 
