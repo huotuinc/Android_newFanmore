@@ -1,5 +1,7 @@
 package cy.com.morefan.frag;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -770,9 +772,13 @@ public class FragFaqs extends BaseFragment implements Callback,
 
                 if(null != contacts.get(position).getFanmoreBalance()) {
 
-                    Number temp = Util.decimalFloat( contacts.get(position).getFanmoreBalance(),"0.###");
+                    //Number temp = Util.decimalFloat( contacts.get(position).getFanmoreBalance(),"0.###");
 
-                    holder.flows.setText( temp + "M");
+                    BigDecimal balance = new BigDecimal(contacts.get(position).getFanmoreBalance());
+                    balance = balance.setScale(0, RoundingMode.HALF_DOWN);
+
+
+                    holder.flows.setText( balance + "M");
                 }else{
                     holder.flows.setText("");
                 }
