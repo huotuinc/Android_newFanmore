@@ -18,6 +18,7 @@ import cy.com.morefan.listener.MyBroadcastReceiver;
 import cy.com.morefan.util.HttpUtil;
 import cy.com.morefan.util.JSONUtil;
 import cy.com.morefan.util.KJLoger;
+import cy.com.morefan.util.ToastUtils;
 
 /**
  * 
@@ -78,6 +79,16 @@ public class GetVCAsyncTask extends AsyncTask<String, Void, FMGetVC>
     {
         // TODO Auto-generated method stub
         super.onPostExecute(result);
+
+        if(result==null){
+            ToastUtils.showLongToast(context, "请求失败");
+            return;
+        }
+        if(result.getSystemResultCode()!=1){
+            ToastUtils.showLongToast(context, result.getSystemResultDescription());
+            return;
+        }
+
         if(1 == result.getResultCode())
         {
             
@@ -137,6 +148,8 @@ public class GetVCAsyncTask extends AsyncTask<String, Void, FMGetVC>
         {
           //判断服务端是否接受语音短信支持
             InnerClass inner = result.getResultData();
+            if( inner ==null) return;
+
             boolean supportV = inner.isVoiceAble();
             Intent voiceI = null;
             PendingIntent voicePI = null;
