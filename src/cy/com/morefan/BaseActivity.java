@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.umeng.analytics.MobclickAgent;
+
 import cy.com.morefan.ui.user.ForgetActivity;
 import cy.com.morefan.ui.user.LoginActivity;
 import cy.com.morefan.ui.user.RegisterActivity;
@@ -78,6 +81,8 @@ public class BaseActivity extends FragmentActivity{
         // TODO Auto-generated method stub
         super.onPause();
         JPushInterface.onPause(BaseActivity.this);
+
+		MobclickAgent.onPause(this);
     }
 	
     @Override
@@ -86,6 +91,8 @@ public class BaseActivity extends FragmentActivity{
         // TODO Auto-generated method stub
         super.onResume();
         JPushInterface.onResume(BaseActivity.this);
+
+		MobclickAgent.onResume(this);
     }
     
 	private static View getRootView(Activity context)
