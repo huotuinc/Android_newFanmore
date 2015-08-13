@@ -67,7 +67,7 @@ import cy.com.morefan.view.KJRefreshListener;
  * @version:
  */
 public class FriendsResActivity extends BaseActivity implements
-        OnClickListener, Callback, OnItemClickListener , MyBroadcastReceiver.BroadcastListener{
+        OnClickListener, Callback, OnItemClickListener, MyBroadcastReceiver.BroadcastListener {
     public Handler mHandler = new Handler(this);
 
     private CyButton backImage;
@@ -89,7 +89,7 @@ public class FriendsResActivity extends BaseActivity implements
 
     private int infoId;
 
-    private MyBroadcastReceiver myBroadcastReceiver=null;
+    private MyBroadcastReceiver myBroadcastReceiver = null;
 
 
     @Override
@@ -109,7 +109,7 @@ public class FriendsResActivity extends BaseActivity implements
         friendsList.setRefreshTime(DateUtils.formatDate(System.currentTimeMillis()), FriendsResActivity.this);
 
         myBroadcastReceiver = new MyBroadcastReceiver(this, this,
-                MyBroadcastReceiver.ACTION_REQUESTFLOW );
+                MyBroadcastReceiver.ACTION_REQUESTFLOW);
 
     }
 
@@ -122,7 +122,7 @@ public class FriendsResActivity extends BaseActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(myBroadcastReceiver!=null){
+        if (myBroadcastReceiver != null) {
             myBroadcastReceiver.unregisterReceiver();
         }
     }
@@ -204,7 +204,7 @@ public class FriendsResActivity extends BaseActivity implements
                 new DeleteRequestFCAsyncTask(FriendsResActivity.this, mHandler, infoId).execute();
                 break;
             case DeleteRequestFCAsyncTask.SUCCESS:
-                new LoadFriendsAsyncTask(Constant.REFRESH ).execute();
+                new LoadFriendsAsyncTask(Constant.REFRESH).execute();
                 break;
             case DeleteRequestFCAsyncTask.FAIL:
                 ToastUtils.showLongToast(FriendsResActivity.this, msg.obj.toString());
@@ -345,9 +345,9 @@ public class FriendsResActivity extends BaseActivity implements
                     holder.account.setText("");
                 }
 
-                Number temp = Util.decimalFloat(reqFMlist.get(position).getFee() ,"0.##");
+                Number temp = Util.decimalFloat(reqFMlist.get(position).getFee(), "0.##");
 
-                holder.flows.setText("" +temp + "M");
+                holder.flows.setText("" + temp + "M");
                 holder.flows.setTextSize(res
                         .getDimension(R.dimen.friends_accpet_text));
                 holder.flows.setTextColor(res.getColor(R.color.accpet_flow_color));
@@ -438,6 +438,7 @@ public class FriendsResActivity extends BaseActivity implements
 
 
     }
+
     /**
      * @类名称：LoadFriendsAsyncTask
      * @类描述：刷新好友请求列表接口
@@ -539,7 +540,7 @@ public class FriendsResActivity extends BaseActivity implements
                     if (1 == result.getResultCode()) {
                         //设置求流量消息为空
                         String username = MyApplication.readUserName(FriendsResActivity.this);
-                        MyApplication.writeBoolean(FriendsResActivity.this, Constant.LOGIN_USER_INFO, username,false);
+                        MyApplication.writeBoolean(FriendsResActivity.this, Constant.LOGIN_USER_INFO, username, false);
 
                         // 重新加载数据
                         reqFMlist.clear();
@@ -624,7 +625,7 @@ public class FriendsResActivity extends BaseActivity implements
 
                         //设置求流量消息为空
                         String username = MyApplication.readUserName(FriendsResActivity.this);
-                        MyApplication.writeBoolean(FriendsResActivity.this, Constant.LOGIN_USER_INFO, username,false);
+                        MyApplication.writeBoolean(FriendsResActivity.this, Constant.LOGIN_USER_INFO, username, false);
 
 
                         if (!result.getResultData().getRequests().isEmpty()) {
@@ -712,6 +713,7 @@ public class FriendsResActivity extends BaseActivity implements
 
 
     }
+
     //删除请求接口
     public class ClearInfoAsyncTask extends AsyncTask<Void, Void, BaseBaseBean> {
         protected BaseBaseBean doInBackground(Void... params) {
@@ -754,7 +756,7 @@ public class FriendsResActivity extends BaseActivity implements
             super.onPostExecute(result);
             FriendsResActivity.this.dismissProgress();
             // 清空列表信息
-            new LoadFriendsAsyncTask(Constant.REFRESH ).execute();
+            new LoadFriendsAsyncTask(Constant.REFRESH).execute();
         }
     }
 

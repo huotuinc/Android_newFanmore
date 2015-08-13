@@ -34,31 +34,31 @@ import cy.com.morefan.util.KJLoger;
 import cy.com.morefan.util.ObtainParamsMap;
 import cy.com.morefan.util.ToastUtils;
 
-public class LoadingActivity extends BaseActivity implements OnClickListener 
+public class LoadingActivity extends BaseActivity implements OnClickListener
 {
     private RelativeLayout loadLayout;
 
     private Intent locationI = null;
 
     private boolean isConnection = false;// 假定无网络连接 
-    
+
     private  TaskData alertTaskData=null;//预告的任务信息
-    
+
     private int messageType = 0;//消息的类型
-   
+
     @Override
     protected void onCreate(Bundle arg0)
     {
         super.onCreate(arg0);
 
         setContentView(R.layout.loading);
-        
-        initJPush();        
-        
+
+        initJPush();
+
         initView();
         handlerView();
     }
-    
+
     /**
      * 根据开关 打开推送功能
      *@创建人：jinxiangdong
@@ -67,7 +67,7 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
      *@方法名：initJPush
      *@参数：
      *@返回：void
-     *@exception 
+     *@exception
      *@since
      */
     protected void initJPush(){
@@ -91,10 +91,10 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
         if( getIntent().hasExtra("task")){
             alertTaskData = (TaskData)getIntent().getSerializableExtra("task");
         }
-        
+
         if(getIntent().hasExtra("type")){
             messageType = getIntent().getIntExtra("type", 0);
-        }          
+        }
     }
 
     private void handlerView()
@@ -177,7 +177,7 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
                 }
                 // 每天6点到23点可推送
                 // 本地代码设置极光推送时间
-                JPushInterface.setPushTime(LoadingActivity.this, days, 6, 23);                
+                JPushInterface.setPushTime(LoadingActivity.this, days, 6, 23);
             }
 
             @Override
@@ -189,8 +189,8 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
 
             @Override
             public void onAnimationEnd(Animation animation)
-            {            
-                new InitAsyncTask().execute(); 
+            {
+                new InitAsyncTask().execute();
             }
         });
     }
@@ -206,7 +206,7 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
             GBBaseData globalData = new GBBaseData();
             //
             try{
-                String json = HttpUtil.getInstance().doGet(initParams);  
+                String json = HttpUtil.getInstance().doGet(initParams);
                 globalData = jsonUtil.toBean(json, globalData);
             } catch (JsonSyntaxException e)
             {
@@ -245,7 +245,7 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
         protected void onPostExecute(GBBaseData result)
         {
             super.onPostExecute(result);
-            
+
             if( null == result || result.getSystemResultCode() !=1 )
             {
                 ToastUtils.showLongToast(LoadingActivity.this, "获取数据异常");
@@ -286,9 +286,9 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
                 application.globalData = result.getResultData().getGlobal();
 
             }
-            
+
             //判断是否需要引导
-            String guideTag = MyApplication.readString(LoadingActivity.this, Constant.GUIDE_INFO, Constant.GUIDE_INFO_TAG);            
+            String guideTag = MyApplication.readString(LoadingActivity.this, Constant.GUIDE_INFO, Constant.GUIDE_INFO_TAG);
             if(null == guideTag || "".equals(guideTag))
             {
                 //进入引导界面
@@ -300,10 +300,10 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
                 i.putExtra("task", alertTaskData);
                 i.putExtra("type", messageType);
                 LoadingActivity.this.startActivity(i);
-                LoadingActivity.this.finish();                           
-            }          
+                LoadingActivity.this.finish();
+            }
         }
-        
+
     }
 
     @Override
@@ -320,6 +320,6 @@ public class LoadingActivity extends BaseActivity implements OnClickListener
     public void onClick(View v)
     {
         // TODO Auto-generated method stub
-        
-    }    
+
+    }
 }
