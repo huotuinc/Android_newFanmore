@@ -10,17 +10,11 @@ dependencies {
 
 android {
     signingConfigs {
-        release {
-            keyAlias 'huotu_fm.keystore'
-            keyPassword 'huotuheyun'
-            storeFile file('E:/myjob/keystore/huotu_fm.keystore')
-            storePassword 'huotuheyun'
-        }
         huotu_fm {
-            keyAlias 'huotu_fm.keystore'
-            keyPassword 'huotuheyun'
-            storeFile file('E:/myjob/keystore/huotu_fm.keystore')
-            storePassword 'huotuheyun'
+            keyAlias huotu_signing_keyalias
+            keyPassword huotu_signing_keypassword
+            storeFile file(huotu_signing_storefile)
+            storePassword huotu_signing_storepassword
         }
     }
     compileSdkVersion 19
