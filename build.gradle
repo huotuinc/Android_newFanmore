@@ -10,17 +10,11 @@ dependencies {
 
 android {
     signingConfigs {
-        defaultConfig {
-            keyAlias 'huotu_fm.keystore'
-            keyPassword 'huotuheyun'
-            storeFile file('E:/myjob/keystore/huotu_fm.keystore')
-            storePassword 'huotuheyun'
-        }
-        release {
-            keyAlias 'huotu_fm.keystore'
-            keyPassword 'huotuheyun'
-            storeFile file('E:/myjob/keystore/huotu_fm.keystore')
-            storePassword 'huotuheyun'
+        huotu_fm {
+            keyAlias huotu_signing_keyalias
+            keyPassword huotu_signing_keypassword
+            storeFile file(huotu_signing_storefile)
+            storePassword huotu_signing_storepassword
         }
     }
     compileSdkVersion 19
@@ -55,17 +49,64 @@ android {
     }
     buildTypes {
         debug {
-            signingConfig signingConfigs.defaultConfig
+            signingConfig signingConfigs.huotu_fm
         }
         release {
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.huotu_fm
             zipAlignEnabled true
+            debuggable false
         }
     }
     defaultConfig {
         versionCode 23
         versionName '3.1.0'
+        minSdkVersion 8
+        targetSdkVersion 19
+        signingConfig signingConfigs.huotu_fm
     }
     productFlavors {
+        Appstore360 {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            targetSdkVersion 19
+            versionCode 23
+            versionName '3.1.0'
+        }
+        AppstoreWandoujia {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            targetSdkVersion 19
+            versionCode 23
+            versionName '3.1.0'
+        }
+        AppstoreBaidu {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            targetSdkVersion 19
+            versionCode 23
+            versionName '3.1.0'
+        }
+        AppstoreQQ {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            targetSdkVersion 19
+            versionCode 23
+            versionName '3.1.0'
+        }
+        AppstoreAnzi {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            targetSdkVersion 19
+            versionCode 23
+            versionName '3.1.0'
+        }
     }
+
+    productFlavors.all { flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name] }
+
 }

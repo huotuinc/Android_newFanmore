@@ -63,6 +63,16 @@ public class TaskData implements Serializable
      */
     private boolean online;
 
+    private Integer top;
+
+    public Integer getTop() {
+        return top;
+    }
+
+    public void setTop(Integer top) {
+        this.top = top;
+    }
+
     public boolean isOnline()
     {
         return online;

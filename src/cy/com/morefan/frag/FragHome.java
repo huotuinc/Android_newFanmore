@@ -676,6 +676,9 @@ public class FragHome extends BaseFragment implements DataListener, Callback,
                             .getDrawable(R.drawable.unit_status_over));
                 }
 
+                if( datas.get(position).getTop()!=null && datas.get(position).getTop()==1){
+                    holder.imgStatus.setImageDrawable( res.getDrawable(R.drawable.top));
+                }
                 // if
                 // (Constant.TASK_STATE_PRE_RELEASE.equals(datas.get(position)
                 // .getStatus()))
