@@ -4,6 +4,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.MemoryInfo;
@@ -16,7 +17,9 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.NetworkInfo.State;
+import android.os.Build;
 import android.os.Looper;
+import android.os.StrictMode;
 import android.telephony.TelephonyManager;
 import cn.jpush.android.api.JPushInterface;
 
@@ -114,6 +117,9 @@ public class MyApplication extends Application
     {
         // TODO Auto-generated method stub
         super.onCreate();
+
+        setStrictMode();
+
         mLocationClient = new LocationClient(this.getApplicationContext());
         mMyLocationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(mMyLocationListener);
@@ -128,6 +134,16 @@ public class MyApplication extends Application
         new CrashHandler();
 
         solveAsyncTaskOnPostExecuteBug();
+    }
+
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+    protected void setStrictMode(){
+        if( Constant.IS_PRODUCTION_ENVIRONMENT ==false ) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy
+                    .Builder().detectAll().penaltyLog().penaltyDeath().build());
+            StrictMode.setVmPolicy( new StrictMode.VmPolicy.Builder()
+                    .detectAll().penaltyDeath().penaltyLog().build());
+        }
     }
     
     /**

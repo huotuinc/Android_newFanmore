@@ -575,6 +575,9 @@ public class FragHome extends BaseFragment implements DataListener, Callback,
                 holder.txtCountR = (TextView) convertView
                         .findViewById(R.id.txtCountR);
                 holder.timeL = (RelativeLayout) convertView.findViewById(R.id.timeL);
+
+                holder.imgTopicon =(ImageView) convertView.findViewById(R.id.imgTopIcon);
+
                 convertView.setTag(holder);
             } else
             {
@@ -677,8 +680,12 @@ public class FragHome extends BaseFragment implements DataListener, Callback,
                 }
 
                 if( datas.get(position).getTop()!=null && datas.get(position).getTop()==1){
-                    holder.imgStatus.setImageDrawable( res.getDrawable(R.drawable.top));
+                    holder.imgTopicon.setImageDrawable( res.getDrawable(R.drawable.top));
+                    holder.imgTopicon.setVisibility(View.VISIBLE);
+                }else{
+                    holder.imgTopicon.setVisibility(View.GONE);
                 }
+
                 // if
                 // (Constant.TASK_STATE_PRE_RELEASE.equals(datas.get(position)
                 // .getStatus()))
@@ -722,6 +729,8 @@ public class FragHome extends BaseFragment implements DataListener, Callback,
             TextView txtCountL;// 已有
             TextView txtCountR;// 人领取
             RelativeLayout timeL;//时间条
+
+            ImageView imgTopicon;
         }
 
     }
