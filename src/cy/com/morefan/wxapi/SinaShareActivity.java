@@ -286,8 +286,14 @@ public class SinaShareActivity extends BaseActivity implements OnkeyBackListener
 
         @Override
         public void onWeiboException(WeiboException e) {
-        	ToastUtils.showLongToast(SinaShareActivity.this,"分享失败,请重试!");
+
             ErrorInfo info = ErrorInfo.parse(e.getMessage());
+            if( info.error_code.equals("21332")){
+                auth();
+                return;
+            }
+
+            ToastUtils.showLongToast(SinaShareActivity.this,"分享失败,请重试!");
             ToastUtils.showLongToast(SinaShareActivity.this, info.toString());
             Log.i("error", info.toString());
             finish();
