@@ -140,4 +140,13 @@
         android:layout_below="@+id/timeL"
         android:src="@drawable/unit_status_get" />
 
+    <ImageView
+        android:id="@+id/imgTopIcon"
+        android:layout_width="@dimen/tasklist_width"
+        android:layout_height="@dimen/tasklist_height"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/timeL"
+        android:src="@drawable/top"
+        android:visibility="gone"/>
+
 </RelativeLayout>
