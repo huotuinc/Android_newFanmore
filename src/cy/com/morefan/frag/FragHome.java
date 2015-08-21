@@ -2,7 +2,10 @@ package cy.com.morefan.frag;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -578,6 +581,8 @@ public class FragHome extends BaseFragment implements DataListener, Callback,
 
                 holder.imgTopicon =(ImageView) convertView.findViewById(R.id.imgTopIcon);
 
+                holder.tvLast = (TextView)convertView.findViewById(R.id.txtLastFlow);
+
                 convertView.setTag(holder);
             } else
             {
@@ -666,6 +671,12 @@ public class FragHome extends BaseFragment implements DataListener, Callback,
 
                 holder.imgStatus.setImageDrawable(null);
 
+                holder.tvLast.setVisibility(View.VISIBLE);
+
+                int flowInt = (int) datas.get(position).getLast();
+                String flowString = String.valueOf(flowInt);
+                holder.tvLast.setText(",剩余"+ flowString +"M");
+
                 if (datas.get(position).getReward() > 0
                         || datas.get(position).getTaskFailed() > 0)
                 {
@@ -677,6 +688,13 @@ public class FragHome extends BaseFragment implements DataListener, Callback,
                     // 当 任务可领取的流量<=0时，则显示 已领完图片
                     holder.imgStatus.setImageDrawable(res
                             .getDrawable(R.drawable.unit_status_over));
+
+                }
+
+                if( datas.get(position).getLast()<=0){
+                    //当已经领完时，隐藏
+                    holder.tvLast.setText("");
+                    holder.tvLast.setVisibility(View.GONE);
                 }
 
                 if( datas.get(position).getTop()!=null && datas.get(position).getTop()==1){
@@ -730,9 +748,9 @@ public class FragHome extends BaseFragment implements DataListener, Callback,
             TextView txtCountR;// 人领取
             RelativeLayout timeL;//时间条
 
-            ImageView imgTopicon;
+            ImageView imgTopicon;//置顶图片
+            TextView tvLast;//剩余流量
         }
-
     }
 
     @Override
