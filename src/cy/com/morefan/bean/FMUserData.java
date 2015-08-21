@@ -31,6 +31,8 @@ public class FMUserData implements Serializable
     private int invalidCode;
     private String realName;
     private String welcomeTip;
+    private float rewardForSign;//连续签到7天可获得的奖励，APP端应该显示这个字段在签到页面。
+    private int signingDays; // 已连续签到的日数 包括今天。
     
     public int getSex()
     {
@@ -180,7 +182,19 @@ public class FMUserData implements Serializable
     {
         this.welcomeTip = welcomeTip;
     }
-    
-    
 
+    public void setSigningDays(int signingDays) {
+        this.signingDays = signingDays;
+    }
+
+    public void setRewardForSign(float rewardForSign) {
+        this.rewardForSign = rewardForSign;
+    }
+    public float getRewardForSign() {
+        return rewardForSign;
+    }
+
+    public int getSigningDays() {
+        return signingDays;
+    }
 }

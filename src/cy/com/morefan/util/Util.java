@@ -1086,4 +1086,37 @@ public class Util
         return builder.toString();
     }
 
+
+    /**
+     * 计算签到信息
+     */
+    public static int calSignIn( int signInfo ){
+        // 判断今天是星期几
+        Calendar mCalendar = Calendar.getInstance();
+        int curWeekOfDay = mCalendar.get(Calendar.DAY_OF_WEEK) - 1;
+        curWeekOfDay = curWeekOfDay == 0 ? 7 : curWeekOfDay;
+        int weekIndex = curWeekOfDay - 1;
+         int week = curWeekOfDay;
+        int sign = 0x1;
+        int status = 0;// signInfo >> (6 - weekIndex) & sign;
+        int signCount =0;
+
+//        curWeekOfDay= 1;
+//        week=1;
+//        weekIndex = 0;
+
+        for( int i=0;i<= weekIndex ;i++ ){
+            status = signInfo >>( 6- weekIndex + i) & sign;
+            if( status ==0 ) break;
+            signCount++;
+        }
+        if( signCount == week ){
+            for( int i = 0; i< (6-weekIndex);i++ ){
+                status = signInfo>>(i) &sign;
+                if( status == 0 ) break;
+                signCount++;
+            }
+        }
+        return  signCount;
+    }
 }

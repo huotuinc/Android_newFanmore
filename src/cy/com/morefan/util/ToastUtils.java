@@ -29,4 +29,14 @@ public class ToastUtils
         alarmDialog = new AlarmDailog(context, showMsg);
         alarmDialog.show();
     }
+
+    public static void showLongToast(Context context, String showMsg , boolean singleLine)
+    {
+        if (null != alarmDialog)
+        {
+            alarmDialog = null;
+        }
+        alarmDialog = new AlarmDailog(context, showMsg,singleLine);
+        alarmDialog.show();
+    }
 }

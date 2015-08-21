@@ -328,6 +328,9 @@ public class FragMark extends BaseFragment implements DataListener, Callback,
                                     .getWelcomeTip(),
                             userData.getInvalidCode(), userData.getSex(),
                             userData.getRealName());
+
+                    MyApplication.writeString( getActivity(), Constant.LOGIN_USER_INFO, "rewardForSign", String.valueOf(userData.getRewardForSign()));
+                    MyApplication.writeInt( getActivity() , Constant.LOGIN_USER_INFO, "signingDays", userData.getSigningDays());
                 }
                 checkMarkStatus();
                 refreshView();
@@ -345,34 +348,43 @@ public class FragMark extends BaseFragment implements DataListener, Callback,
                     MainActivity.residualFlow.setText(Util.decimalFloat(flow,
                             Constant.ACCURACY_3) + "GB");
                 }
-                if (7 == curWeekOfDay)
+
+
+                int signCount = userData.getSigningDays(); //Util.calSignIn(userData.getSignInfo());
+                if( signCount==7){
+                    ToastUtils.showLongToast( getActivity() , "签到成功,你已经成功领取"
+                            + Util.getReward(MyApplication.readString( getActivity() , Constant.INIT_INFO, Constant.INIT_SIGN_MSG)) + "M流量");
+                }else
                 {
-                    // 签满一周后，提示领取流量
-                    if (127 == userData.getSignInfo())
-                    {
-                        ToastUtils
-                                .showLongToast(
-                                        getActivity(),
-                                        "签到成功,你已经成功领取"
-                                                + Util.getReward(MyApplication
-                                                        .readString(
-                                                                getActivity(),
-                                                                Constant.INIT_INFO,
-                                                                Constant.INIT_SIGN_MSG))
-                                                + "M流量");
-                    } else
-                    {
-                        ToastUtils.showLongToast(
-                                getActivity(),
-                                "签到成功，"
-                                        + MyApplication.readString(getActivity(),
-                                                Constant.INIT_INFO,
-                                                Constant.INIT_SIGN_MSG));
-                    }
-                } else
-                {
-                    ToastUtils.showLongToast(getActivity(), "签到成功");
+                    float rewords = userData.getRewardForSign();
+                    int unSignCount= 7-signCount;
+                    String fjInfo = "签到成功\r\n"+
+                            //MyApplication.readString( getActivity() , Constant.INIT_INFO, Constant.INIT_SIGN_MSG)
+                            "你还差连续签到"+ unSignCount +"天，\r\n就可获得"+ (int)rewords +"M流量奖励";
+                    ToastUtils.showLongToast( getActivity() , fjInfo, false);
                 }
+
+//                if (7 == curWeekOfDay)
+//                {
+//                    // 签满一周后，提示领取流量
+//                    if (127 == userData.getSignInfo())
+//                    {
+//                        ToastUtils.showLongToast(getActivity(), "签到成功,你已经成功领取"
+//                                + Util.getReward(MyApplication.readString(getActivity(), Constant.INIT_INFO, Constant.INIT_SIGN_MSG)) + "M流量");
+//                    } else
+//                    {
+//                        ToastUtils.showLongToast(
+//                                getActivity(),
+//                                "签到成功，"
+//                                        + MyApplication.readString(getActivity(),
+//                                                Constant.INIT_INFO,
+//                                                Constant.INIT_SIGN_MSG));
+//                    }
+//                } else
+//                {
+//                    ToastUtils.showLongToast(getActivity(), "签到成功");
+//                }
+
                 // 播放声音
                 if (soundUtil != null)
                 {

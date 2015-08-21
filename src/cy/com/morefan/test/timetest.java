@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import cy.com.morefan.bean.FMDeliveryGood;
 import cy.com.morefan.util.JSONUtil;
+import cy.com.morefan.util.Util;
 
 public class timetest extends ApplicationTestCase<Application>//TestCase
 {
@@ -63,5 +64,21 @@ public class timetest extends ApplicationTestCase<Application>//TestCase
 
         assertEquals("tetet:", result.getResultCode()==1);
 
+    }
+
+    public void testSign(){
+        //int signCount = Util.calSignIn( 56);
+        //assertEquals( "sign=3" , signCount== 0);
+
+        //int signCount = Util.calSignIn( 62 );
+        //assertEquals(signCount== 4 , "sign=4"  );
+
+        int signCount = Util.calSignIn(71);
+        //assertEquals(signCount==2 ,"sign=2");
+
+        signCount = Util.calSignIn(127);
+        //assertEquals(signCount==7 ,"sign=7");
+
+        signCount = Util.calSignIn(65);
     }
 }

@@ -9,6 +9,7 @@ import android.R.string;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,12 +23,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.google.gson.JsonSyntaxException;
+import com.nineoldandroids.animation.ValueAnimator;
 import com.sina.weibo.sdk.utils.LogUtil;
 
 import cy.com.morefan.MyApplication;
@@ -113,16 +118,65 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
         return rootView;
     }
 
+    int flag = 0;
+
     private void initView(View rootView)
     {
         shareCode = (Button) rootView.findViewById(R.id.shareCode);
         shareCode.setText("分享邀请码"
                 + application.readString(getActivity(),
-                        Constant.LOGIN_USER_INFO, Constant.LOGIN_USER_INVCODE));
+                Constant.LOGIN_USER_INFO, Constant.LOGIN_USER_INVCODE));
+
+//        LinearLayout llshareCode = (LinearLayout) rootView.findViewById((R.id.llshareCode));
+//        ValueAnimator colorAnim =  com.nineoldandroids.animation.ObjectAnimator.ofInt( llshareCode , "backgroundColor", /*Red*/0xFFFF8080, /*Blue*/0xFF8080FF);
+//        colorAnim.setDuration(3000);
+//        colorAnim.setEvaluator(new com.nineoldandroids.animation.ArgbEvaluator());
+//        colorAnim.setRepeatCount(ValueAnimator.INFINITE);
+//        colorAnim.setRepeatMode(ValueAnimator.REVERSE);
+//
+//        colorAnim.start();
+
+
         discipleTotal = (TextView) rootView.findViewById(R.id.discipleTotal);
         yestodayTotal = (TextView) rootView.findViewById(R.id.yestodayTotal);
         discipleListC = (TextView) rootView.findViewById(R.id.discipleListC);
         ruleText = (TextView) rootView.findViewById(R.id.ruleText);
+
+
+
+        AlphaAnimation anima = new AlphaAnimation(0.0f, 1.0f);
+        anima.setDuration(2000);// 设置动画显示时间
+        anima.setRepeatCount(Animation.INFINITE);
+        shareCode.setAnimation(anima);
+
+        anima.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                shareCode.setBackgroundResource(R.drawable.b);
+                //shareCode.setBackground(R.drawable.btn_red_sel);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+                // TODO Auto-generated method stub
+                if (flag % 2 == 0) {
+                    shareCode.setBackgroundResource(R.drawable.btn_red_sel);
+                    flag++;
+                } else {
+                    shareCode.setBackgroundResource(R.drawable.btn_blue_sel);
+                    flag++;
+                }
+                flag = flag>10000?0:flag;
+            }
+        });
+
+        anima.start();
+
     }
 
     @Override

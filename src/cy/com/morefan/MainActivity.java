@@ -536,7 +536,7 @@ public class MainActivity extends BaseActivity implements OnClickListener,
                         {
                             // TODO Auto-generated method stub
                             // 获取最新的签到信息
-                            int signStatus = MyApplication.readInt(
+                            final int signStatus = MyApplication.readInt(
                                     MainActivity.this,
                                     Constant.LOGIN_USER_INFO,
                                     Constant.LOGIN_USER_MARK);
@@ -653,49 +653,53 @@ public class MainActivity extends BaseActivity implements OnClickListener,
                                                                 userData.getInvalidCode(),
                                                                 userData.getSex(),
                                                                 userData.getRealName());
+
+                                                MyApplication.writeString(MainActivity.this, Constant.LOGIN_USER_INFO, "rewardForSign", String.valueOf(userData.getRewardForSign()));
+                                                MyApplication.writeInt( MainActivity.this, Constant.LOGIN_USER_INFO , "signingDays", userData.getSigningDays());
                                             }
 
                                             if (soundUtil != null)
                                             {
-                                                soundUtil
-                                                        .shakeSound(R.raw.checkin);
+                                                soundUtil.shakeSound(R.raw.checkin);
+                                            }
+
+                                            int signCount = userData.getSigningDays(); //Util.calSignIn(userData.getSignInfo());
+                                            if( signCount==7){
+                                                ToastUtils.showLongToast(MainActivity.this, "签到成功,你已经成功领取"
+                                                        + Util.getReward(MyApplication.readString(MainActivity.this, Constant.INIT_INFO, Constant.INIT_SIGN_MSG)) + "M流量");
+                                            }else
+                                            {
+                                                float rewords = userData.getRewardForSign();
+                                                int unSignCount= 7-signCount;
+                                                String fjInfo = "签到成功\r\n"+
+                                                        //MyApplication.readString(MainActivity.this, Constant.INIT_INFO, Constant.INIT_SIGN_MSG)
+                                                        "你还差连续签到"+ unSignCount +"天，\r\n就可获得"+ (int)rewords+"M流量奖励";
+                                                ToastUtils.showLongToast( MainActivity.this, fjInfo ,false);
                                             }
                                             
-                                            
-                                            if (7 == week)
-                                            {
-                                                // 弹出签到已经领取流量信息
-                                                if (127 == userData
-                                                        .getSignInfo())
-                                                {
-                                                    ToastUtils
-                                                            .showLongToast(
-                                                                    MainActivity.this,
-                                                                    "签到成功,你已经成功领取"
-                                                                            + Util.getReward(MyApplication
-                                                                                    .readString(
-                                                                                            MainActivity.this,
-                                                                                            Constant.INIT_INFO,
-                                                                                            Constant.INIT_SIGN_MSG))
-                                                                            + "M流量");
-                                                } else
-                                                {
-                                                    ToastUtils
-                                                            .showLongToast(
-                                                                    MainActivity.this,
-                                                                    "签到成功,"
-                                                                            + MyApplication
-                                                                                    .readString(
-                                                                                            MainActivity.this,
-                                                                                            Constant.INIT_INFO,
-                                                                                            Constant.INIT_SIGN_MSG));
-                                                }
-                                            } else
-                                            {
-                                                ToastUtils.showLongToast(
-                                                        MainActivity.this,
-                                                        "签到成功");
-                                            }
+//                                            if (7 == week)
+//                                            {
+//                                                // 弹出签到已经领取流量信息
+//                                                if (127 == userData.getSignInfo())
+//                                                {
+//                                                    ToastUtils.showLongToast(MainActivity.this, "签到成功,你已经成功领取"
+//                                                            + Util.getReward(MyApplication.readString(MainActivity.this, Constant.INIT_INFO, Constant.INIT_SIGN_MSG)) + "M流量");
+//                                                } else
+//                                                {
+//                                                    int signCount = Util.calSignIn( userData.getSignInfo() );
+//                                                    int unSignCount= 7-signCount;
+//                                                    String fjInfo = "签到成功,"+
+//                                                            MyApplication.readString(MainActivity.this, Constant.INIT_INFO, Constant.INIT_SIGN_MSG)
+//                                                            +",你还差连续签到"+ unSignCount +"天，就可获得5M流量奖励";
+//                                                    ToastUtils.showLongToast( MainActivity.this, fjInfo );
+//                                                }
+//                                            } else
+//                                            {
+//                                                int signCount = Util.calSignIn( userData.getSignInfo() );
+//                                                int unSignCount= 7-signCount;
+//                                                String fjInfo = "签到成功,你还差连续签到"+ unSignCount +"天，就可获得5M流量奖励";
+//                                                ToastUtils.showLongToast( MainActivity.this, fjInfo);
+//                                            }
 
                                             // 刷新界面
                                             if (Util.isM( MyApplication
@@ -751,11 +755,13 @@ public class MainActivity extends BaseActivity implements OnClickListener,
                                 }.execute();
                             } else if (1 == status)
                             {
+                                int signCount = MyApplication.readInt( MainActivity.this , Constant.LOGIN_USER_INFO,"signingDays" ); //  Util.calSignIn(signStatus);
+                                String reword = MyApplication.readString(MainActivity.this, Constant.LOGIN_USER_INFO,"rewardForSign");
+                                int unsignCount = 7-signCount;
+                                String msg = "你还差连续签到"+ unsignCount+"天，\r\n就可获得"+ reword +"M流量奖励";
                                 // 已签到
-                                ToastUtils.showLongToast(MainActivity.this,
-                                        "今日已签到");
+                                ToastUtils.showLongToast(MainActivity.this, msg,false);
                             }
-
                         }
                     });
                 } else
