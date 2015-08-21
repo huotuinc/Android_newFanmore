@@ -4,6 +4,8 @@
     <!-- 主menu上面用户信息的高度 -->
     <dimen name="main_menu_top_height">120dp</dimen>
     <dimen name="mark_bg_size">80dp</dimen>
+    <!-- 边距 -->
+    <dimen name="marginRight">80dp</dimen>
     <!-- 送流量界面按钮 -->
     <dimen name="flow_width_half">120dp</dimen>
 

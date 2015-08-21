@@ -22,6 +22,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -79,6 +81,7 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
     private LinearLayout sinaShare;// 新浪分享
 
     public MyApplication application;
+    public int flag;
 
     // 分享弹出层
     private PopupWindow popupWindow = null;
@@ -123,6 +126,39 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
         yestodayTotal = (TextView) rootView.findViewById(R.id.yestodayTotal);
         discipleListC = (TextView) rootView.findViewById(R.id.discipleListC);
         ruleText = (TextView) rootView.findViewById(R.id.ruleText);
+
+        AlphaAnimation anima = new AlphaAnimation(1.0f, 1.0f);
+        anima.setDuration(1000);// 设置动画显示时间
+        anima.setRepeatCount(Animation.INFINITE);
+        shareCode.setAnimation(anima);
+
+        anima.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                shareCode.setBackgroundResource(R.drawable.btn_red_sel);
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+                // TODO Auto-generated method stub
+
+                if (flag % 2 == 0) {
+                    shareCode.setBackgroundResource(R.drawable.btn_red_sel);
+                    flag++;
+                } else {
+                    shareCode.setBackgroundResource(R.drawable.btn_blue_sel);
+                    flag++;
+                }
+                flag = flag>10000?0:flag;
+            }
+        });
+
     }
 
     @Override
@@ -293,7 +329,7 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
                     yestodayTotal.setText("0M");
                     discipleListC.setText("0人");
                     shareDescription="师徒联盟分享";
-                    ruleText.setText("点击分享此页，好友注册并填入邀请码即可成为你的徒弟，徒弟赚取流量的同时会贡献10%给师傅，现在徒孙也会贡献给师傅哦~");
+                    ruleText.setText("点击分享此页，好友注册并填入邀请码即可成为你的徒弟，徒弟赚取流量的同时会贡献5%给师傅，现在徒孙也会贡献给师傅哦~");
                 }
 
             } 
@@ -321,7 +357,7 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
                 discipleTotal.setText("0M");
                 yestodayTotal.setText("0M");
                 discipleListC.setText("0人");
-                ruleText.setText("点击分享此页，好友注册并填入邀请码即可成为你的徒弟，徒弟赚取流量的同时会贡献10%给师傅，现在徒孙也会贡献给师傅哦~");
+                ruleText.setText("点击分享此页，好友注册并填入邀请码即可成为你的徒弟，徒弟赚取流量的同时会贡献5%给师傅，现在徒孙也会贡献给师傅哦~");
             }
 
         }
