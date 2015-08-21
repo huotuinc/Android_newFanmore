@@ -18,6 +18,8 @@ public class GuideActivity extends FragmentActivity
     private P1Fragment mFragment1;
     private P2Fragment mFragment2;
     private P3Fragment mFragment3;
+    private P4Fragment mFragment4;
+    private P5Fragment mFragment5;
     private List<Fragment> mListFragment = new ArrayList<Fragment>();
     private PagerAdapter mPgAdapter;
     @Override
@@ -34,9 +36,13 @@ public class GuideActivity extends FragmentActivity
         mFragment1 = new P1Fragment();
         mFragment2 = new P2Fragment();
         mFragment3 = new P3Fragment();
+        mFragment4 = new P4Fragment();
+        mFragment5 = new P5Fragment();
         mListFragment.add(mFragment1);
         mListFragment.add(mFragment2);
         mListFragment.add(mFragment3);
+        mListFragment.add(mFragment4);
+        mListFragment.add(mFragment5);
         mPgAdapter = new ViewPagerAdapter(getSupportFragmentManager(),
                 mListFragment);
         mVPActivity.setAdapter(mPgAdapter);

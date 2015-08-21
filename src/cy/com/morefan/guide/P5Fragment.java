@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+
 import cy.com.morefan.MainActivity;
 import cy.com.morefan.MyApplication;
 import cy.com.morefan.R;
@@ -13,7 +14,7 @@ import cy.com.morefan.constant.Constant;
 import cy.com.morefan.util.ActivityUtils;
 import cy.com.morefan.util.Util;
 
-public class P3Fragment extends Fragment
+public class P5Fragment extends Fragment
 {
     public MyApplication application;
 
@@ -31,19 +32,16 @@ public class P3Fragment extends Fragment
     {
         // TODO Auto-generated method stub
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.guide_item_ui_page3, container, false);
-//        view.findViewById(R.id.tvInNew).setOnClickListener(
-//                new OnClickListener() {
-//
-//                    @Override
-//                    public void onClick(View v) {
-//                        // TODO Auto-generated method stub
-//                        // TODO Auto-generated method stub
-//                        MyApplication.writeString(getActivity(), Constant.GUIDE_INFO, Constant.GUIDE_INFO_TAG, "NOGUIDE");
-//                        ActivityUtils.getInstance().skipActivity(getActivity(), MainActivity.class);
-//                        Util.finishActivityAnimation(getActivity());
-//                    }
-//                });
+        View view = inflater.inflate(R.layout.guide_item_ui_page5, container, false);
+        view.findViewById(R.id.tvInNew).setOnClickListener(
+                new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MyApplication.writeString(getActivity(), Constant.GUIDE_INFO, Constant.GUIDE_INFO_TAG, "NOGUIDE");
+                        ActivityUtils.getInstance().skipActivity(getActivity(), MainActivity.class);
+                        Util.finishActivityAnimation(getActivity());
+                    }
+                });
         return view;
     }
 }
