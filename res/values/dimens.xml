@@ -179,6 +179,8 @@
     <dimen name="toast_height">80dp</dimen>
     <!-- 宽 -->
     <dimen name="toast_width">200dp</dimen>
+    <!-- 边距 -->
+    <dimen name="marginRight">80dp</dimen>
     <!-- 首页任务时间空间高度 -->
     <dimen name="first_item_timel">25dp</dimen>
     <!-- 预告列表头像大小 -->

@@ -25,14 +25,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import com.google.gson.JsonSyntaxException;
-import com.nineoldandroids.animation.ValueAnimator;
 import com.sina.weibo.sdk.utils.LogUtil;
 
 import cy.com.morefan.MyApplication;
@@ -84,6 +81,7 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
     private LinearLayout sinaShare;// 新浪分享
 
     public MyApplication application;
+    public int flag=0;
 
     // 分享弹出层
     private PopupWindow popupWindow = null;
@@ -118,8 +116,6 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
         return rootView;
     }
 
-    int flag = 0;
-
     private void initView(View rootView)
     {
         shareCode = (Button) rootView.findViewById(R.id.shareCode);
@@ -144,16 +140,15 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
 
 
 
-        AlphaAnimation anima = new AlphaAnimation(0.0f, 1.0f);
-        anima.setDuration(2000);// 设置动画显示时间
+        AlphaAnimation anima = new AlphaAnimation(1.0f, 1.0f);
+        anima.setDuration(1000);// 设置动画显示时间
         anima.setRepeatCount(Animation.INFINITE);
         shareCode.setAnimation(anima);
 
         anima.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                shareCode.setBackgroundResource(R.drawable.b);
-                //shareCode.setBackground(R.drawable.btn_red_sel);
+                shareCode.setBackgroundResource(R.drawable.btn_red_sel);
             }
 
             @Override
@@ -174,9 +169,7 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
                 flag = flag>10000?0:flag;
             }
         });
-
         anima.start();
-
     }
 
     @Override
@@ -347,7 +340,7 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
                     yestodayTotal.setText("0M");
                     discipleListC.setText("0人");
                     shareDescription="师徒联盟分享";
-                    ruleText.setText("点击分享此页，好友注册并填入邀请码即可成为你的徒弟，徒弟赚取流量的同时会贡献10%给师傅，现在徒孙也会贡献给师傅哦~");
+                    ruleText.setText("点击分享此页，好友注册并填入邀请码即可成为你的徒弟，徒弟赚取流量的同时会贡献5%给师傅，现在徒孙也会贡献给师傅哦~");
                 }
 
             } 
@@ -375,7 +368,7 @@ public class FragMaster extends BaseFragment implements DataListener, Callback ,
                 discipleTotal.setText("0M");
                 yestodayTotal.setText("0M");
                 discipleListC.setText("0人");
-                ruleText.setText("点击分享此页，好友注册并填入邀请码即可成为你的徒弟，徒弟赚取流量的同时会贡献10%给师傅，现在徒孙也会贡献给师傅哦~");
+                ruleText.setText("点击分享此页，好友注册并填入邀请码即可成为你的徒弟，徒弟赚取流量的同时会贡献5%给师傅，现在徒孙也会贡献给师傅哦~");
             }
 
         }
