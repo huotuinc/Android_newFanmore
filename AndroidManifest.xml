@@ -33,7 +33,7 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>  
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.RUN_INSTRUMENTATION" />
     <uses-permission android:name="android.permission.READ_LOGS" />
@@ -49,22 +49,22 @@
     <!-- V1.2.3新增的权限, GET_TASKS用于检测APP是否处于前台、是否活着；REORDER_TASKS用于将APP切换到前台 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.REORDER_TASKS" />
-    
-    <instrumentation 
+
+    <instrumentation
         android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="cy.com.morefan"
         android:label="test for my app"></instrumentation>
-    
+
     <application
         android:name="cy.com.morefan.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" android:hardwareAccelerated="false" >
-        
+
         <!-- 引入单元测试库 -->
         <uses-library android:name="android.test.runner"/>
-                
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -74,17 +74,17 @@
                 </action>
             </intent-filter>
         </service>
-        
+
 
         <!-- meta-data需要写在application中 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="wxBIdq3w4BKgk8whdr30k7t3" />
-        
+
         <activity
             android:name="cy.com.morefan.LoadingActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme" 
+            android:theme="@style/AppTheme"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -93,13 +93,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity 
+        <activity
             android:name="cy.com.morefan.guide.GuideActivity"
-            android:theme="@style/AppTheme" 
+            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name="cy.com.morefan.MainActivity"
-            android:theme="@style/AppTheme" 
+            android:theme="@style/AppTheme"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
         </activity>
@@ -137,17 +137,17 @@
             android:screenOrientation="portrait"></activity>
         <!-- 答题类/问卷类Activity -->
         <activity android:name="cy.com.morefan.ui.answer.AnswerActivity"
-            android:theme="@style/AppTheme"        
+            android:theme="@style/AppTheme"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"></activity>
-        
+
         <activity android:name="cy.com.morefan.PushMsgHandlerActivity"
             android:theme="@style/AppTheme"
             android:launchMode="singleTask"
              android:exported="true"
             android:screenOrientation="portrait"/>
-        
+
         <activity android:name="cy.com.morefan.ui.ambitus.ExchangeFlowActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"/>
@@ -167,7 +167,7 @@
         <activity android:name="cy.com.morefan.ui.ambitus.ExchangeItemActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"></activity>
-        
+
         <!-- 分享类Activity -->
         <activity android:name="cy.com.morefan.wxapi.QzoneActivity"
             android:theme="@style/AppTheme"
@@ -179,7 +179,7 @@
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" 
+            android:noHistory="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -190,7 +190,7 @@
                 <data android:scheme="tencent101066268" />
             </intent-filter>
         </activity>
-        
+
         <activity android:name="cy.com.morefan.wxapi.SinaShareActivity"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait">
@@ -200,8 +200,8 @@
             </intent-filter>
         </activity>
         <activity android:name="cy.com.morefan.wxapi.WXEntryActivity"
-            android:theme="@style/AppTheme"           
-            android:exported="true" 
+            android:theme="@style/AppTheme"
+            android:exported="true"
             android:screenOrientation="portrait"></activity>
         <activity android:name="cy.com.morefan.ui.flow.SendFlowActivity"
             android:theme="@style/AppTheme"
@@ -210,30 +210,30 @@
             android:theme="@style/AppTheme"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
-            
+
         <!-- Start aliPay SDK-->
-        
+
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>        
-        <activity 
-            android:name="com.alipay.sdk.auth.AuthActivity" 
-            android:configChanges="orientation|keyboardHidden|navigation" 
-            android:exported="false" 
-            android:screenOrientation="behind" > 
- 		</activity> 
-        
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+ 		</activity>
+
         <!--End aliPay SDK -->
-        
+
          <activity
             android:name="cy.com.morefan.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"/>
-        
+
         <!-- umeng -->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -245,7 +245,7 @@
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
             android:value="dd5f13b1de610a1ebac444ceda0d57b6" />
-        
+
         <service android:name="cy.com.morefan.service.LocationService"></service>
         <receiver android:name="cy.com.morefan.receiver.AlarmReceiver">
             <intent-filter>
@@ -271,8 +271,8 @@
             android:enabled="true"
             android:exported="false" >
         </service>
- 
-        
+
+
         <!-- Required SDK 核心功能-->
         <service
             android:name="cn.jpush.android.service.PushService"
@@ -283,7 +283,7 @@
                 <action android:name="cn.jpush.android.intent.REPORT" />
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
-                
+
             </intent-filter>
         </service>
         <!-- Required SDK核心功能-->
@@ -306,7 +306,7 @@
             </intent-filter>
 
         </receiver>
-        
+
         <!-- Required SDK核心功能-->
         <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
         <!-- User defined.  For test only  用户自定义的广播接收器-->
@@ -315,7 +315,7 @@
             android:enabled="true">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" /> <!--Required  用户注册SDK的intent-->
-                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />  
+                <action android:name="cn.jpush.android.intent.UNREGISTRATION" />
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" /> <!--Required  用户接收SDK消息的intent-->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" /> <!--Required  用户接收SDK通知栏信息的intent-->
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!--Required  用户打开自定义通知栏的intent-->
@@ -324,11 +324,11 @@
                 <category android:name="cy.com.morefan" />
             </intent-filter>
         </receiver>
- 
-        
+
+
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
-        <meta-data android:name="JPUSH_APPKEY" android:value="a36e00d3397bf5e69049ed41" /> 
+        <meta-data android:name="JPUSH_APPKEY" android:value="a36e00d3397bf5e69049ed41" />
         <!--  </>值来自开发者平台取得的AppKey-->
         <!-- 激光推送 -->
     </application>

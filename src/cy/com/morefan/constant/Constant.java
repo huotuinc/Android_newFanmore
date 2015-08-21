@@ -12,9 +12,11 @@ public class Constant
     // public static final String BASE_URL =
     // "http://115.28.160.96:8080/fanmoreweb/app/";//基础URL
     //http://newtask.fanmore.cn
-    //public static final String BASE_ROOT_URL ="http://newtask.fanmore.cn/";// "http://apitest.51flashmall.com:8080/fanmoreweb/";
-    public static final String BASE_ROOT_URL = "http://apitest.51flashmall.com:8080/fanmoreweb/";
+    public static final String BASE_ROOT_URL ="http://newtask.fanmore.cn/";// "http://apitest.51flashmall.com:8080/fanmoreweb/";
+    //public static final String BASE_ROOT_URL = "http://apitest.51flashmall.com:8080/fanmoreweb/";
+
     //public static final String BASE_ROOT_URL ="http://192.168.1.48:8080/fanmoreweb/";
+
     /** liuqucheng **/
     //public static final String BASE_ROOT_URL = "http://192.168.0.23:8080/fanmoreweb/";
     /***/
