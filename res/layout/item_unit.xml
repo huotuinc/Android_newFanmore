@@ -100,6 +100,17 @@
         android:textColor="@color/black"
         android:textSize="@dimen/canyu_label"
         android:textStyle="normal" />
+    <TextView
+        android:id="@+id/txtLastFlow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/img"
+        android:layout_toRightOf="@+id/txtCountR"
+        android:text="，剩余100M"
+        android:textColor="@color/black"
+        android:textSize="@dimen/canyu_label"
+        android:textStyle="normal"
+        />
 
     <RelativeLayout
         android:id="@+id/fp_flowL"

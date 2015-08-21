@@ -13,8 +13,8 @@
         <item>今日预告</item>
         <item>师徒联盟</item>
         <item>更多设置</item>
-        <item>签到中心</item>
-        <item>送流量</item> 
+        <item>签到有奖</item>
+        <item>玩转流量</item>
     </string-array>
     
     <integer-array name="menu_imgs">
