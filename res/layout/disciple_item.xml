@@ -58,14 +58,16 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/tasklist_height"
         android:layout_centerVertical="true"
-        android:layout_alignBottom="@+id/disciplesLogo"
-        android:gravity="center"
+        android:layout_toRightOf="@id/ML"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp">
+        android:layout_alignBottom="@+id/disciplesLogo"
+        android:gravity="center|right"
+        android:layout_marginRight="10dp">
     <TextView
         android:id="@+id/m"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:text="100M" 
         android:textSize="@dimen/user_flow_textsize" 
         android:textColor="@color/people_color"/>
@@ -74,6 +76,7 @@
         android:id="@+id/countOfApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/m"
         android:text="为您贡献了" 
         android:textSize="@dimen/pre_button_text_size" 
