@@ -2,7 +2,7 @@
 <resources>
     <!-- main_menu -->
     <!-- 主menu上面用户信息的高度 -->
-    <dimen name="main_menu_top_height">150dp</dimen>
+    <dimen name="main_menu_top_height">160dp</dimen>
     <!-- 边距 -->
     <dimen name="marginRight">80dp</dimen>
     <!-- 主menu用户logo的宽度-->
@@ -71,11 +71,11 @@
     <!-- 菜单字体 -->
     <dimen name="menu_text_size">18sp</dimen>
     <!-- 用户剩余流量字体 -->
-    <dimen name="user_flow_textsize">22sp</dimen>
+    <dimen name="user_flow_textsize">18sp</dimen>
     
     <!-- 首页列表 -->
     <!-- 标题字体 -->
-    <dimen name="task_list_title_textsize">16sp</dimen>
+    <dimen name="task_list_title_textsize">15sp</dimen>
     
     <!-- 设置闹钟按钮 -->
     <!-- 高度 -->
@@ -137,9 +137,9 @@
     <!-- 首页领取流量字体大小 -->
     <dimen name="getflow_label">13sp</dimen>
     <!-- 首页任务出标题外字体 -->
-    <dimen name="task_list_con_textsize">14sp</dimen>
+    <dimen name="task_list_con_textsize">13sp</dimen>
     <!-- 首页参与字体大小 -->
-    <dimen name="canyu_label">14sp</dimen>
+    <dimen name="canyu_label">13sp</dimen>
     <dimen name="mark_bg_size">90dp</dimen>
     <dimen name="mark_margin_size">10dp</dimen>
     <dimen name="checkin_text_size">18sp</dimen>
