@@ -211,7 +211,6 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
         backText.setOnClickListener(this);
         tvRed=(TextView)this.findViewById(R.id.tvRed);
 
-
         myBroadcastReceiver = new MyBroadcastReceiver(this, this,
                 MyBroadcastReceiver.ACTION_FLOW_ADD,MyBroadcastReceiver.ACTION_REQUESTFLOW);
 
@@ -294,7 +293,6 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
         @Override
         protected FMPrepareCheckout doInBackground(Void... params)
         {
-            // TODO Auto-generated method stub
             String url = Constant.PREPARE_CHECKOUT;
             ObtainParamsMap obtainMap = new ObtainParamsMap( ExchangeFlowActivity.this );
             String paramString= obtainMap.getMap();
@@ -339,7 +337,6 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
             //pgbarWaiting.setVisibility(View.VISIBLE);
 
             showProgress();
-            
         }
 
         @Override
@@ -357,10 +354,13 @@ public class ExchangeFlowActivity extends BaseActivity implements Callback,
                 ToastUtils.showLongToast(ExchangeFlowActivity.this, "请求失败。");
                 return;
             }
+            else if( result.getSystemResultCode() != 1){
+                ToastUtils.showLongToast(ExchangeFlowActivity.this, result.getSystemResultDescription());
+                return;
+            }
             else if(1 == result.getResultCode()){
                 BigDecimal balance= result.getResultData().getCurrentBalance();
                 if( balance==null) balance=BigDecimal.ZERO;
-                
                 
                 balance= balance.setScale(1,RoundingMode.HALF_UP);
                 DecimalFormat format = new DecimalFormat("0.##");
