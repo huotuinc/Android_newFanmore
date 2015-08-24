@@ -3,7 +3,7 @@ apply plugin: 'android'
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     //compile project(':WeiboSDK')
-    compile 'com.sina.weibo.sdk:weiboSDK:1.2-SNAPSHOT'
+    compile 'com.sina.weibo.sdk:weiboSDK:1.0'
     compile 'com.huotu.android.library:libcropper:1.0'
     compile 'com.huotu.android.library:libedittext:1.1'
 }
@@ -104,6 +104,13 @@ android {
             targetSdkVersion 19
             versionCode 23
             versionName '3.1.0'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each {
+            output ->
+                output.outputFile = new File(output.outputFile.parent +"\\" + project.name + "_" + variant.flavorName + "_" + variant.buildType.name + "_" + variant.versionName + ".apk")
         }
     }
 
