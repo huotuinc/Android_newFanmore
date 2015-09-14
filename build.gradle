@@ -105,6 +105,151 @@ android {
             versionCode 23
             versionName '3.1.0'
         }
+        AppstoreHuoTu {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            targetSdkVersion 19
+            versionCode 23
+            versionName '3.1.0'
+        }
+        AppstoreLenovo {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreGfan {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        Appstore163 {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreOppo {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreTaobao {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreAppChina {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        Appstore3G {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreXiaomi {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreMeizu {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreCrossmo {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreNduoa {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreMumayi {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreSogou {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreWo {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreHuawei {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreAnzhuoapk {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+        AppstoreGooglePlay {
+            minSdkVersion 8
+            applicationId 'cy.com.morefan'
+            signingConfig signingConfigs.huotu_fm
+            versionCode 23
+            versionName '3.1.0'
+            targetSdkVersion 19
+        }
+
     }
 
     applicationVariants.all { variant ->

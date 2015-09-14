@@ -383,6 +383,9 @@ public class ExchangeItemActivity extends BaseActivity implements
                                 (Activity) ExchangeItemActivity.this);
                     }
                 }, 2000);
+            }else if( result.getResultCode() != 1 ){
+                ToastUtils.showLongToast(ExchangeItemActivity.this, result.getResultDescription());
+                return;
             }
         }
     }
